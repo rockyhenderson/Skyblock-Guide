@@ -1,22 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyblock Guide</title>
-</head>
-<body>
-    <a href="combat.html"  role="button">combat</a>
-    <a href="farming.html"  role="button">farming</a>
-    <a href="mining.html"  role="button">mining</a>
-    <a href="foraging.html"  role="button">foraging</a>
-    <a href="fishing.html"  role="button">fishing</a>
-    <a href="enchanting.html"  role="button">enchanting</a>
-    <a href="alchemy.html"  role="button">alchemy</a>
-    <a href="taming.html"  role="button">taming</a>
-    <a href="dungeons.html"  role="button">dungeons</a>
-    <a href="carpentery.html"  role="button">carpentery</a>
-    <a href="runecraft.html"  role="button">runecraft</a>
-    <a href="social.html"  role="button">social</a>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Grid with Minimum Size</title>
+    <style>
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr); /* 7 columns by default */
+        grid-template-rows: auto;
+        gap: 10px;
+        width: 60vw;
+        margin: 0 auto; /* Center the grid */
+      }
+
+      /* To ensure the grid items are square */
+      .grid-item {
+        background-color: lightgray;
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        padding-top: 100%; /* Creates a square aspect ratio */
+        position: relative;
+      }
+
+      /* Adjust text placement inside the squares */
+      .grid-item > a,
+      .grid-item > span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Transparent fillers to maintain layout */
+      .filler {
+        background-color: transparent;
+        border: none;
+      }
+
+      /* Media query for screens smaller than 900px */
+      @media (max-width: 900px) {
+        .grid-container {
+          grid-template-columns: repeat(4, 1fr); /* 4 columns */
+          width: 80vw; /* Make it take more space */
+        }
+      }
+
+      /* Media query for screens smaller than 600px */
+      @media (max-width: 600px) {
+        .grid-container {
+          grid-template-columns: repeat(2, 1fr); /* 2 columns */
+          width: 90vw; /* Full width */
+        }
+      }
+
+      /* Media query for screens smaller than 400px */
+      @media (max-width: 400px) {
+        .grid-container {
+          grid-template-columns: 1fr; /* Single column */
+          width: 95vw;
+        }
+      }
+      .head-content {
+        display: flex;
+        justify-content: space-between;
+      }
+      p {
+        margin: 0;
+      }
+
+      /* Modal styling */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Background with transparency */
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      .modal input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+      }
+
+      .modal button {
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="head-content">
+      <h1>SCF</h1>
+      <h1 style="text-align: center">Skyblock Progression Guide</h1>
+      <div style="display: flex; flex-direction: column">
+        <h1 style="margin: 0">Hatnehyt</h1>
+        <p>is linked</p>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <!-- Grid items with links -->
+      <div class="grid-item">
+        <a href="combat.html" role="button">combat</a>
+      </div>
+      <div class="grid-item">
+        <a href="farming.html" role="button">farming</a>
+      </div>
+      <div class="grid-item">
+        <a href="mining.html" role="button">mining</a>
+      </div>
+      <div class="grid-item">
+        <a href="foraging.html" role="button">foraging</a>
+      </div>
+      <div class="grid-item">
+        <a href="fishing.html" role="button">fishing</a>
+      </div>
+      <div class="grid-item">
+        <a href="enchanting.html" role="button">enchanting</a>
+      </div>
+      <div class="grid-item">
+        <a href="alchemy.html" role="button">alchemy</a>
+      </div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item">
+        <a href="taming.html" role="button">taming</a>
+      </div>
+      <div class="grid-item">
+        <a href="dungeons.html" role="button">dungeons</a>
+      </div>
+      <div class="grid-item">
+        <a href="carpentery.html" role="button">carpentery</a>
+      </div>
+      <div class="grid-item">
+        <a href="runecraft.html" role="button">runecraft</a>
+      </div>
+      <div class="grid-item">
+        <a href="social.html" role="button">social</a>
+      </div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item">
+        <a href="#" role="button" onclick="linkAccount()">Link</a>
+      </div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+      <div class="grid-item filler"><span></span></div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="usernameModal" class="modal">
+      <div class="modal-content">
+        <h2>Enter your username</h2>
+        <input type="text" id="usernameInput" placeholder="Username" />
+        <br />
+        <button onclick="submitUsername()">Submit</button>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    let userUUID = "";
+
+    // Function to display the modal
+    function linkAccount() {
+      document.getElementById("usernameModal").style.display = "flex";
+    }
+
+    // Function to handle username submission and send it to the backend
+    async function submitUsername() {
+      const username = document.getElementById("usernameInput").value;
+
+      if (username) {
+        try {
+          // Sending a POST request to the backend
+          const response = await fetch('/api/username', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username }),
+          });
+
+          if (!response.ok) {
+            throw new Error('API request failed');
+          }
+
+          const data = await response.json();
+          userUUID = data.uuid;
+          alert('User UUID: ' + userUUID);
+
+          // Hide the modal after successful submission
+          document.getElementById("usernameModal").style.display = "none";
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      } else {
+        alert('Please enter a username');
+      }
+    }
+  </script>
 </html>
