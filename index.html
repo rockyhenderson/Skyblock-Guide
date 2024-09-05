@@ -1,49 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Grid with Minimum Size</title>
+    <title>Send Name and Jumble Letters</title>
 </head>
-
 <body>
-    <input type="text" id="usernameInput" placeholder="Username" />
+    <input type="text" id="usernameInput" placeholder="Enter your name" />
     <button onclick="submitUsername()">Submit</button>
-</body>
 
-<script>
-    let userUUID = "";
+    <script>
+        async function submitUsername() {
+            const username = document.getElementById("usernameInput").value;
 
-    async function submitUsername() {
-        const username = document.getElementById("usernameInput").value;
-        console.log(username);
-        
-        if (username) {
-            try {
-                // Sending a POST request to the Netlify function
-                const response = await fetch('/.netlify/functions/submitUsername', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username }),
-                });
+            if (username) {
+                try {
+                    // Sending the username to the backend
+                    const response = await fetch('/.netlify/functions/submitUsername.js', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username }),
+                    });
 
-                if (!response.ok) {
-                    throw new Error('API request failed');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch');
+                    }
+
+                    const data = await response.json();
+                    const jumbledName = data.jumbledName;
+                    
+                    // Store the jumbled name in a variable and print it to the console
+                    console.log('Jumbled Name:', jumbledName);
+                } catch (error) {
+                    console.error('Error:', error);
                 }
-
-                const data = await response.json();
-                userUUID = data.uuid;
-                alert('User UUID: ' + userUUID);
-            } catch (error) {
-                alert('Error: ' + error.message);
+            } else {
+                alert('Please enter a name');
             }
-        } else {
-            alert('Please enter a username');
         }
-    }
-</script>
-
+    </script>
+</body>
 </html>
