@@ -1,6 +1,12 @@
 function getuuid() {
-  
-  fetch("/.netlify/functions/hello")
+  const username = document.getElementById('usernameInput').value;
+
+  if (!username) {
+    alert("Please enter a username.");
+    return; // Stop the function if the input is empty
+  }
+
+  fetch(`/.netlify/functions/hello?username=${username}`)
     .then(response => response.json())
     .then(data => {
       const UUID = data.userId; // Store the userId in a variable called UUID
@@ -17,9 +23,9 @@ function getuuid() {
 
 let UUID = localStorage.getItem("uuid");
 
-if (UUID){
+if (UUID) {
   console.log("UUID from local storage is ", UUID);
   document.getElementById("message").innerText = `${UUID}`;
-}else{
-  console.log("no UUID locally stored")
+} else {
+  console.log("No UUID locally stored");
 }
