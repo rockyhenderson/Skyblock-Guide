@@ -1,5 +1,3 @@
-const fetch = require('node-fetch'); // Import node-fetch for making API requests
-
 exports.handler = async function(event, context) {
   try {
     const response = await fetch('https://api.mojang.com/users/profiles/minecraft/hatnehyt?'); // Make a request to the test API
