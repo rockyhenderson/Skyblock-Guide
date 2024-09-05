@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Check for cached UUID and username when the page loads
   let UUID = localStorage.getItem("uuid");
   let cachedUsername = localStorage.getItem("username");
-
+  console.log(cachedUsername)
   if (UUID && cachedUsername) {
     console.log("UUID from local storage is ", UUID);
     document.getElementById("message").innerText = `${UUID}`;
