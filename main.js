@@ -33,7 +33,6 @@ function fetchUUIDAndData(username) {
 function displayData(UUID, username, skyblockData) {
   document.getElementById("message").innerText = `UUID: ${UUID}`;
   document.getElementById("usernameDisplay").innerText = `Username: ${username}`;
-  document.getElementById("skyblockDataDisplay").innerText = `Skyblock Data: ${JSON.stringify(skyblockData, null, 2)}`;
 }
 
 // Function to load data from cache or fetch new data
