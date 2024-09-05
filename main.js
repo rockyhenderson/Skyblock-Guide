@@ -62,4 +62,4 @@ setInterval(function () {
   } else {
     console.log("No username found in local storage for automatic fetching");
   }
-}, 10000); // 10 seconds for testing
+}, 900000); // 10 seconds for testing
