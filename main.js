@@ -17,7 +17,7 @@ let UUID = localStorage.getItem("uuid");
 
 if (UUID){
   console.log("UUID from local storage is ", UUID);
-  document.getElementById("message").innerText = '${UUID}';
+  document.getElementById("message").innerText = `${UUID}`;
 }else{
   console.log("no UUID locally stored")
 }
