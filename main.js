@@ -1,5 +1,5 @@
 document.getElementById("fetchMessage").addEventListener("click", () => {
-    fetch("/.netlify/functions/hello")
+    fetch("/netlify/functions/hello")
       .then(response => response.json())
       .then(data => {
         document.getElementById("message").innerText = data.message;
