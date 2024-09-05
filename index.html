@@ -5,10 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Responsive Grid with Minimum Size</title>
+</head>
 
 <body>
-    <a href="#" role="button" onclick="linkAccount()">Link</a>
-
     <input type="text" id="usernameInput" placeholder="Username" />
     <button onclick="submitUsername()">Submit</button>
 </body>
@@ -16,14 +15,14 @@
 <script>
     let userUUID = "";
 
-    // username to backend
     async function submitUsername() {
         const username = document.getElementById("usernameInput").value;
-        console.log(username)
+        console.log(username);
+        
         if (username) {
             try {
-                // Sending a POST request to the backend
-                const response = await fetch('server.js', {
+                // Sending a POST request to the Netlify function
+                const response = await fetch('/.netlify/functions/submitUsername', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -38,7 +37,6 @@
                 const data = await response.json();
                 userUUID = data.uuid;
                 alert('User UUID: ' + userUUID);
-
             } catch (error) {
                 alert('Error: ' + error.message);
             }
