@@ -1,12 +1,6 @@
-// Function to send username to the backend and fetch the UUID
-function getUUID(username) {
-  fetch("/.netlify/functions/hello", {
-    method: "POST", // Use POST to send data
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username: username }) // Send username to the backend
-  })
+function getuuid() {
+  
+  fetch("/.netlify/functions/hello")
     .then(response => response.json())
     .then(data => {
       const UUID = data.userId; // Store the userId in a variable called UUID
@@ -20,12 +14,9 @@ function getUUID(username) {
     })
     .catch(error => console.error('Error fetching data:', error));
 }
-
-// Function to check if input is valid and enable the button
 function checkInput() {
   const input = document.getElementById("usernameInput").value;
-  console.log(input);
-  const button = document.getElementById("submitButton"); // Assume the button has this ID
+  console.log(input)
   if (input.trim() !== "") {
     button.disabled = false;
   } else {
@@ -33,25 +24,13 @@ function checkInput() {
   }
 }
 
-// Check if there's a UUID already in localStorage
+
+
 let UUID = localStorage.getItem("uuid");
 
-if (UUID) {
+if (UUID){
   console.log("UUID from local storage is ", UUID);
   document.getElementById("message").innerText = `${UUID}`;
-} else {
-  console.log("No UUID locally stored");
+}else{
+  console.log("no UUID locally stored")
 }
-
-// Function to handle form submission
-function handleSubmit() {
-  const username = document.getElementById("usernameInput").value;
-  if (username.trim() !== "") {
-    getUUID(username); // Fetch the UUID by sending the username to the backend
-  } else {
-    console.error("Username input is empty");
-  }
-}
-
-// Attach the `handleSubmit` function to the button click event
-document.getElementById("submitButton").addEventListener("click", handleSubmit);
