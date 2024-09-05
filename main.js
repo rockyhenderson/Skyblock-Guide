@@ -22,15 +22,16 @@ function getuuid() {
     })
     .catch(error => console.error('Error fetching data:', error));
 }
-
+document.addEventListener('DOMContentLoaded', function () {
 // Check for cached UUID and username when the page loads
-let UUID = localStorage.getItem("uuid");
-let cachedUsername = localStorage.getItem("username");
+  let UUID = localStorage.getItem("uuid");
+  let cachedUsername = localStorage.getItem("username");
 
-if (UUID && cachedUsername) {
-  console.log("UUID from local storage is ", UUID);
-  document.getElementById("message").innerText = `${UUID}`;
-  document.getElementById("usernameDisplay").innerText = `${cachedUsername}`;
-} else {
-  console.log("No UUID or username locally stored");
-}
+  if (UUID && cachedUsername) {
+    console.log("UUID from local storage is ", UUID);
+    document.getElementById("message").innerText = `${UUID}`;
+    document.getElementById("usernameDisplay").innerText = `${cachedUsername}`;
+  } else {
+    console.log("No UUID or username locally stored");
+  }
+});
