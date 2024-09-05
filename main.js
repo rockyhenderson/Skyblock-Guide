@@ -14,17 +14,6 @@ function getuuid() {
     })
     .catch(error => console.error('Error fetching data:', error));
 }
-function checkInput() {
-  const input = document.getElementById("usernameInput").value;
-  console.log(input)
-  if (input.trim() !== "") {
-    button.disabled = false;
-  } else {
-    button.disabled = true;
-  }
-}
-
-
 
 let UUID = localStorage.getItem("uuid");
 
