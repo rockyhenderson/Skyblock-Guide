@@ -4,6 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skyblock Guide</title>
+    <style>
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 300px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div class="head-content" style="display: flex; justify-content: space-between;">
@@ -14,12 +48,21 @@
         <p>is linked</p>
       </div>
     </div>
-    <input type="text" id="usernameInput" placeholder="Enter username" />
-    <button id="fetchButton" onclick="getuuid()">Fetch UUID</button>
-    <!-- <p id="message"></p>
-    <p id="usernameDisplay">Username: </p>
-    <p id="skyblockDataDisplay">Skyblock Data: </p> -->
-   <nav>
+
+    <!-- Modal Trigger Button -->
+    <button id="modalButton">Enter Username</button>
+
+    <!-- Modal Structure -->
+    <div id="usernameModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Enter Username</h2>
+        <input type="text" id="usernameInput" placeholder="Enter username" />
+        <button id="fetchButton" onclick="getuuid()">Fetch UUID</button>
+      </div>
+    </div>
+
+    <nav>
       <a href="farming.html" role="button">farming</a>
       <a href="mining.html" role="button">mining</a>
       <a href="foraging.html" role="button">foraging</a>
@@ -32,6 +75,30 @@
       <a href="runecraft.html" role="button">runecraft</a>
       <a href="social.html" role="button">social</a>
     </nav>
+
+    <script>
+      // Get modal elements
+      var modal = document.getElementById("usernameModal");
+      var btn = document.getElementById("modalButton");
+      var span = document.getElementsByClassName("close")[0];
+
+      // Open the modal when the button is clicked
+      btn.onclick = function () {
+        modal.style.display = "block";
+      };
+
+      // Close the modal when the user clicks on the 'x'
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // Close the modal if user clicks outside of the modal content
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
 
     <script src="main.js"></script>
   </body>
