@@ -2,6 +2,7 @@
   "dependencies": {
     "@netlify/functions": "^2.8.1",
     "dotenv": "^16.4.5",
-    "fetch": "^1.1.0"
+    "fetch": "^1.1.0",
+    "node": "^22.8.0"
   }
 }
