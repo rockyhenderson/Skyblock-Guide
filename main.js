@@ -1,4 +1,4 @@
-// Function to fetch UUID from the backend using the entered username
+// Function to fetch UUID and Skyblock data from the backend using the entered username
 function getuuid() {
   const username = document.getElementById('usernameInput').value;
 
@@ -7,16 +7,19 @@ function getuuid() {
     return; // Stop the function if the input is empty
   }
 
-  // Fetch the UUID using the backend function
+  // Fetch the UUID and Skyblock data using the backend function
   fetch(`/.netlify/functions/hello?username=${username}`)
     .then(response => response.json())
     .then(data => {
       const UUID = data.userId; // Store the userId in a variable called UUID
+      const skyblockData = data.skyblockData; // Store skyblockData
+      
       console.log("UUID:", UUID); // Log the UUID to the console
+      console.log("Skyblock Data:", skyblockData); // Log the skyblock data to the console
 
-      if (!UUID) {
-        console.error('UUID is undefined or null:', data); // Log full response for debugging
-        alert('Failed to fetch UUID.');
+      if (!UUID || !skyblockData) {
+        console.error('UUID or Skyblock Data is undefined or null:', data); // Log full response for debugging
+        alert('Failed to fetch UUID or Skyblock Data.');
         return;
       }
 
@@ -24,9 +27,10 @@ function getuuid() {
       localStorage.setItem("uuid", UUID);
       localStorage.setItem("username", username); // Save the username too
 
-      // Update the DOM with the UUID and username
-      document.getElementById("message").innerText = `${UUID}`;
-      document.getElementById("usernameDisplay").innerText = `${username}`;
+      // Update the DOM with the UUID, username, and Skyblock data
+      document.getElementById("message").innerText = `UUID: ${UUID}`;
+      document.getElementById("usernameDisplay").innerText = `Username: ${username}`;
+      document.getElementById("skyblockDataDisplay").innerText = `Skyblock Data: ${JSON.stringify(skyblockData, null, 2)}`;
     })
     .catch(error => console.error('Error fetching data:', error));
 }
@@ -41,14 +45,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (UUID && cachedUsername) {
     console.log("Both UUID and cachedUsername found in local storage");
-    document.getElementById("message").innerText = `${UUID}`;
-    document.getElementById("usernameDisplay").innerText = `${cachedUsername}`;
+    document.getElementById("message").innerText = `UUID: ${UUID}`;
+    document.getElementById("usernameDisplay").innerText = `Username: ${cachedUsername}`;
+    // Optionally fetch and display Skyblock data again based on cached UUID
   } else {
     console.log("No UUID or username locally stored");
   }
 });
 
-// Automatically fetch UUID every 10 seconds (for testing purposes)
+// Automatically fetch UUID and Skyblock data every 10 seconds (for testing purposes)
 setInterval(function () {
   let cachedUsername = localStorage.getItem("username");
 
@@ -58,18 +63,22 @@ setInterval(function () {
       .then(response => response.json())
       .then(data => {
         const UUID = data.userId; // Store the userId in a variable called UUID
-        console.log("Fetched UUID:", UUID); // Log the UUID to the console
+        const skyblockData = data.skyblockData; // Store the Skyblock data
 
-        if (!UUID) {
-          console.error('UUID is undefined or null:', data); // Log full response for debugging
+        console.log("Fetched UUID:", UUID); // Log the UUID to the console
+        console.log("Fetched Skyblock Data:", skyblockData); // Log the Skyblock data
+
+        if (!UUID || !skyblockData) {
+          console.error('UUID or Skyblock Data is undefined or null:', data); // Log full response for debugging
           return;
         }
 
         // Save the new UUID to localStorage
         localStorage.setItem("uuid", UUID);
 
-        // Update the DOM with the UUID
-        document.getElementById("message").innerText = `${UUID}`;
+        // Update the DOM with the UUID and Skyblock data
+        document.getElementById("message").innerText = `UUID: ${UUID}`;
+        document.getElementById("skyblockDataDisplay").innerText = `Skyblock Data: ${JSON.stringify(skyblockData, null, 2)}`;
       })
       .catch(error => console.error('Error fetching data:', error));
   } else {
