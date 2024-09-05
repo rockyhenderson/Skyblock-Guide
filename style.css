@@ -31,7 +31,10 @@
   cursor: pointer;
 }
 #progress-bar {
+    border-radius: 25px;
   margin: 20px;
-  width: 400px;
-  height: 8px;
+  width: 80vw;
+  height: 2vw   ;
+  border-radius: 25px;
+  overflow: hidden; /* Important to clip the progress bar within the radius */
 }
