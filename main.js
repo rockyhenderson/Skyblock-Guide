@@ -22,7 +22,9 @@ function getuuid() {
     })
     .catch(error => console.error('Error fetching data:', error));
 }
-document.addEventListener("DOMContentLoaded", function() {
+
+// Run the UUID fetch function on page load if data is available in local storage
+document.addEventListener("DOMContentLoaded", function () {
   let UUID = localStorage.getItem("uuid");
   let cachedUsername = localStorage.getItem("username");
 
@@ -37,3 +39,27 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("No UUID or username locally stored");
   }
 });
+
+// Automatically fetch UUID every 10 seconds (for testing purposes)
+setInterval(function () {
+  let cachedUsername = localStorage.getItem("username");
+
+  if (cachedUsername) {
+    console.log("Fetching UUID for stored username:", cachedUsername);
+    fetch(`/.netlify/functions/hello?username=${cachedUsername}`)
+      .then(response => response.json())
+      .then(data => {
+        const UUID = data.userId; // Store the userId in a variable called UUID
+        console.log("Fetched UUID:", UUID); // Log the UUID to the console
+
+        // Save the new UUID to localStorage
+        localStorage.setItem("uuid", UUID);
+
+        // Update the DOM with the UUID
+        document.getElementById("message").innerText = `${UUID}`;
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  } else {
+    console.log("No username found in local storage for automatic fetching");
+  }
+}, 10000); // 10 seconds for testing
