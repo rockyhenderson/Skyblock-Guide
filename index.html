@@ -16,7 +16,7 @@
             if (username) {
                 try {
                     // Sending the username to the backend
-                    const response = await fetch('/.netlify/functions/submitUsername.js', {
+                    const response = await fetch('functions/submitUsername.js', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
