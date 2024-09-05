@@ -1,3 +1,4 @@
+// Function to fetch UUID from the backend using the entered username
 function getuuid() {
   const username = document.getElementById('usernameInput').value;
 
@@ -6,11 +7,18 @@ function getuuid() {
     return; // Stop the function if the input is empty
   }
 
+  // Fetch the UUID using the backend function
   fetch(`/.netlify/functions/hello?username=${username}`)
     .then(response => response.json())
     .then(data => {
       const UUID = data.userId; // Store the userId in a variable called UUID
       console.log("UUID:", UUID); // Log the UUID to the console
+
+      if (!UUID) {
+        console.error('UUID is undefined or null:', data); // Log full response for debugging
+        alert('Failed to fetch UUID.');
+        return;
+      }
 
       // Save the UUID and the username to localStorage
       localStorage.setItem("uuid", UUID);
@@ -51,6 +59,11 @@ setInterval(function () {
       .then(data => {
         const UUID = data.userId; // Store the userId in a variable called UUID
         console.log("Fetched UUID:", UUID); // Log the UUID to the console
+
+        if (!UUID) {
+          console.error('UUID is undefined or null:', data); // Log full response for debugging
+          return;
+        }
 
         // Save the new UUID to localStorage
         localStorage.setItem("uuid", UUID);
