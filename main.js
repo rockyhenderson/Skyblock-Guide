@@ -32,7 +32,6 @@ function fetchUUIDAndData(username) {
 // Function to display the data in the DOM
 function displayData(UUID, username, skyblockData) {
   document.getElementById("message").innerText = `UUID: ${UUID}`;
-  document.getElementById("usernameDisplay").innerText = `Username: ${username}`;
 }
 
 // Function to load data from cache or fetch new data
