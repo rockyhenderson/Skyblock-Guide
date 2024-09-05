@@ -1,0 +1,15 @@
+{
+    "name": "SkyblockGuide",
+    "version": "1.0.0",
+    "description": "Test1234",
+    "main": "index.html",
+    "scripts": {
+      "start": "netlify dev"
+    },
+    "dependencies": {
+      "node-fetch": "^2.6.7"
+    },
+    "author": "rockyhenderson",
+    "license": "ISC"
+  }
+  
