@@ -30,14 +30,43 @@
   text-decoration: none;
   cursor: pointer;
 }
+.modal{
+  display: none;
+}
 #progress-bar {
-    border-radius: 25px;
+  border-radius: 25px;
   margin: 20px;
   width: 80vw;
-  height: 2vw   ;
+  height: 2vw;
   border-radius: 25px;
   overflow: hidden; /* Important to clip the progress bar within the radius */
 }
-.modal{
-  display: none;
+
+/* Media Query for screens smaller than 768px (mobile) */
+@media (max-width: 768px) {
+  #progress-bar {
+    width: 90vw; /* Make it occupy more space on small screens */
+    height: 30vw; /* Change the height to be much larger for circular progress bar */
+    margin: 10px auto; /* Center it on the page */
+    border-radius: 50%; /* Full circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible; /* Allow the circular progress bar to be visible properly */
+  }
+  
+  /* If you want the container for the circle to have a smaller width */
+  .progress-container {
+    width: 50vw;
+    height: 50vw;
+  }
+}
+
+/* Optional: Media Query for larger screens */
+@media (min-width: 769px) {
+  #progress-bar {
+    width: 80vw;
+    height: 2vw;
+    border-radius: 25px;
+  }
 }
