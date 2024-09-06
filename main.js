@@ -32,18 +32,17 @@ function generateProfileDropdown() {
   }
 
   // Add event listener to store the selected profile and update the page
+}
+
+// Function to update the page based on the selected profile
+function updatePageData() {
+  const selectedProfileData = dataManager.getSelectedProfileData();
   dropdown.addEventListener("change", function() {
     const selectedProfile = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfile);
     document.getElementById("cuteProfile").innerText = ` ${selectedProfile}`; 
     updatePageData();
   });
-}
-
-// Function to update the page based on the selected profile
-function updatePageData() {
-  const selectedProfileData = dataManager.getSelectedProfileData();
-
   if (!selectedProfileData) {
     console.log("No profile data found. Attempting to fetch new data...");
     document.getElementById("cuteProfile").innerText = `None`;
