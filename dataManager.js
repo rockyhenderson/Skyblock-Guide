@@ -17,6 +17,14 @@ const dataManager = (() => {
           localStorage.setItem("username", username);
           localStorage.setItem("skyblockData", JSON.stringify(data.skyblockData));
   
+          // Check if selectedProfile exists, if not set it to the first available profile
+          const profiles = data.skyblockData.profiles || [];
+          if (!localStorage.getItem("selectedProfile") && profiles.length > 0) {
+            const firstProfileName = profiles[0].cute_name;
+            console.log("No selected profile found, setting to first profile:", firstProfileName); // Debugging
+            localStorage.setItem("selectedProfile", firstProfileName);
+          }
+  
           return { UUID: data.userId, skyblockData: data.skyblockData };
         })
         .catch(error => {
@@ -30,11 +38,24 @@ const dataManager = (() => {
       const UUID = localStorage.getItem("uuid");
       const username = localStorage.getItem("username");
       const skyblockData = JSON.parse(localStorage.getItem("skyblockData"));
-      const selectedProfile = localStorage.getItem("selectedProfile");
+      let selectedProfile = localStorage.getItem("selectedProfile");
   
       if (!UUID || !skyblockData) {
         console.log("No local data available, returning null.");
         return null;
+      }
+  
+      console.log("Loaded UUID:", UUID); // Debugging
+      console.log("Loaded username:", username); // Debugging
+      console.log("Loaded skyblockData:", skyblockData); // Debugging
+      console.log("Loaded selectedProfile:", selectedProfile); // Debugging
+  
+      // If no selected profile is set, set to the first available profile
+      const profiles = skyblockData.profiles || [];
+      if (!selectedProfile && profiles.length > 0) {
+        selectedProfile = profiles[0].cute_name;
+        console.log("No selected profile found, setting to first profile:", selectedProfile); // Debugging
+        localStorage.setItem("selectedProfile", selectedProfile);
       }
   
       return { UUID, username, skyblockData, selectedProfile };
@@ -49,8 +70,12 @@ const dataManager = (() => {
   
       const profiles = data.skyblockData.profiles || [];
       const selectedProfile = data.selectedProfile;
+      console.log("Current selected profile:", selectedProfile); // Debugging
   
-      return profiles.find(profile => profile.cute_name === selectedProfile);
+      const profileData = profiles.find(profile => profile.cute_name === selectedProfile);
+      console.log("Selected profile data:", profileData); // Debugging
+  
+      return profileData;
     };
   
     return {
