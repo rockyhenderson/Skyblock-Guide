@@ -98,20 +98,29 @@ function initializeProgressBar(progressValue) {
   }
 
   const container = document.getElementById("progress-bar");
+  const circularContainer = document.getElementById("circular-progress-bar");
 
   // Check if the screen is mobile (less than 768px width)
   if (window.matchMedia("(max-width: 768px)").matches) {
+    // Hide linear progress bar
+    container.style.display = "none";
+    circularContainer.style.display = "block"; // Show circular progress bar
+
     // Create a circular progress bar for mobile screens
-    var bar = new ProgressBar.SemiCircle(container, {
+    bar = new ProgressBar.Circle(circularContainer, {
       strokeWidth: 6,
-      easing: 'easeInOut',
+      easing: "easeInOut",
       duration: 1400,
-      color: '#FFEA82',
-      trailColor: '#eee',
+      color: "#FFEA82",
+      trailColor: "#eee",
       trailWidth: 1,
-      svgStyle: null
+      svgStyle: null,
     });
   } else {
+    // Hide circular progress bar
+    circularContainer.style.display = "none";
+    container.style.display = "block"; // Show linear progress bar
+
     // Create a linear progress bar for larger screens
     bar = new ProgressBar.Line(container, {
       strokeWidth: 4,
@@ -123,7 +132,7 @@ function initializeProgressBar(progressValue) {
       svgStyle: { width: "100%", height: "100%" },
       step: function (state, bar) {
         bar.path.setAttribute("stroke-linecap", "round");
-      }
+      },
     });
   }
 
