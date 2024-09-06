@@ -4,10 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skyblock Guide</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="head-content" style="display: flex; justify-content: space-between;">
+    <div
+      class="head-content"
+      style="display: flex; justify-content: space-between"
+    >
       <h1>SCL</h1>
       <h1>Skyblock Guide</h1>
       <div>
@@ -26,7 +29,8 @@
         <span class="close">&times;</span>
         <h2>Enter Username</h2>
         <input type="text" id="usernameInput" placeholder="Enter username" />
-        <button id="fetchButton" onclick="getuuid()">Fetch UUID</button> <!-- Fetch button -->
+        <button id="fetchButton" onclick="getuuid()">Fetch UUID</button>
+        <!-- Fetch button -->
       </div>
     </div>
 
@@ -41,11 +45,12 @@
     <!-- Modal and script logic -->
     <script>
       // Get modal elements
+      // Modal behavior script
       var modal = document.getElementById("usernameModal");
       var btn = document.getElementById("modalButton");
       var span = document.getElementsByClassName("close")[0];
 
-      // Open the modal when the button is clicked
+      // Open the modal when the "Enter Username" button is clicked
       btn.onclick = function () {
         modal.style.display = "block";
       };
@@ -64,7 +69,7 @@
 
       // Make sure getuuid is defined in the global scope
       function getuuid() {
-        const username = document.getElementById('usernameInput').value;
+        const username = document.getElementById("usernameInput").value;
 
         if (!username) {
           alert("Please enter a username.");
