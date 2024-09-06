@@ -1,6 +1,14 @@
+// Function to generate the profile dropdown and handle profile change
 function generateProfileDropdown() {
   const dropdown = document.getElementById("profileDropdown");
-  const { skyblockData, selectedProfile } = dataManager.loadData() || {}; 
+  const { skyblockData, selectedProfile, username } = dataManager.loadData() || {}; // Now includes username
+
+  // Display the logged-in username in the modal
+  if (username) {
+    document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
+  } else {
+    document.getElementById("usernameDisplay").innerText = "No username found.";
+  }
 
   if (!skyblockData || !skyblockData.profiles) {
     console.log("No skyblock data found, requesting username...");
@@ -32,12 +40,13 @@ function generateProfileDropdown() {
   });
 }
 
+// Function to update the page based on the selected profile
 function updatePageData() {
   const selectedProfileData = dataManager.getSelectedProfileData();
 
   if (!selectedProfileData) {
     console.log("No profile data found. Attempting to fetch new data...");
-    document.getElementById("usernameModal").style.display = "block";
+    document.getElementById("usernameModal").style.display = "block"; // Open modal to request username
     return;
   }
 
