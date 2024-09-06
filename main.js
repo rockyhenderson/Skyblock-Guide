@@ -1,12 +1,14 @@
 // Function to generate the profile dropdown and handle profile change
-
-//Handle Profile Change Events Across Pages
-
-
-
 function generateProfileDropdown() {
   const dropdown = document.getElementById("profileDropdown");
-  const { skyblockData, selectedProfile } = dataManager.loadData();
+  const { skyblockData, selectedProfile } = dataManager.loadData() || {}; // Handle case when loadData returns null
+
+  if (!skyblockData || !skyblockData.profiles) {
+    console.log("No skyblock data found, requesting username...");
+    document.getElementById("usernameModal").style.display = "block";
+    return; // Stop if no data is available
+  }
+
   const profiles = skyblockData.profiles || [];
 
   // Populate dropdown with profiles
@@ -33,21 +35,19 @@ function generateProfileDropdown() {
   });
 }
 
-// Function to update the farming level and other dynamic data
+// Function to update the page based on the selected profile
 function updatePageData() {
   const selectedProfileData = dataManager.getSelectedProfileData();
-  
-  if (selectedProfileData) {
-    // Example of updating farming level
-    const farmingLevel = selectedProfileData?.farming?.level || "N/A"; // Ensure this path matches your data structure
-    document.getElementById("farmingLevelDisplay").innerText = `Farming Level: ${farmingLevel}`;
 
-    // Add more updates for other stats, e.g. mining level, combat level, etc.
-    // const miningLevel = selectedProfileData?.mining?.level || "N/A";
-    // document.getElementById("miningLevelDisplay").innerText = `Mining Level: ${miningLevel}`;
-  } else {
-    console.error("No profile data available for the selected profile.");
+  // If no profile data is available, trigger the API call to fetch data
+  if (!selectedProfileData) {
+    console.log("No profile data found. Attempting to fetch new data...");
+    document.getElementById("usernameModal").style.display = "block"; // Open modal to request username
+    return; // Stop further execution since we have no data
   }
+
+  // Additional logic to update the page with selected profile data can go here...
+  console.log("Profile data is available and page can be updated.");
 }
 
 // Initialize the page
