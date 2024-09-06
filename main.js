@@ -53,7 +53,8 @@ function generateProfileDropdown() {
 
 // Function to update the page based on the selected profile
 function updatePageData() {
-  const selectedProfileData = dataManager.getSelectedProfileData();
+  const selectedProfile = localStorage.getItem("selectedProfile");
+  const selectedProfileData = dataManager.getSelectedProfileData(selectedProfile);
 
   if (!selectedProfileData) {
     console.log("No profile data found. Attempting to fetch new data...");
@@ -63,6 +64,11 @@ function updatePageData() {
   console.log("Profile data is available, updating the page...");
   // Add logic to update other page elements based on selectedProfileData
 }
+
+// Ensure page updates correctly when navigating back
+window.addEventListener('pageshow', function(event) {
+  generateProfileDropdown();
+});
 
 // Initialize the page
 document.addEventListener("DOMContentLoaded", function () {
