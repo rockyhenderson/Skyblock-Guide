@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div
-      class="head-content"
-      style="display: flex; justify-content: space-between"
-    >
+    <div class="head-content" style="display: flex; justify-content: space-between">
       <h1>SCL</h1>
       <h1>Skyblock Guide</h1>
       <div>
@@ -24,13 +21,12 @@
     <button id="modalButton">Enter Username</button>
 
     <!-- Modal Structure -->
-    <div id="usernameModal" class="modal">
+    <div id="usernameModal" class="modal" style="display:none;"> <!-- Ensure modal is hidden by default -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Enter Username</h2>
         <input type="text" id="usernameInput" placeholder="Enter username" />
-        <button id="fetchButton" onclick="getuuid()">Fetch UUID</button>
-        <!-- Fetch button -->
+        <button id="fetchButton" onclick="getuuid()">Fetch UUID</button> <!-- Fetch button -->
       </div>
     </div>
 
@@ -45,7 +41,6 @@
     <!-- Modal and script logic -->
     <script>
       // Get modal elements
-      // Modal behavior script
       var modal = document.getElementById("usernameModal");
       var btn = document.getElementById("modalButton");
       var span = document.getElementsByClassName("close")[0];
@@ -60,14 +55,14 @@
         modal.style.display = "none";
       };
 
-      // Close the modal if user clicks outside of the modal content
+      // Close the modal if the user clicks outside of the modal content
       window.onclick = function (event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
       };
 
-      // Make sure getuuid is defined in the global scope
+      // Function to fetch UUID and Skyblock data
       function getuuid() {
         const username = document.getElementById("usernameInput").value;
 
@@ -76,7 +71,7 @@
           return; // Stop the function if the input is empty
         }
 
-        // Fetch new data from the backend
+        // Fetch new data from the backend (make sure your dataManager is working)
         dataManager.fetchUUIDAndData(username).then((data) => {
           if (data) {
             // Close the modal after a successful fetch
@@ -90,6 +85,12 @@
           }
         });
       }
+
+      // Ensure the modal does not open automatically
+      document.addEventListener("DOMContentLoaded", function () {
+        generateProfileDropdown();
+        updatePageData(); // These should run without opening the modal
+      });
     </script>
 
     <script src="dataManager.js"></script>

@@ -12,7 +12,6 @@ function generateProfileDropdown() {
 
   if (!skyblockData || !skyblockData.profiles) {
     console.log("No skyblock data found, requesting username...");
-    document.getElementById("usernameModal").style.display = "block";
     return; // Stop if no data is available
   }
 
@@ -46,7 +45,6 @@ function updatePageData() {
 
   if (!selectedProfileData) {
     console.log("No profile data found. Attempting to fetch new data...");
-    document.getElementById("usernameModal").style.display = "block"; // Open modal to request username
     return;
   }
 

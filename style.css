@@ -38,3 +38,6 @@
   border-radius: 25px;
   overflow: hidden; /* Important to clip the progress bar within the radius */
 }
+.modal{
+  display: none;
+}
