@@ -9,8 +9,7 @@ function calculateFarmingLevel(experience) {
     38072425, 40972425, 44072425, 47472425, 51172425, 55172425, 59472425, 
     64072425, 68972425, 74172425, 79672425, 85472425, 91572425, 97972425, 
     104672425, 111672425
-];
-
+  ];
 
   let level = 0;
   for (let i = 0; i < thresholds.length; i++) {
@@ -78,20 +77,11 @@ function findAndLogFarmingLevel() {
   return farmingLevel; // Returning the farming level for progress bar
 }
 
-// DOMContentLoaded event listener
-document.addEventListener("DOMContentLoaded", function () {
-  // Read the data from localStorage
-  const cachedSkyblockData = localStorage.getItem("skyblockData");
-  if (cachedSkyblockData) {
-    const skyblockData = JSON.parse(cachedSkyblockData);
-    console.log("Skyblock Data:", skyblockData);
-  } else {
-    console.log("No skyblock data found in local storage.");
-  }
-
+// Function to handle the farming level update when profile changes
+function handleProfileChange() {
   // Find the farming level and set it for the progress bar
   const farmingLevel = findAndLogFarmingLevel();
-  
+
   // Assume the max level is 50 to calculate the progress
   let x = farmingLevel ? farmingLevel / 50 : 0.5; // Default to 0.5 if no farming level
   console.log("Progress bar level (x):", x);
@@ -111,4 +101,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   bar.animate(x); // Number from 0.0 to 1.0 based on the farming level
+}
+
+// DOMContentLoaded event listener
+document.addEventListener("DOMContentLoaded", function () {
+  generateProfileDropdown(); // Initialize the dropdown
+
+  // Trigger farming level calculation and progress bar update initially
+  handleProfileChange();
+
+  // Add event listener to trigger when the profile is changed
+  document.getElementById("profileDropdown").addEventListener("change", function () {
+    handleProfileChange(); // Update the farming level and progress bar when profile changes
+  });
 });
