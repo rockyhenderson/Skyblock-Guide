@@ -126,6 +126,36 @@ function handleProfileChange() {
   bar.animate(x); // Decimal part of the farming level from 0.0 to 1.0 (0% to 100%)
 }
 
+// Function to generate the profile dropdown dynamically
+function generateProfileDropdown() {
+  const cachedSkyblockData = localStorage.getItem("skyblockData");
+  const skyblockData = cachedSkyblockData ? JSON.parse(cachedSkyblockData) : null;
+  
+  if (!skyblockData || !skyblockData.profiles) {
+    console.log("No profiles found in cached data.");
+    return;
+  }
+
+  const profileDropdown = document.getElementById("profileDropdown");
+  profileDropdown.innerHTML = ""; // Clear existing options
+
+  skyblockData.profiles.forEach(profile => {
+    const option = document.createElement("option");
+    option.value = profile.cute_name;
+    option.textContent = profile.cute_name;
+    profileDropdown.appendChild(option);
+  });
+
+  // Set the selected profile if not already set
+  const selectedProfile = localStorage.getItem("selectedProfile");
+  if (!selectedProfile) {
+    localStorage.setItem("selectedProfile", skyblockData.profiles[0].cute_name);
+  }
+
+  // Update the dropdown selection
+  profileDropdown.value = selectedProfile || skyblockData.profiles[0].cute_name;
+}
+
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
   generateProfileDropdown(); // Initialize the dropdown
@@ -135,6 +165,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add event listener to trigger when the profile is changed
   document.getElementById("profileDropdown").addEventListener("change", function () {
+    const selectedProfile = document.getElementById("profileDropdown").value;
+    localStorage.setItem("selectedProfile", selectedProfile);
     handleProfileChange(); // Update the farming level and progress bar when profile changes
   });
 });
