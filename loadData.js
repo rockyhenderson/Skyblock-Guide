@@ -52,7 +52,7 @@ function fetchUUIDAndData(username) {
   // Automatically refresh the data every 15 minutes (900000ms)
   setInterval(function () {
     const cachedUsername = localStorage.getItem("username");
-  
+    document.getElementById("usernameDisplay").innerText = `${username}`;
     if (cachedUsername) {
       console.log("Refreshing data for cached username:", cachedUsername);
       
