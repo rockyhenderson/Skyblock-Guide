@@ -9,9 +9,10 @@ function generateProfileDropdown() {
     console.log("No data returned from dataManager.loadData()");
     return; // Stop execution if loadData doesn't return valid data
   }
+  
   if (username) {
     document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
-    console.log("username added")
+    console.log("username added");
   } else {
     document.getElementById("usernameDisplay").innerText = "Unlinked";
   }
@@ -22,6 +23,9 @@ function generateProfileDropdown() {
   }
 
   const profiles = skyblockData.profiles || [];
+
+  // Select the dropdown element
+  const dropdown = document.getElementById("profileDropdown"); // Make sure your dropdown element has this ID
 
   // Populate dropdown with profiles
   dropdown.innerHTML = "";
@@ -78,6 +82,6 @@ window.addEventListener('pageshow', function(event) {
 
 // Initialize the page
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("running Main js")
+  console.log("running Main js");
   generateProfileDropdown();
 });
