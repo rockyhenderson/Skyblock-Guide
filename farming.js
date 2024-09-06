@@ -102,7 +102,7 @@ function initializeProgressBar(progressValue) {
   // Check if the screen is mobile (less than 768px width)
   if (window.matchMedia("(max-width: 768px)").matches) {
     // Create a circular progress bar for mobile screens
-    bar = new ProgressBar.Circle(container, {
+    var bar = new ProgressBar.SemiCircle(container, {
       strokeWidth: 6,
       easing: 'easeInOut',
       duration: 1400,
