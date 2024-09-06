@@ -2,10 +2,11 @@
 function generateProfileDropdown() {
   const dropdown = document.getElementById("profileDropdown");
   const { skyblockData, selectedProfile: defaultProfile, username } = dataManager.loadData() || {}; // Now includes username
-
+  console.log("data opened")
   // Display the logged-in username in the modal
   if (username) {
     document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
+    console.log("username added")
   } else {
     document.getElementById("usernameDisplay").innerText = "Unlinked";
   }
@@ -72,5 +73,6 @@ window.addEventListener('pageshow', function(event) {
 
 // Initialize the page
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("running Main js")
   generateProfileDropdown();
 });
