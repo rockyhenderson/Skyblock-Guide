@@ -16,13 +16,13 @@ function calculateFarmingLevel(experience) {
 // Function to find the farming experience and log the farming level
 function findAndLogFarmingLevel() {
   const cachedSkyblockData = localStorage.getItem("skyblockData");
-  const UUID = localStorage.getItem("UUID");
+  const uuid = localStorage.getItem("uuid");
 
-  console.log("UUID:", UUID);
+  console.log("uuid:", uuid);
   console.log("Cached skyblock data:", cachedSkyblockData);
 
-  if (!cachedSkyblockData || !UUID) {
-    console.log("No skyblock data or UUID found.");
+  if (!cachedSkyblockData || !uuid) {
+    console.log("No skyblock data or uuid found.");
     return;
   }
 
@@ -40,8 +40,8 @@ function findAndLogFarmingLevel() {
 
   console.log("Found profile:", profile);
 
-  // Find the correct player data using the UUID
-  const memberData = profile.members[UUID];
+  // Find the correct player data using the uuid
+  const memberData = profile.members[uuid];
   if (!memberData) {
     console.log("Player data not found in profile.");
     return;
