@@ -86,8 +86,7 @@ function findAndLogFarmingLevel() {
 // Function to handle the farming level update when profile changes
 let bar = null; // Declare the progress bar variable outside so it can be reused
 function handleProfileChange() {
-  const selectedProfile = dropdown.value;
-  localStorage.setItem("selectedProfile", selectedProfile);
+  const selectedProfile = localStorage.getItem("selectedProfile");
   document.getElementById("cuteProfile").innerText = ` ${selectedProfile}`;
   // Find the farming level and set it for the progress bar
   const farmingLevel = findAndLogFarmingLevel();
