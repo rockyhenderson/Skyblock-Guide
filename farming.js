@@ -136,6 +136,9 @@ function handleProfileChange() {
 
 // Function to generate the profile dropdown dynamically
 function generateProfileDropdown() {
+  const username = localStorage.getItem("username");
+  document.getElementById("cuteProfile").innerText = ` ${username}`;
+
   const cachedSkyblockData = localStorage.getItem("skyblockData");
   const skyblockData = cachedSkyblockData ? JSON.parse(cachedSkyblockData) : null;
   
