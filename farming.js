@@ -89,11 +89,24 @@ function handleProfileChange() {
   const farmingLevel = findAndLogFarmingLevel();
   console.log("Farming level:", farmingLevel);
 
-  // Extract only the decimal part of the farming level (ignore the integer part)
-  const decimalPart = farmingLevel % 1; // This gives us only the decimal part, e.g., 0.03 for 25.03
-  let x = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
+  // If the farming level is null or undefined, handle it
+  if (!farmingLevel && farmingLevel !== 0) {
+    console.error("Farming level is not valid. Defaulting progress to 0.");
+    return;
+  }
 
+  // Extract only the decimal part of the farming level (ignore the integer part)
+  const decimalPart = farmingLevel - Math.floor(farmingLevel); // This gives us only the decimal part, e.g., 0.03 for 25.03
+  console.log("Decimal part extracted:", decimalPart);
+
+  let x = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
   console.log("Progress bar decimal part (x):", x);
+
+  // Ensure x is between 0 and 1 (just in case)
+  if (x < 0 || x > 1) {
+    console.error("Invalid decimal part for progress. Defaulting to 0.");
+    x = 0;
+  }
 
   // Progress bar setup
   var bar = new ProgressBar.Line("#progress-bar", {
@@ -109,6 +122,7 @@ function handleProfileChange() {
     },
   });
 
+  // Animate the progress bar based on the decimal part
   bar.animate(x); // Decimal part of the farming level from 0.0 to 1.0 (0% to 100%)
 }
 
