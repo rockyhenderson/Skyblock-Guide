@@ -26,7 +26,7 @@
         <span class="close">&times;</span>
         <h2>Enter Username</h2>
         <input type="text" id="usernameInput" placeholder="Enter username" />
-        <button id="fetchButton" onclick="triggerFetch()">Fetch UUID</button>
+        <button id="fetchButton" onclick="getuuid()">Fetch UUID</button> <!-- Fetch button -->
       </div>
     </div>
 
@@ -35,17 +35,10 @@
     <nav>
       <a href="farming.html" role="button">farming</a>
       <a href="mining.html" role="button">mining</a>
-      <a href="foraging.html" role="button">foraging</a>
-      <a href="fishing.html" role="button">fishing</a>
-      <a href="enchanting.html" role="button">enchanting</a>
-      <a href="alchemy.html" role="button">alchemy</a>
-      <a href="taming.html" role="button">taming</a>
-      <a href="dungeons.html" role="button">dungeons</a>
-      <a href="carpentery.html" role="button">carpentery</a>
-      <a href="runecraft.html" role="button">runecraft</a>
-      <a href="social.html" role="button">social</a>
+      <!-- other links -->
     </nav>
 
+    <!-- Modal and script logic -->
     <script>
       // Get modal elements
       var modal = document.getElementById("usernameModal");
@@ -68,6 +61,30 @@
           modal.style.display = "none";
         }
       };
+
+      // Make sure getuuid is defined in the global scope
+      function getuuid() {
+        const username = document.getElementById('usernameInput').value;
+
+        if (!username) {
+          alert("Please enter a username.");
+          return; // Stop the function if the input is empty
+        }
+
+        // Fetch new data from the backend
+        dataManager.fetchUUIDAndData(username).then((data) => {
+          if (data) {
+            // Close the modal after a successful fetch
+            modal.style.display = "none";
+
+            // Populate the profile dropdown
+            generateProfileDropdown();
+
+            // Update the page with data from the selected profile
+            updatePageData();
+          }
+        });
+      }
     </script>
 
     <script src="dataManager.js"></script>
