@@ -7,7 +7,7 @@ function generateProfileDropdown() {
   if (username) {
     document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
   } else {
-    document.getElementById("usernameDisplay").innerText = "No username found.";
+    document.getElementById("usernameDisplay").innerText = "Unlinked";
   }
 
   if (!skyblockData || !skyblockData.profiles) {
@@ -34,7 +34,8 @@ function generateProfileDropdown() {
   // Add event listener to store the selected profile and update the page
   dropdown.addEventListener("change", function() {
     const selectedProfile = dropdown.value;
-    localStorage.setItem("selectedProfile", selectedProfile); // Store selected profile in localStorage
+    localStorage.setItem("selectedProfile", selectedProfile);
+    document.getElementById("cuteProfile").innerText = `${selectedProfile}`; 
     updatePageData();
   });
 }
