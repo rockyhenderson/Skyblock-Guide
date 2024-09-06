@@ -1,8 +1,8 @@
 // Function to generate the profile dropdown and handle profile change
 function generateProfileDropdown() {
+  console.log("data opened")
   const dropdown = document.getElementById("profileDropdown");
   const { skyblockData, selectedProfile: defaultProfile, username } = dataManager.loadData() || {}; // Now includes username
-  console.log("data opened")
   // Display the logged-in username in the modal
   if (username) {
     document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
