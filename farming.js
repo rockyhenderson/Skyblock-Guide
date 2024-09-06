@@ -141,7 +141,12 @@ function generateProfileDropdown() {
     console.log("No profiles found in cached data.");
     return;
   }
-
+  if (username) {
+    document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
+    console.log("username added")
+  } else {
+    document.getElementById("usernameDisplay").innerText = "Unlinked";
+  }
   const profileDropdown = document.getElementById("profileDropdown");
   profileDropdown.innerHTML = ""; // Clear existing options
 
