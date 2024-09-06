@@ -16,10 +16,18 @@ function fetchUUIDAndData(username) {
       console.log("UUID:", UUID);
       console.log("Skyblock Data:", skyblockData);
 
+      // Extract and log the cute names from the profiles
+      const profiles = skyblockData.profiles || [];
+      const cuteNames = profiles.map(profile => profile.cuteName);
+      console.log("Cute Names:", cuteNames);
+
       // Store both the UUID and Skyblock data in localStorage
       localStorage.setItem("uuid", UUID);
       localStorage.setItem("username", username);
       localStorage.setItem("skyblockData", JSON.stringify(skyblockData)); // Store skyblockData as a string
+
+      // Dynamically generate the profile dropdown
+      generateProfileDropdown(cuteNames);
 
       return { UUID, skyblockData };
     })
@@ -29,11 +37,29 @@ function fetchUUIDAndData(username) {
     });
 }
 
+// Function to generate the profile dropdown based on cute names
+function generateProfileDropdown(cuteNames) {
+  const dropdown = document.getElementById("profileDropdown");
+  dropdown.innerHTML = ""; // Clear any existing options
+
+  cuteNames.forEach((cuteName, index) => {
+    const option = document.createElement("option");
+    option.value = cuteName;
+    option.textContent = cuteName;
+    dropdown.appendChild(option);
+  });
+
+  // Add event listener to store the selected profile in localStorage
+  dropdown.addEventListener("change", function() {
+    const selectedProfile = dropdown.value;
+    localStorage.setItem("selectedProfile", selectedProfile);
+    console.log("Selected Profile:", selectedProfile);
+  });
+}
+
 // Function to display the data in the DOM
 function displayData(UUID, username, skyblockData) {
-  // document.getElementById("message").innerText = `UUID: ${UUID}`;
   document.getElementById("usernameDisplay").innerText = `${username}`;
-  // document.getElementById("skyblockDataDisplay").innerText = `Skyblock Data: ${JSON.stringify(skyblockData, null, 2)}`;
 }
 
 // Function to load data from cache or fetch new data
@@ -41,11 +67,24 @@ function loadData() {
   const UUID = localStorage.getItem("uuid");
   const cachedUsername = localStorage.getItem("username");
   const cachedSkyblockData = localStorage.getItem("skyblockData");
+  const selectedProfile = localStorage.getItem("selectedProfile");
 
   if (UUID && cachedUsername && cachedSkyblockData) {
     console.log("Loaded data from cache");
     console.log("UUID:", UUID);
     console.log("Skyblock Data:", JSON.parse(cachedSkyblockData));
+
+    const skyblockData = JSON.parse(cachedSkyblockData);
+    const profiles = skyblockData.profiles || [];
+    const cuteNames = profiles.map(profile => profile.cuteName);
+    
+    // Generate profile dropdown and pre-select the previously selected profile if it exists
+    generateProfileDropdown(cuteNames);
+
+    if (selectedProfile) {
+      document.getElementById("profileDropdown").value = selectedProfile;
+      console.log("Previously selected profile:", selectedProfile);
+    }
 
     displayData(UUID, cachedUsername, JSON.parse(cachedSkyblockData));
   } else {
