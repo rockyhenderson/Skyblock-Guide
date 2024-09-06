@@ -35,8 +35,6 @@ function generateProfileDropdown() {
   dropdown.addEventListener("change", function() {
     const selectedProfile = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfile);
-    console.log(selectedProfile)
-    document.getElementById("cuteProfile").innerText = `${selectedProfile}`; 
     updatePageData();
   });
 }
@@ -51,7 +49,9 @@ function updatePageData() {
   }
 
   console.log("Profile data is available, updating the page...");
-  // Add your logic for updating the page with profile data here.
+  document.getElementById("cuteProfile").innerText = `${selectedProfile}`; 
+
+  
 }
 
 // Initialize the page
