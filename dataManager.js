@@ -45,11 +45,6 @@ const dataManager = (() => {
         return null;
       }
   
-      console.log("Loaded UUID:", UUID); // Debugging
-      console.log("Loaded username:", username); // Debugging
-      console.log("Loaded skyblockData:", skyblockData); // Debugging
-      console.log("Loaded selectedProfile:", selectedProfile); // Debugging
-  
       // If no selected profile is set, set to the first available profile
       const profiles = skyblockData.profiles || [];
       if (!selectedProfile && profiles.length > 0) {
@@ -70,10 +65,10 @@ const dataManager = (() => {
   
       const profiles = data.skyblockData.profiles || [];
       const selectedProfile = data.selectedProfile;
-      console.log("Current selected profile:", selectedProfile); // Debugging
+     
   
       const profileData = profiles.find(profile => profile.cute_name === selectedProfile);
-      console.log("Selected profile data:", profileData); // Debugging
+
   
       return profileData;
     };
