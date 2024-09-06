@@ -90,6 +90,47 @@ function findAndLogFarmingLevel() {
   return farmingLevel; // Returning the farming level for progress bar
 }
 
+// Function to initialize the appropriate progress bar based on screen size
+function initializeProgressBar(progressValue) {
+  // Destroy any existing progress bar
+  if (bar) {
+    bar.destroy();
+  }
+
+  const container = document.getElementById("progress-bar");
+
+  // Check if the screen is mobile (less than 768px width)
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    // Create a circular progress bar for mobile screens
+    bar = new ProgressBar.Circle(container, {
+      strokeWidth: 6,
+      easing: 'easeInOut',
+      duration: 1400,
+      color: '#FFEA82',
+      trailColor: '#eee',
+      trailWidth: 1,
+      svgStyle: null
+    });
+  } else {
+    // Create a linear progress bar for larger screens
+    bar = new ProgressBar.Line(container, {
+      strokeWidth: 4,
+      easing: "easeInOut",
+      duration: 1400,
+      color: "#FFEA82",
+      trailColor: "#eee",
+      trailWidth: 1,
+      svgStyle: { width: "100%", height: "100%" },
+      step: function (state, bar) {
+        bar.path.setAttribute("stroke-linecap", "round");
+      }
+    });
+  }
+
+  // Animate the progress bar with the given progress value
+  bar.animate(progressValue);
+}
+
 // Function to handle the farming level update when profile changes
 let bar = null; // Declare the progress bar variable outside so it can be reused
 function handleProfileChange() {
@@ -102,51 +143,24 @@ function handleProfileChange() {
   // If the farming level is null or undefined, handle it
   if (farmingLevel === null || farmingLevel === undefined) {
     console.error("Farming level is not valid. Defaulting progress to 0.");
+    initializeProgressBar(0); // Set progress to 0 for invalid farming level
     return;
   }
 
   // Extract only the decimal part of the farming level (ignore the integer part)
-  const decimalPart = farmingLevel - Math.floor(farmingLevel); // This gives us only the decimal part, e.g., 0.03 for 25.03
+  const decimalPart = farmingLevel - Math.floor(farmingLevel);
   console.log("Decimal part extracted:", decimalPart);
 
-  let x = 0; // Declare x outside of if-else block
-
+  let progressValue = 0;
   if (farmingLevel == 60) {
-    x = 1.0; // Max farming level, set progress to 100%
+    progressValue = 1.0; // Max farming level, set progress to 100%
   } else {
-    x = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
-    console.log("Progress bar decimal part (x):", x);
+    progressValue = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
   }
 
-  // Ensure x is between 0 and 1 (just in case)
-  if (x < 0 || x > 1) {
-    console.error("Invalid decimal part for progress. Defaulting to 0.");
-    x = 0;
-  }
-
-  // If a progress bar already exists, destroy it to refresh
-  if (bar) {
-    bar.destroy(); // Destroy the old instance of the progress bar
-  }
-
-  // Create a new progress bar instance
-  bar = new ProgressBar.Line("#progress-bar", {
-    strokeWidth: 4,
-    easing: "easeInOut",
-    duration: 1400,
-    color: "#FFEA82",
-    trailColor: "#eee",
-    trailWidth: 1,
-    svgStyle: { width: "100%", height: "100%" },
-    step: function (state, bar) {
-      bar.path.setAttribute("stroke-linecap", "round"); // Round the edges of the bar
-    },
-  });
-
-  // Animate the progress bar based on the decimal part
-  bar.animate(x); // Decimal part of the farming level from 0.0 to 1.0 (0% to 100%)
+  // Initialize the appropriate progress bar based on screen size
+  initializeProgressBar(progressValue);
 }
-
 
 // Function to generate the profile dropdown dynamically
 function generateProfileDropdown() {
@@ -198,4 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("selectedProfile", selectedProfile);
       handleProfileChange(); // Update the farming level and progress bar when profile changes
     });
+
+  // Add event listener for window resize to switch between progress bar types dynamically
+  window.addEventListener("resize", function () {
+    handleProfileChange(); // Recalculate and reinitialize the progress bar on resize
+  });
 });
