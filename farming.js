@@ -16,11 +16,17 @@ function calculateFarmingLevel(experience) {
     if (experience >= thresholds[i]) {
       level = i;
     } else {
+      // Calculate fractional progress between this and previous threshold
+      const previousThreshold = thresholds[i - 1];
+      const nextThreshold = thresholds[i];
+      const progress = (experience - previousThreshold) / (nextThreshold - previousThreshold);
+      level = (i - 1) + progress;
       break;
     }
   }
-  console.log(`Calculated farming level: ${level} for experience: ${experience}`);
-  return level;
+
+  console.log(`Calculated farming level: ${level.toFixed(2)} for experience: ${experience}`);
+  return parseFloat(level.toFixed(2)); // Return level rounded to two decimal places
 }
 
 // Function to find the farming experience and log the farming level
