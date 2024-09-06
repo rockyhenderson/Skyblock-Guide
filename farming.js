@@ -87,9 +87,11 @@ function findAndLogFarmingLevel() {
 function handleProfileChange() {
   // Find the farming level and set it for the progress bar
   const farmingLevel = findAndLogFarmingLevel();
+  console.log("Farming level:", farmingLevel);
 
   // Assume the max level is 50 to calculate the progress
-  let x = farmingLevel ? farmingLevel / 50 : 0.5; // Default to 0.5 if no farming level
+  // Ensure the progress is based on the full farming level, including decimals
+  let x = farmingLevel ? farmingLevel / 50 : 0.5; // Default to 50% if no farming level
   console.log("Progress bar level (x):", x);
 
   // Progress bar setup
@@ -106,7 +108,7 @@ function handleProfileChange() {
     },
   });
 
-  bar.animate(x); // Number from 0.0 to 1.0 based on the farming level
+  bar.animate(x); // Number from 0.0 to 1.0 based on the full farming level including decimals
 }
 
 // DOMContentLoaded event listener
