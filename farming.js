@@ -1,7 +1,7 @@
 // Function to calculate farming level from experience
 function calculateFarmingLevel(experience) {
   const thresholds = [
-    0,50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425, 32425, 
+    0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425, 32425, 
     47425, 67425, 97425, 147425, 222425, 322425, 522425, 822425, 1222425, 
     1722425, 2322425, 3022425, 3822425, 4722425, 5722425, 6822425, 8022425, 
     9322425, 10722425, 12222425, 13822425, 15522425, 17322425, 19222425, 
@@ -39,7 +39,7 @@ function findAndLogFarmingLevel() {
 
   if (!cachedSkyblockData || !uuid) {
     console.log("No skyblock data or uuid found.");
-    return;
+    return null;
   }
 
   const skyblockData = JSON.parse(cachedSkyblockData);
@@ -51,7 +51,7 @@ function findAndLogFarmingLevel() {
   const profile = skyblockData.profiles.find(p => p.cute_name === selectedProfileName);
   if (!profile) {
     console.log("Profile not found.");
-    return;
+    return null;
   }
 
   console.log("Found profile:", profile);
@@ -60,7 +60,7 @@ function findAndLogFarmingLevel() {
   const memberData = profile.members[uuid];
   if (!memberData) {
     console.log("Player data not found in profile.");
-    return;
+    return null;
   }
 
   console.log("Found member data:", memberData);
@@ -84,13 +84,14 @@ function findAndLogFarmingLevel() {
 }
 
 // Function to handle the farming level update when profile changes
+let bar = null; // Declare the progress bar variable outside so it can be reused
 function handleProfileChange() {
   // Find the farming level and set it for the progress bar
   const farmingLevel = findAndLogFarmingLevel();
   console.log("Farming level:", farmingLevel);
 
   // If the farming level is null or undefined, handle it
-  if (!farmingLevel && farmingLevel !== 0) {
+  if (farmingLevel === null || farmingLevel === undefined) {
     console.error("Farming level is not valid. Defaulting progress to 0.");
     return;
   }
@@ -108,8 +109,13 @@ function handleProfileChange() {
     x = 0;
   }
 
-  // Progress bar setup
-  var bar = new ProgressBar.Line("#progress-bar", {
+  // If a progress bar already exists, destroy it to refresh
+  if (bar) {
+    bar.destroy(); // Destroy the old instance of the progress bar
+  }
+
+  // Create a new progress bar instance
+  bar = new ProgressBar.Line("#progress-bar", {
     strokeWidth: 4,
     easing: "easeInOut",
     duration: 1400,
