@@ -18,7 +18,7 @@ function fetchUUIDAndData(username) {
 
       // Extract and log the cute names from the profiles
       const profiles = skyblockData.profiles || [];
-      const cuteNames = profiles.map(profile => profile.cuteName);
+      const cuteNames = profiles.map(profile => profile.cute_name); // Access "cute_name" based on your data
       console.log("Cute Names:", cuteNames);
 
       // Store both the UUID and Skyblock data in localStorage
@@ -76,7 +76,7 @@ function loadData() {
 
     const skyblockData = JSON.parse(cachedSkyblockData);
     const profiles = skyblockData.profiles || [];
-    const cuteNames = profiles.map(profile => profile.cuteName);
+    const cuteNames = profiles.map(profile => profile.cute_name); // Access "cute_name" field
     
     // Generate profile dropdown and pre-select the previously selected profile if it exists
     generateProfileDropdown(cuteNames);
