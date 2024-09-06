@@ -9,6 +9,7 @@ function calculateFarmingLevel(experience) {
       break;
     }
   }
+  console.log(`Calculated farming level: ${level} for experience: ${experience}`);
   return level;
 }
 
@@ -16,6 +17,9 @@ function calculateFarmingLevel(experience) {
 function findAndLogFarmingLevel() {
   const cachedSkyblockData = localStorage.getItem("skyblockData");
   const UUID = localStorage.getItem("UUID");
+
+  console.log("UUID:", UUID);
+  console.log("Cached skyblock data:", cachedSkyblockData);
 
   if (!cachedSkyblockData || !UUID) {
     console.log("No skyblock data or UUID found.");
@@ -25,12 +29,16 @@ function findAndLogFarmingLevel() {
   const skyblockData = JSON.parse(cachedSkyblockData);
   const selectedProfileName = localStorage.getItem("selectedProfile");
 
+  console.log("Selected Profile Name:", selectedProfileName);
+
   // Find the correct profile based on cute_name
   const profile = skyblockData.profiles.find(p => p.cute_name === selectedProfileName);
   if (!profile) {
     console.log("Profile not found.");
     return;
   }
+
+  console.log("Found profile:", profile);
 
   // Find the correct player data using the UUID
   const memberData = profile.members[UUID];
@@ -39,8 +47,12 @@ function findAndLogFarmingLevel() {
     return;
   }
 
+  console.log("Found member data:", memberData);
+
   // Get the farming experience and calculate the farming level
   const farmingExperience = memberData.experience_skill_farming || 0;
+  console.log("Farming Experience:", farmingExperience);
+
   const farmingLevel = calculateFarmingLevel(farmingExperience);
 
   // Log the farming level
@@ -55,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cachedSkyblockData = localStorage.getItem("skyblockData");
   if (cachedSkyblockData) {
     const skyblockData = JSON.parse(cachedSkyblockData);
-    console.log(skyblockData); // Output: defaultProfile
+    console.log("Skyblock Data:", skyblockData); // Output: defaultProfile
   } else {
     console.log("No skyblock data found in local storage.");
   }
@@ -65,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // Assume the max level is 50 to calculate the progress
   let x = farmingLevel ? farmingLevel / 50 : 0.5; // Default to 0.5 if no farming level
+  console.log("Progress bar level (x):", x);
 
   // Progress bar setup
   var bar = new ProgressBar.Line("#progress-bar", {
