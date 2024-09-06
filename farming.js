@@ -86,6 +86,9 @@ function findAndLogFarmingLevel() {
 // Function to handle the farming level update when profile changes
 let bar = null; // Declare the progress bar variable outside so it can be reused
 function handleProfileChange() {
+  const selectedProfile = dropdown.value;
+  localStorage.setItem("selectedProfile", selectedProfile);
+  document.getElementById("cuteProfile").innerText = ` ${selectedProfile}`;
   // Find the farming level and set it for the progress bar
   const farmingLevel = findAndLogFarmingLevel();
   console.log("Farming level:", farmingLevel);
@@ -141,12 +144,7 @@ function generateProfileDropdown() {
     console.log("No profiles found in cached data.");
     return;
   }
-  if (username) {
-    document.getElementById("usernameDisplay").innerText = `Logged in as: ${username}`;
-    console.log("username added")
-  } else {
-    document.getElementById("usernameDisplay").innerText = "Unlinked";
-  }
+  
   const profileDropdown = document.getElementById("profileDropdown");
   profileDropdown.innerHTML = ""; // Clear existing options
 
