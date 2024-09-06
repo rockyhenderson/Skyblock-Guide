@@ -1,14 +1,14 @@
 // Function to calculate farming level from experience
 function calculateFarmingLevel(experience) {
   const thresholds = [
-    0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425, 32425, 
-    47425, 67425, 97425, 147425, 222425, 322425, 522425, 822425, 1222425, 
-    1722425, 2322425, 3022425, 3822425, 4722425, 5722425, 6822425, 8022425, 
-    9322425, 10722425, 12222425, 13822425, 15522425, 17322425, 19222425, 
-    21222425, 23322425, 25522425, 27822425, 30222425, 32722425, 35322425, 
-    38072425, 40972425, 44072425, 47472425, 51172425, 55172425, 59472425, 
-    64072425, 68972425, 74172425, 79672425, 85472425, 91572425, 97972425, 
-    104672425, 111672425
+    0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425,
+    32425, 47425, 67425, 97425, 147425, 222425, 322425, 522425, 822425, 1222425,
+    1722425, 2322425, 3022425, 3822425, 4722425, 5722425, 6822425, 8022425,
+    9322425, 10722425, 12222425, 13822425, 15522425, 17322425, 19222425,
+    21222425, 23322425, 25522425, 27822425, 30222425, 32722425, 35322425,
+    38072425, 40972425, 44072425, 47472425, 51172425, 55172425, 59472425,
+    64072425, 68972425, 74172425, 79672425, 85472425, 91572425, 97972425,
+    104672425, 111672425,
   ];
 
   let level = 0;
@@ -19,13 +19,18 @@ function calculateFarmingLevel(experience) {
       // Calculate fractional progress between this and previous threshold
       const previousThreshold = thresholds[i - 1];
       const nextThreshold = thresholds[i];
-      const progress = (experience - previousThreshold) / (nextThreshold - previousThreshold);
-      level = (i - 1) + progress;
+      const progress =
+        (experience - previousThreshold) / (nextThreshold - previousThreshold);
+      level = i - 1 + progress;
       break;
     }
   }
 
-  console.log(`Calculated farming level: ${level.toFixed(2)} for experience: ${experience}`);
+  console.log(
+    `Calculated farming level: ${level.toFixed(
+      2
+    )} for experience: ${experience}`
+  );
   return parseFloat(level.toFixed(2)); // Return level rounded to two decimal places
 }
 
@@ -48,7 +53,9 @@ function findAndLogFarmingLevel() {
   console.log("Selected Profile Name:", selectedProfileName);
 
   // Find the correct profile based on cute_name
-  const profile = skyblockData.profiles.find(p => p.cute_name === selectedProfileName);
+  const profile = skyblockData.profiles.find(
+    (p) => p.cute_name === selectedProfileName
+  );
   if (!profile) {
     console.log("Profile not found.");
     return null;
@@ -102,8 +109,14 @@ function handleProfileChange() {
   const decimalPart = farmingLevel - Math.floor(farmingLevel); // This gives us only the decimal part, e.g., 0.03 for 25.03
   console.log("Decimal part extracted:", decimalPart);
 
-  let x = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
-  console.log("Progress bar decimal part (x):", x);
+  let x = 0; // Declare x outside of if-else block
+
+  if (farmingLevel == 60) {
+    x = 1.0; // Max farming level, set progress to 100%
+  } else {
+    x = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
+    console.log("Progress bar decimal part (x):", x);
+  }
 
   // Ensure x is between 0 and 1 (just in case)
   if (x < 0 || x > 1) {
@@ -134,23 +147,26 @@ function handleProfileChange() {
   bar.animate(x); // Decimal part of the farming level from 0.0 to 1.0 (0% to 100%)
 }
 
+
 // Function to generate the profile dropdown dynamically
 function generateProfileDropdown() {
   const username = localStorage.getItem("username");
   document.getElementById("usernameDisplay").innerText = ` ${username}`;
 
   const cachedSkyblockData = localStorage.getItem("skyblockData");
-  const skyblockData = cachedSkyblockData ? JSON.parse(cachedSkyblockData) : null;
-  
+  const skyblockData = cachedSkyblockData
+    ? JSON.parse(cachedSkyblockData)
+    : null;
+
   if (!skyblockData || !skyblockData.profiles) {
     console.log("No profiles found in cached data.");
     return;
   }
-  
+
   const profileDropdown = document.getElementById("profileDropdown");
   profileDropdown.innerHTML = ""; // Clear existing options
 
-  skyblockData.profiles.forEach(profile => {
+  skyblockData.profiles.forEach((profile) => {
     const option = document.createElement("option");
     option.value = profile.cute_name;
     option.textContent = profile.cute_name;
@@ -175,9 +191,11 @@ document.addEventListener("DOMContentLoaded", function () {
   handleProfileChange();
 
   // Add event listener to trigger when the profile is changed
-  document.getElementById("profileDropdown").addEventListener("change", function () {
-    const selectedProfile = document.getElementById("profileDropdown").value;
-    localStorage.setItem("selectedProfile", selectedProfile);
-    handleProfileChange(); // Update the farming level and progress bar when profile changes
-  });
+  document
+    .getElementById("profileDropdown")
+    .addEventListener("change", function () {
+      const selectedProfile = document.getElementById("profileDropdown").value;
+      localStorage.setItem("selectedProfile", selectedProfile);
+      handleProfileChange(); // Update the farming level and progress bar when profile changes
+    });
 });
