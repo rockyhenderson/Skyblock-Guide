@@ -89,10 +89,11 @@ function handleProfileChange() {
   const farmingLevel = findAndLogFarmingLevel();
   console.log("Farming level:", farmingLevel);
 
-  // Assume the max level is 50 to calculate the progress
-  // Ensure the progress is based on the full farming level, including decimals
-  let x = farmingLevel ? farmingLevel / 50 : 0.5; // Default to 50% if no farming level
-  console.log("Progress bar level (x):", x);
+  // Extract only the decimal part of the farming level (ignore the integer part)
+  const decimalPart = farmingLevel % 1; // This gives us only the decimal part, e.g., 0.03 for 25.03
+  let x = decimalPart ? decimalPart : 0; // If there is no decimal part, default to 0
+
+  console.log("Progress bar decimal part (x):", x);
 
   // Progress bar setup
   var bar = new ProgressBar.Line("#progress-bar", {
@@ -108,7 +109,7 @@ function handleProfileChange() {
     },
   });
 
-  bar.animate(x); // Number from 0.0 to 1.0 based on the full farming level including decimals
+  bar.animate(x); // Decimal part of the farming level from 0.0 to 1.0 (0% to 100%)
 }
 
 // DOMContentLoaded event listener
