@@ -35,6 +35,7 @@ function generateProfileDropdown() {
   dropdown.addEventListener("change", function() {
     const selectedProfile = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfile);
+    document.getElementById("cuteProfile").innerText = ` ${selectedProfile}`; 
     updatePageData();
   });
 }
@@ -45,13 +46,12 @@ function updatePageData() {
 
   if (!selectedProfileData) {
     console.log("No profile data found. Attempting to fetch new data...");
+    document.getElementById("cuteProfile").innerText = `None`;
     return;
   }
-
   console.log("Profile data is available, updating the page...");
-  document.getElementById("cuteProfile").innerText = `${selectedProfile}`; 
 
-  
+
 }
 
 // Initialize the page
