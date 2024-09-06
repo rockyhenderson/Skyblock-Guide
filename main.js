@@ -35,6 +35,7 @@ function generateProfileDropdown() {
   dropdown.addEventListener("change", function() {
     const selectedProfile = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfile);
+    console.log(selectedProfile)
     document.getElementById("cuteProfile").innerText = `${selectedProfile}`; 
     updatePageData();
   });
