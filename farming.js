@@ -168,7 +168,7 @@ function handleProfileChange() {
   console.log("Farming level:", farmingLevel);
   
   displayFarmingMedals()
-  displayFarmingitems()
+  displayFarmingItems()
   
 
   // If the farming level is null or undefined, handle it
