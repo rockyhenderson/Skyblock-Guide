@@ -313,8 +313,12 @@ function displayFarmingMedals() {
       console.log(`${crop} has no medals.`);
     }
 
+    // Format the personal best with commas and "items"
+    const personalBest = personalBests[crop]
+      ? `${personalBests[crop].toLocaleString()} items`
+      : "No data";
+
     // Set personal best as the title attribute for hover tooltip
-    const personalBest = personalBests[crop] ? personalBests[crop] : "No data";
     cropDiv.title = `Personal Best: ${personalBest}`; // Tooltip on hover
 
     // Generate and add the medal circles
@@ -327,6 +331,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 
 
 
