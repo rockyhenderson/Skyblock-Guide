@@ -233,12 +233,12 @@ function displayFarmingMedals() {
 
   // Find the correct member data using uuid
   const memberData = profile.members[uuid];
-  if (!memberData || !memberData.jacob2) {
-    console.error("Jacob2 data not found in member data.");
+  if (!memberData || !memberData.jacob2 || !memberData.jacob2.unique_brackets) {
+    console.error("Jacob2 or unique_brackets data not found in member data.");
     return;
   }
 
-  const jacobData = memberData.jacob2;
+  const uniqueBrackets = memberData.jacob2.unique_brackets;
 
   // List of crops we are interested in
   const crops = [
@@ -293,13 +293,13 @@ function displayFarmingMedals() {
 
     // Determine which medals the player has for this crop
     const earnedMedals = [];
-    if (jacobData.bronze && jacobData.bronze.includes(crop))
+    if (uniqueBrackets.bronze && uniqueBrackets.bronze.includes(crop))
       earnedMedals.push("bronze");
-    if (jacobData.silver && jacobData.silver.includes(crop))
+    if (uniqueBrackets.silver && uniqueBrackets.silver.includes(crop))
       earnedMedals.push("silver");
-    if (jacobData.gold && jacobData.gold.includes(crop))
+    if (uniqueBrackets.gold && uniqueBrackets.gold.includes(crop))
       earnedMedals.push("gold");
-    if (jacobData.platinum && jacobData.platinum.includes(crop))
+    if (uniqueBrackets.platinum && uniqueBrackets.platinum.includes(crop))
       earnedMedals.push("platinum");
 
     // Debugging: Log the earned medals for this crop
@@ -319,6 +319,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 
 
 // DOMContentLoaded event listener
