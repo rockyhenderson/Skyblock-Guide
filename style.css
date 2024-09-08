@@ -63,3 +63,17 @@
   }
 }
 
+.farming-level-div{
+  display: flex;
+  justify-content: left;
+  align-items:center;
+  font-size: 50px;
+  
+}
+#farming-level{
+  margin-right:20px;
+}
+.farming-trophies{
+  display: flex;
+  justify-content: space-between;
+}
