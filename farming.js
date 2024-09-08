@@ -1,3 +1,4 @@
+const nbt = require('nbt');
 // Function to calculate farming level from experience
 function calculateFarmingLevel(experience) {
   const thresholds = [
@@ -390,14 +391,13 @@ function displayFarmingItems() {
   const encodedData = memberData.wardrobe_contents.data;
 
   try {
-    // Step 1: Decode the base64 string
-    const decodedData = atob(encodedData);
+    // Step 1: Decode the base64 string into a buffer
+    const decodedData = Buffer.from(encodedData, 'base64');
 
     // Step 2: Decompress the decoded string using gzip
-    const byteArray = new Uint8Array(decodedData.split('').map(char => char.charCodeAt(0)));
-    const decompressedData = pako.inflate(byteArray, { to: 'string' });
+    const decompressedData = pako.inflate(decodedData);
 
-    // Step 3: Parse the decompressed NBT data using nbt.js
+    // Step 3: Parse the decompressed NBT data using node-nbt
     nbt.parse(decompressedData, function(error, data) {
       if (error) {
         console.error("Error parsing NBT data:", error);
