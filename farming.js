@@ -1,3 +1,5 @@
+import prismarineNbt from 'https://cdn.jsdelivr.net/npm/prismarine-nbt@2.5.0/+esm';
+import pako from 'https://cdn.jsdelivr.net/npm/pako@1.0.10/+esm';
 // Function to calculate farming level from experience
 function calculateFarmingLevel(experience) {
   const thresholds = [
@@ -385,7 +387,6 @@ function displayFarmingItems() {
     console.error("Wardrobe contents not found in member data.");
     return;
   }
-  console.log(typeof nbt); // Should print "object"
 
   // Get the base64 encoded string from "wardrobe_contents.data"
   const encodedData = memberData.wardrobe_contents.data;
@@ -400,8 +401,8 @@ function displayFarmingItems() {
     // Step 3: Decompress the decoded string using gzip
     const decompressedData = pako.inflate(byteArray);
 
-    // Step 4: Parse the decompressed NBT data using nbt.js
-    nbt.parse(decompressedData, function(error, data) {
+    // Step 4: Parse the decompressed NBT data using prismarine-nbt
+    prismarineNbt.parse(decompressedData, function(error, data) {
       if (error) {
         console.error("Error parsing NBT data:", error);
         return;
@@ -415,7 +416,6 @@ function displayFarmingItems() {
     console.error("Error decoding, decompressing, or parsing NBT data:", error);
   }
 }
-
 
 
 
