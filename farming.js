@@ -212,6 +212,9 @@ function displayFarmingMedals() {
   const uuid = localStorage.getItem("uuid");
   const selectedProfileName = localStorage.getItem("selectedProfile");
 
+  console.log("Selected Profile Name:", selectedProfileName);
+  console.log("UUID:", uuid);
+
   if (!cachedSkyblockData || !uuid || !selectedProfileName) {
     console.error("Missing data: skyblock data, uuid, or selected profile.");
     return;
@@ -299,6 +302,13 @@ function displayFarmingMedals() {
     if (jacobData.platinum && jacobData.platinum.includes(crop))
       earnedMedals.push("platinum");
 
+    // Debugging: Log the earned medals for this crop
+    if (earnedMedals.length > 0) {
+      console.log(`${crop} has ${earnedMedals.join(", ")}`);
+    } else {
+      console.log(`${crop} has no medals.`);
+    }
+
     // Generate and add the medal circles
     const medalCircles = generateMedalCircles(crop, earnedMedals);
     cropDiv.appendChild(medalCircles);
@@ -306,7 +316,10 @@ function displayFarmingMedals() {
     // Add the crop's div to the container
     medalsContainer.appendChild(cropDiv);
   });
+
+  console.log("Medals display completed.");
 }
+
 
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
