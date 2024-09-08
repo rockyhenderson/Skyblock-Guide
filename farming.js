@@ -290,10 +290,14 @@ function displayFarmingMedals() {
 
     // Determine which medals the player has for this crop
     const earnedMedals = [];
-    if (jacobData.bronze.includes(crop)) earnedMedals.push("bronze");
-    if (jacobData.silver.includes(crop)) earnedMedals.push("silver");
-    if (jacobData.gold.includes(crop)) earnedMedals.push("gold");
-    if (jacobData.platinum.includes(crop)) earnedMedals.push("platinum");
+    if (jacobData.bronze && jacobData.bronze.includes(crop))
+      earnedMedals.push("bronze");
+    if (jacobData.silver && jacobData.silver.includes(crop))
+      earnedMedals.push("silver");
+    if (jacobData.gold && jacobData.gold.includes(crop))
+      earnedMedals.push("gold");
+    if (jacobData.platinum && jacobData.platinum.includes(crop))
+      earnedMedals.push("platinum");
 
     // Generate and add the medal circles
     const medalCircles = generateMedalCircles(crop, earnedMedals);
