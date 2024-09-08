@@ -385,6 +385,7 @@ function displayFarmingItems() {
     console.error("Wardrobe contents not found in member data.");
     return;
   }
+  console.log(typeof nbt); // Should print "object"
 
   // Get the base64 encoded string from "wardrobe_contents.data"
   const encodedData = memberData.wardrobe_contents.data;
