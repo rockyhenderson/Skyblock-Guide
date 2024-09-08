@@ -84,7 +84,7 @@ function findAndLogFarmingLevel() {
   // Update the farming-level div with the new level
   const farmingLevelElement = document.getElementById("farming-level");
   if (farmingLevelElement) {
-    farmingLevelElement.textContent = `Farming Level: ${farmingLevel}`;
+    farmingLevelElement.textContent = `${farmingLevel}`;
   }
 
   return farmingLevel; // Returning the farming level for progress bar
