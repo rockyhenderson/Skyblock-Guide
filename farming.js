@@ -239,6 +239,7 @@ function displayFarmingMedals() {
   }
 
   const uniqueBrackets = memberData.jacob2.unique_brackets;
+  const personalBests = memberData.jacob2.personal_bests || {};
 
   // List of crops we are interested in
   const crops = [
@@ -312,6 +313,10 @@ function displayFarmingMedals() {
       console.log(`${crop} has no medals.`);
     }
 
+    // Set personal best as the title attribute for hover tooltip
+    const personalBest = personalBests[crop] ? personalBests[crop] : "No data";
+    cropDiv.title = `Personal Best: ${personalBest}`; // Tooltip on hover
+
     // Generate and add the medal circles
     const medalCircles = generateMedalCircles(crop, earnedMedals);
     cropDiv.appendChild(medalCircles);
@@ -322,6 +327,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 
 
 
