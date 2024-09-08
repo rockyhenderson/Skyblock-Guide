@@ -73,7 +73,39 @@
 #farming-level{
   margin-right:20px;
 }
-.farming-trophies{
+
+
+#farming-medals-container {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.crop-medal {
+  width: 150px;
+  margin: 10px;
+  text-align: center;
+}
+
+.crop-name {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.medal-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.medal-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid gray;
+}
+
+.medal-earned {
+  background-color: gold; /* This color indicates the medal is earned */
 }

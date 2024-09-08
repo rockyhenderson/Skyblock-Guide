@@ -150,7 +150,7 @@ function handleProfileChange() {
   console.log("Farming level:", farmingLevel);
   
   displayFarmingMedals()
-  
+
   // If the farming level is null or undefined, handle it
   if (farmingLevel === null || farmingLevel === undefined) {
     console.error("Farming level is not valid. Defaulting progress to 0.");
@@ -207,9 +207,103 @@ function generateProfileDropdown() {
   // Update the dropdown selection
   profileDropdown.value = selectedProfile || skyblockData.profiles[0].cute_name;
 }
-function displayFarmingMedals(){
+function displayFarmingMedals() {
+  const cachedSkyblockData = localStorage.getItem("skyblockData");
+  const uuid = localStorage.getItem("uuid");
+  const selectedProfileName = localStorage.getItem("selectedProfile");
 
+  if (!cachedSkyblockData || !uuid || !selectedProfileName) {
+    console.error("Missing data: skyblock data, uuid, or selected profile.");
+    return;
+  }
+
+  const skyblockData = JSON.parse(cachedSkyblockData);
+
+  // Find the correct profile using the cute_name
+  const profile = skyblockData.profiles.find(
+    (p) => p.cute_name === selectedProfileName
+  );
+  if (!profile) {
+    console.error("Profile not found.");
+    return;
+  }
+
+  // Find the correct member data using uuid
+  const memberData = profile.members[uuid];
+  if (!memberData || !memberData.jacob2) {
+    console.error("Jacob2 data not found in member data.");
+    return;
+  }
+
+  const jacobData = memberData.jacob2;
+
+  // List of crops we are interested in
+  const crops = [
+    "WHEAT",
+    "CARROT_ITEM",
+    "POTATO_ITEM",
+    "PUMPKIN",
+    "MELON",
+    "MUSHROOM_COLLECTION",
+    "CACTUS",
+    "SUGAR_CANE",
+    "NETHER_STALK",
+    "INK_SACK:3", // Represents Cocoa Beans
+  ];
+
+  // Medals in order: Bronze, Silver, Gold, Platinum
+  const medalTypes = ["bronze", "silver", "gold", "platinum"];
+
+  // Get the container to display farming medals
+  const medalsContainer = document.getElementById("farming-medals-container");
+  medalsContainer.innerHTML = ""; // Clear previous content
+
+  // Function to generate medal circles
+  function generateMedalCircles(crop, earnedMedals) {
+    const medalWrapper = document.createElement("div");
+    medalWrapper.className = "medal-wrapper";
+
+    // For each medal type, create a circle and fill it if earned
+    medalTypes.forEach((medal, index) => {
+      const circle = document.createElement("div");
+      circle.className = "medal-circle";
+      // If they have the medal or a higher one, fill the circle
+      if (earnedMedals.includes(medal)) {
+        circle.classList.add("medal-earned");
+      }
+      medalWrapper.appendChild(circle);
+    });
+
+    return medalWrapper;
+  }
+
+  // Iterate through each crop
+  crops.forEach((crop) => {
+    const cropDiv = document.createElement("div");
+    cropDiv.className = "crop-medal";
+
+    // Add crop name
+    const cropName = document.createElement("div");
+    cropName.className = "crop-name";
+    cropName.textContent = crop;
+    cropDiv.appendChild(cropName);
+
+    // Determine which medals the player has for this crop
+    const earnedMedals = [];
+    if (jacobData.bronze.includes(crop)) earnedMedals.push("bronze");
+    if (jacobData.silver.includes(crop)) earnedMedals.push("silver");
+    if (jacobData.gold.includes(crop)) earnedMedals.push("gold");
+    if (jacobData.platinum.includes(crop)) earnedMedals.push("platinum");
+
+    // Generate and add the medal circles
+    const medalCircles = generateMedalCircles(crop, earnedMedals);
+    cropDiv.appendChild(medalCircles);
+
+    // Add the crop's div to the container
+    medalsContainer.appendChild(cropDiv);
+  });
 }
+
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
   generateProfileDropdown(); // Initialize the dropdown
