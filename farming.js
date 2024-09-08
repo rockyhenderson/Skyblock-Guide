@@ -293,16 +293,17 @@ function displayFarmingMedals() {
 
     // Determine which medals the player has for this crop
     const earnedMedals = [];
-    if (uniqueBrackets.bronze && uniqueBrackets.bronze.includes(crop))
+    if (uniqueBrackets.diamond && uniqueBrackets.diamond.includes(crop)) {
+      earnedMedals.push("bronze", "silver", "gold", "platinum", "diamond");
+    } else if (uniqueBrackets.platinum && uniqueBrackets.platinum.includes(crop)) {
+      earnedMedals.push("bronze", "silver", "gold", "platinum");
+    } else if (uniqueBrackets.gold && uniqueBrackets.gold.includes(crop)) {
+      earnedMedals.push("bronze", "silver", "gold");
+    } else if (uniqueBrackets.silver && uniqueBrackets.silver.includes(crop)) {
+      earnedMedals.push("bronze", "silver");
+    } else if (uniqueBrackets.bronze && uniqueBrackets.bronze.includes(crop)) {
       earnedMedals.push("bronze");
-    if (uniqueBrackets.silver && uniqueBrackets.silver.includes(crop))
-      earnedMedals.push("silver");
-    if (uniqueBrackets.gold && uniqueBrackets.gold.includes(crop))
-      earnedMedals.push("gold");
-    if (uniqueBrackets.platinum && uniqueBrackets.platinum.includes(crop))
-      earnedMedals.push("platinum");
-    if (uniqueBrackets.diamond && uniqueBrackets.diamond.includes(crop))
-      earnedMedals.push("diamond");
+    }
 
     // Debugging: Log the earned medals for this crop
     if (earnedMedals.length > 0) {
@@ -321,6 +322,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 
 
 
