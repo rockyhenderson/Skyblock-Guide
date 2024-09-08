@@ -168,6 +168,8 @@ function handleProfileChange() {
   console.log("Farming level:", farmingLevel);
   
   displayFarmingMedals()
+  displayFarmingitems()
+  
 
   // If the farming level is null or undefined, handle it
   if (farmingLevel === null || farmingLevel === undefined) {
@@ -348,6 +350,54 @@ function displayFarmingMedals() {
   });
 
   console.log("Medals display completed.");
+}
+// Function to display armor from "wardrobe_contents"
+function displayFarmingItems() {
+  const cachedSkyblockData = localStorage.getItem("skyblockData");
+  const uuid = localStorage.getItem("uuid");
+  const selectedProfileName = localStorage.getItem("selectedProfile");
+
+  console.log("Selected Profile Name:", selectedProfileName);
+  console.log("UUID:", uuid);
+
+  if (!cachedSkyblockData || !uuid || !selectedProfileName) {
+    console.error("Missing data: skyblock data, uuid, or selected profile.");
+    return;
+  }
+
+  const skyblockData = JSON.parse(cachedSkyblockData);
+
+  // Find the correct profile using the cute_name
+  const profile = skyblockData.profiles.find(
+    (p) => p.cute_name === selectedProfileName
+  );
+  if (!profile) {
+    console.error("Profile not found.");
+    return;
+  }
+
+  // Find the correct member data using uuid
+  const memberData = profile.members[uuid];
+  if (!memberData || !memberData.wardrobe_contents || !memberData.wardrobe_contents.data) {
+    console.error("Wardrobe contents not found in member data.");
+    return;
+  }
+
+  // Get the base64 encoded string from "wardrobe_contents.data"
+  const encodedData = memberData.wardrobe_contents.data;
+
+  try {
+    // Step 1: Decode the base64 string
+    const decodedData = atob(encodedData);
+
+    // Step 2: Decompress the decoded string using gzip
+    const decompressedData = pako.inflate(decodedData, { to: 'string' });
+
+    // Log the result
+    console.log("Decompressed wardrobe contents:", decompressedData);
+  } catch (error) {
+    console.error("Error decoding or decompressing wardrobe contents:", error);
+  }
 }
 
 
