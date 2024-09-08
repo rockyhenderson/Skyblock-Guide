@@ -148,7 +148,9 @@ function handleProfileChange() {
   // Find the farming level and set it for the progress bar
   const farmingLevel = findAndLogFarmingLevel();
   console.log("Farming level:", farmingLevel);
-
+  
+  displayFarmingMedals()
+  
   // If the farming level is null or undefined, handle it
   if (farmingLevel === null || farmingLevel === undefined) {
     console.error("Farming level is not valid. Defaulting progress to 0.");
@@ -171,7 +173,7 @@ function handleProfileChange() {
   initializeProgressBar(progressValue);
 }
 
-// Function to generate the profile dropdown dynamically
+// DO NOT CHANGE THIS
 function generateProfileDropdown() {
   const username = localStorage.getItem("username");
   document.getElementById("usernameDisplay").innerText = ` ${username}`;
@@ -205,7 +207,9 @@ function generateProfileDropdown() {
   // Update the dropdown selection
   profileDropdown.value = selectedProfile || skyblockData.profiles[0].cute_name;
 }
+function displayFarmingMedals(){
 
+}
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
   generateProfileDropdown(); // Initialize the dropdown
