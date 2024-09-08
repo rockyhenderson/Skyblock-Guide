@@ -291,7 +291,7 @@ function displayFarmingMedals() {
     medalTypes.forEach((medal) => {
       const circle = document.createElement("div");
       circle.className = "medal-circle";
-      // If they have the medal or a higher one, fill the circle
+      // If they have the medal or a higher one, fill the circle, else keep it empty
       if (earnedMedals.includes(medal)) {
         circle.classList.add("medal-earned");
       }
@@ -326,11 +326,11 @@ function displayFarmingMedals() {
       earnedMedals.push("bronze");
     }
 
-    // Debugging: Log the earned medals for this crop
-    if (earnedMedals.length > 0) {
-      console.log(`${crop} has ${earnedMedals.join(", ")}`);
+    // Even if there are no earned medals, we still generate empty medal slots
+    if (earnedMedals.length === 0) {
+      console.log(`${crop} has no medals, generating empty slots.`);
     } else {
-      console.log(`${crop} has no medals.`);
+      console.log(`${crop} has ${earnedMedals.join(", ")}`);
     }
 
     // Format the personal best with commas and "items"
@@ -341,7 +341,7 @@ function displayFarmingMedals() {
     // Set personal best as the title attribute for hover tooltip
     cropDiv.title = `Personal Best: ${personalBest}`; // Tooltip on hover
 
-    // Generate and add the medal circles
+    // Generate and add the medal circles (empty if no medals)
     const medalCircles = generateMedalCircles(crop, earnedMedals);
     cropDiv.appendChild(medalCircles);
 
@@ -351,6 +351,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 // Function to display armor from "wardrobe_contents"
 function displayFarmingItems() {
   const cachedSkyblockData = localStorage.getItem("skyblockData");
