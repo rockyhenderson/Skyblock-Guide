@@ -390,20 +390,23 @@ function displayFarmingItems() {
   const encodedData = memberData.wardrobe_contents.data;
 
   try {
-    // Step 1: Decode the base64 string into a buffer
-    const decodedData = Buffer.from(encodedData, 'base64');
+    // Step 1: Decode the base64 string into binary data
+    const decodedData = atob(encodedData);
 
-    // Step 2: Decompress the decoded string using gzip
-    const decompressedData = pako.inflate(decodedData);
+    // Step 2: Convert the decoded string into a Uint8Array
+    const byteArray = new Uint8Array(decodedData.split('').map(char => char.charCodeAt(0)));
 
-    // Step 3: Parse the decompressed NBT data using node-nbt
+    // Step 3: Decompress the decoded string using gzip
+    const decompressedData = pako.inflate(byteArray);
+
+    // Step 4: Parse the decompressed NBT data using nbt.js
     nbt.parse(decompressedData, function(error, data) {
       if (error) {
         console.error("Error parsing NBT data:", error);
         return;
       }
 
-      // Step 4: Log the parsed NBT result
+      // Log the parsed NBT result
       console.log("Parsed wardrobe contents (NBT):", data);
     });
 
@@ -411,6 +414,7 @@ function displayFarmingItems() {
     console.error("Error decoding, decompressing, or parsing NBT data:", error);
   }
 }
+
 
 
 
