@@ -253,13 +253,14 @@ function displayFarmingMedals() {
 
   // Find the correct member data using uuid
   const memberData = profile.members[uuid];
-  if (!memberData || !memberData.jacob2 || !memberData.jacob2.unique_brackets) {
-    console.error("Jacob2 or unique_brackets data not found in member data.");
+  if (!memberData) {
+    console.error("Member data not found in profile.");
     return;
   }
 
-  const uniqueBrackets = memberData.jacob2.unique_brackets;
-  const personalBests = memberData.jacob2.personal_bests || {};
+  // Check if unique_brackets exist, otherwise set it to an empty object to handle no medals case
+  const uniqueBrackets = memberData.jacob2?.unique_brackets || {};
+  const personalBests = memberData.jacob2?.personal_bests || {};
 
   // List of crops we are interested in
   const crops = [
@@ -312,7 +313,7 @@ function displayFarmingMedals() {
     cropName.textContent = crop;
     cropDiv.appendChild(cropName);
 
-    // Determine which medals the player has for this crop
+    // Determine which medals the player has for this crop, default to empty if unique_brackets doesn't exist
     const earnedMedals = [];
     if (uniqueBrackets.diamond && uniqueBrackets.diamond.includes(crop)) {
       earnedMedals.push("bronze", "silver", "gold", "platinum", "diamond");
@@ -326,7 +327,7 @@ function displayFarmingMedals() {
       earnedMedals.push("bronze");
     }
 
-    // Even if there are no earned medals, we still generate empty medal slots
+    // Log message if no medals, and generate empty slots
     if (earnedMedals.length === 0) {
       console.log(`${crop} has no medals, generating empty slots.`);
     } else {
@@ -351,6 +352,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 
 // Function to display armor from "wardrobe_contents"
 function displayFarmingItems() {
