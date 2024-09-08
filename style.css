@@ -1,4 +1,11 @@
+html {
+  overflow-y: scroll;
+}
 
+body{
+  margin:0;
+  box-sizing: border-box;
+}
 .modal {
   display: none;
   position: fixed;
@@ -109,3 +116,22 @@
 .medal-earned {
   background-color: gold; /* This color indicates the medal is earned */
 }
+.master-body{
+  width:100%;
+  padding-right: calc(100vw - 100%);
+}
+.body-content{
+  width:99vw;
+  margin:auto;
+  max-width:1250px;
+  background-color: red;
+  height:100vw;
+}
+@media screen and (max-width: 1250px) {
+  .body-content {
+    width:95vw;
+    margin:auto;
+  }
+}
+
+
