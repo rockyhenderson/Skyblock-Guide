@@ -91,7 +91,24 @@ function findAndLogFarmingLevel() {
 }
 
 // Function to initialize the appropriate progress bar based on screen size
-function initializeProgressBar(progressValue) {
+function initializeProgressBar(progressValue, farmingLevel, maxFarmingLevel, farmingCap) {
+  // Adjust farming level based on the farming cap
+  const maxLevelWithCap = 50 + farmingCap; // Cap ranges from 51 to 60 depending on perks level
+  let adjustedFarmingLevel = farmingLevel;
+
+  if (farmingLevel > maxLevelWithCap) {
+    adjustedFarmingLevel = maxLevelWithCap;
+    console.log(
+      `Farming level capped to ${adjustedFarmingLevel} based on cap of ${farmingCap}.`
+    );
+  }
+
+  // Calculate the progress based on the adjusted farming level
+  let adjustedProgressValue = progressValue;
+  if (farmingLevel > maxLevelWithCap) {
+    adjustedProgressValue = 1.0; // Full progress if level is capped
+  }
+
   // Destroy any existing progress bar
   if (bar) {
     bar.destroy();
@@ -136,9 +153,10 @@ function initializeProgressBar(progressValue) {
     });
   }
 
-  // Animate the progress bar with the given progress value
-  bar.animate(progressValue);
+  // Animate the progress bar with the adjusted progress value
+  bar.animate(adjustedProgressValue);
 }
+
 
 // Function to handle the farming level update when profile changes
 let bar = null; // Declare the progress bar variable outside so it can be reused
