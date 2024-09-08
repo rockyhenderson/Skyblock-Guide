@@ -1,5 +1,3 @@
-import prismarineNbt from 'https://cdn.jsdelivr.net/npm/prismarine-nbt@2.5.0/+esm';
-import pako from 'https://cdn.jsdelivr.net/npm/pako@1.0.10/+esm';
 // Function to calculate farming level from experience
 function calculateFarmingLevel(experience) {
   const thresholds = [
@@ -358,63 +356,7 @@ function displayFarmingMedals() {
 
 // Function to display armor from "wardrobe_contents"
 function displayFarmingItems() {
-  const cachedSkyblockData = localStorage.getItem("skyblockData");
-  const uuid = localStorage.getItem("uuid");
-  const selectedProfileName = localStorage.getItem("selectedProfile");
-
-  console.log("Selected Profile Name:", selectedProfileName);
-  console.log("UUID:", uuid);
-
-  if (!cachedSkyblockData || !uuid || !selectedProfileName) {
-    console.error("Missing data: skyblock data, uuid, or selected profile.");
-    return;
-  }
-
-  const skyblockData = JSON.parse(cachedSkyblockData);
-
-  // Find the correct profile using the cute_name
-  const profile = skyblockData.profiles.find(
-    (p) => p.cute_name === selectedProfileName
-  );
-  if (!profile) {
-    console.error("Profile not found.");
-    return;
-  }
-
-  // Find the correct member data using uuid
-  const memberData = profile.members[uuid];
-  if (!memberData || !memberData.wardrobe_contents || !memberData.wardrobe_contents.data) {
-    console.error("Wardrobe contents not found in member data.");
-    return;
-  }
-
-  // Get the base64 encoded string from "wardrobe_contents.data"
-  const encodedData = memberData.wardrobe_contents.data;
-
-  try {
-    // Step 1: Decode the base64 string into binary data
-    const decodedData = atob(encodedData);
-
-    // Step 2: Convert the decoded string into a Uint8Array
-    const byteArray = new Uint8Array(decodedData.split('').map(char => char.charCodeAt(0)));
-
-    // Step 3: Decompress the decoded string using gzip
-    const decompressedData = pako.inflate(byteArray);
-
-    // Step 4: Parse the decompressed NBT data using prismarine-nbt
-    prismarineNbt.parse(decompressedData, function(error, data) {
-      if (error) {
-        console.error("Error parsing NBT data:", error);
-        return;
-      }
-
-      // Log the parsed NBT result
-      console.log("Parsed wardrobe contents (NBT):", data);
-    });
-
-  } catch (error) {
-    console.error("Error decoding, decompressing, or parsing NBT data:", error);
-  }
+ console.log("DisplayFarmingItems")
 }
 
 
