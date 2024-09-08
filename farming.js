@@ -1,4 +1,3 @@
-const nbt = require('nbt');
 // Function to calculate farming level from experience
 function calculateFarmingLevel(experience) {
   const thresholds = [
