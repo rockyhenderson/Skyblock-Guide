@@ -355,7 +355,7 @@ function displayFarmingMedals() {
 
 
 // Function to display armor from "wardrobe_contents"
-function displayFarmingItems() {
+async function displayFarmingItems() {
   const cachedSkyblockData = localStorage.getItem("skyblockData");
   const uuid = localStorage.getItem("uuid");
   const selectedProfileName = localStorage.getItem("selectedProfile");
@@ -394,14 +394,20 @@ function displayFarmingItems() {
     const decodedData = atob(encodedData);
 
     // Step 2: Decompress the decoded string using gzip
-    const decompressedData = pako.inflate(decodedData, { to: 'string' });
+    const byteArray = new Uint8Array(decodedData.split('').map(char => char.charCodeAt(0)));
+    const decompressedData = pako.inflate(byteArray, { to: 'string' });
 
-    // Log the result
-    console.log("Decompressed wardrobe contents:", decompressedData);
+    // Step 3: Parse the decompressed NBT data using nbt.js
+    const nbtData = await nbt.parse(decompressedData);
+
+    // Step 4: Log the parsed NBT result
+    console.log("Parsed wardrobe contents (NBT):", nbtData);
+
   } catch (error) {
-    console.error("Error decoding or decompressing wardrobe contents:", error);
+    console.error("Error decoding, decompressing, or parsing NBT data:", error);
   }
 }
+
 
 
 
