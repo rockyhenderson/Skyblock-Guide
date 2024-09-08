@@ -254,8 +254,8 @@ function displayFarmingMedals() {
     "INK_SACK:3", // Represents Cocoa Beans
   ];
 
-  // Medals in order: Bronze, Silver, Gold, Platinum
-  const medalTypes = ["bronze", "silver", "gold", "platinum"];
+  // Medals in order: Bronze, Silver, Gold, Platinum, Diamond
+  const medalTypes = ["bronze", "silver", "gold", "platinum", "diamond"];
 
   // Get the container to display farming medals
   const medalsContainer = document.getElementById("farming-medals-container");
@@ -267,7 +267,7 @@ function displayFarmingMedals() {
     medalWrapper.className = "medal-wrapper";
 
     // For each medal type, create a circle and fill it if earned
-    medalTypes.forEach((medal, index) => {
+    medalTypes.forEach((medal) => {
       const circle = document.createElement("div");
       circle.className = "medal-circle";
       // If they have the medal or a higher one, fill the circle
@@ -301,6 +301,8 @@ function displayFarmingMedals() {
       earnedMedals.push("gold");
     if (uniqueBrackets.platinum && uniqueBrackets.platinum.includes(crop))
       earnedMedals.push("platinum");
+    if (uniqueBrackets.diamond && uniqueBrackets.diamond.includes(crop))
+      earnedMedals.push("diamond");
 
     // Debugging: Log the earned medals for this crop
     if (earnedMedals.length > 0) {
@@ -319,6 +321,7 @@ function displayFarmingMedals() {
 
   console.log("Medals display completed.");
 }
+
 
 
 
