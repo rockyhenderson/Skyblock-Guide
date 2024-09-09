@@ -8,7 +8,7 @@ dotenv.config();
 
 exports.handler = async function(event, context) {
   const username = event.queryStringParameters.username;
-  
+
   // Step 1: Validate the username
   if (!username) {
     return {
@@ -19,7 +19,7 @@ exports.handler = async function(event, context) {
 
   // Step 2: Fetch the Hypixel API key from the environment variable
   const apiKey = process.env.HYPIXEL_API_KEY;
-  
+
   if (!apiKey) {
     return {
       statusCode: 500,
@@ -53,52 +53,51 @@ exports.handler = async function(event, context) {
 
     const hypixelData = await hypixelResponse.json();
 
-    // Step 5: Extract the wardrobe contents for a given profile (assuming you want the first profile)
-    const profile = hypixelData.profiles[0];  // You can customize this as needed
-    const memberData = profile.members[playerUUID];
+    // Step 5: Loop through all profiles to extract wardrobe contents
+    const wardrobeDataByProfile = {};
 
-    if (!memberData || !memberData.wardrobe_contents || !memberData.wardrobe_contents.data) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ message: 'No wardrobe data found for this user.' }),
-      };
+    for (const profile of hypixelData.profiles) {
+      const memberData = profile.members[playerUUID];
+
+      if (memberData && memberData.wardrobe_contents && memberData.wardrobe_contents.data) {
+        const encodedWardrobeData = memberData.wardrobe_contents.data;
+
+        // Step 6: Decode, decompress, and parse the NBT data for each profile
+        try {
+          const decodedData = Buffer.from(encodedWardrobeData, 'base64');
+          const decompressedData = pako.inflate(decodedData);
+
+          // Parse the NBT data
+          const wardrobeData = await new Promise((resolve, reject) => {
+            nbt.parse(decompressedData.buffer, (err, nbtData) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(nbtData);
+              }
+            });
+          });
+
+          // Store the parsed wardrobe data for this profile
+          wardrobeDataByProfile[profile.profile_id] = wardrobeData;
+
+        } catch (error) {
+          console.error(`Error processing wardrobe data for profile ${profile.profile_id}:`, error);
+        }
+      } else {
+        wardrobeDataByProfile[profile.profile_id] = 'No wardrobe data found for this profile.';
+      }
     }
 
-    const encodedWardrobeData = memberData.wardrobe_contents.data;
-
-    // Step 6: Decode, decompress, and parse the NBT data
-    try {
-      const decodedData = Buffer.from(encodedWardrobeData, 'base64');
-      const decompressedData = pako.inflate(decodedData);
-      
-      // Parse the NBT data
-      const wardrobeData = await new Promise((resolve, reject) => {
-        nbt.parse(decompressedData.buffer, (err, nbtData) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(nbtData);
-          }
-        });
-      });
-
-      // Step 7: Return both UUID, Skyblock data, and the processed wardrobe data
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          userId: playerUUID,
-          skyblockData: hypixelData,  // Send the entire Skyblock data as before
-          wardrobeData: wardrobeData, // Send the processed wardrobe data separately
-        }),
-      };
-
-    } catch (error) {
-      console.error('Error processing wardrobe data:', error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ message: 'Failed to process wardrobe data.' }),
-      };
-    }
+    // Step 7: Return UUID, Skyblock data, and the wardrobe data for all profiles
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        userId: playerUUID,
+        skyblockData: hypixelData,  // Send the entire Skyblock data as before
+        wardrobeDataByProfile: wardrobeDataByProfile, // Send the wardrobe data for all profiles
+      }),
+    };
 
   } catch (error) {
     // Step 6: Catch any errors during the process and return a 500 status code
