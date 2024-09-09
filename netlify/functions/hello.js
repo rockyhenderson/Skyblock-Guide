@@ -52,6 +52,7 @@ exports.handler = async function(event, context) {
     }
 
     const hypixelData = await hypixelResponse.json();
+    console.log("Skyblock Data:", hypixelData);  // Log the entire Skyblock data
 
     // Step 5: Loop through all profiles to extract wardrobe contents
     const wardrobeDataByProfile = {};
@@ -61,11 +62,21 @@ exports.handler = async function(event, context) {
 
       if (memberData && memberData.wardrobe_contents && memberData.wardrobe_contents.data) {
         const encodedWardrobeData = memberData.wardrobe_contents.data;
+        
+        // Log the raw encoded wardrobe data for debugging
+        console.log("Encoded wardrobe data:", encodedWardrobeData);
 
         // Step 6: Decode, decompress, and parse the NBT data for each profile
         try {
           const decodedData = Buffer.from(encodedWardrobeData, 'base64');
+          
+          // Log the decoded data before decompression
+          console.log("Decoded wardrobe data:", decodedData);
+
           const decompressedData = pako.inflate(decodedData);
+          
+          // Log the decompressed data before parsing
+          console.log("Decompressed wardrobe data:", decompressedData);
 
           // Parse the NBT data
           const wardrobeData = await new Promise((resolve, reject) => {
@@ -77,6 +88,9 @@ exports.handler = async function(event, context) {
               }
             });
           });
+
+          // Log the parsed NBT wardrobe data
+          console.log("Parsed wardrobe data:", wardrobeData);
 
           // Store the parsed wardrobe data for this profile
           wardrobeDataByProfile[profile.profile_id] = wardrobeData;
