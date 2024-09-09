@@ -3,6 +3,7 @@
     "@netlify/functions": "^2.8.1",
     "dotenv": "^16.4.5",
     "fetch": "^1.1.0",
+    "nbt": "^0.8.1",
     "node": "^22.8.0",
     "node-fetch": "^2.6.1"
   }
