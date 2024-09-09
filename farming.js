@@ -419,6 +419,7 @@ async function displayFarmingItems() {
 
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
+  console.log('nbt:', nbt);
   generateProfileDropdown(); // Initialize the dropdown
 
   // Trigger farming level calculation and progress bar update initially
