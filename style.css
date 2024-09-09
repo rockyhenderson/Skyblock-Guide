@@ -2,8 +2,8 @@ html {
   overflow-y: scroll;
 }
 
-body{
-  margin:0;
+body {
+  margin: 0;
   box-sizing: border-box;
 }
 .modal {
@@ -37,7 +37,7 @@ body{
   text-decoration: none;
   cursor: pointer;
 }
-.modal{
+.modal {
   display: none;
 }
 #progress-bar {
@@ -70,17 +70,15 @@ body{
   }
 }
 
-.farming-level-div{
+.farming-level-div {
   display: flex;
   justify-content: left;
-  align-items:center;
+  align-items: center;
   font-size: 50px;
-  
 }
-#farming-level{
-  margin-right:20px;
+#farming-level {
+  margin-right: 20px;
 }
-
 
 #farming-medals-container {
   display: flex;
@@ -116,22 +114,120 @@ body{
 .medal-earned {
   background-color: gold; /* This color indicates the medal is earned */
 }
-.master-body{
-  width:100%;
+.master-body {
+  width: 100vw;
+  margin: auto;
   padding-right: calc(100vw - 100%);
 }
-.body-content{
-  width:99vw;
-  margin:auto;
-  max-width:1250px;
-  background-color: red;
-  height:100vw;
+.body-content {
+  width: 95vw;
+  margin: auto;
+  max-width: 1500px;
+  background-color: #f2dea2;
+  height: 100vw;
 }
-@media screen and (max-width: 1250px) {
+
+
+
+.content-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.content-text {
+  width: 70%;
+  background-color: #f2c4de;
+  height: 100%;
+  min-height: 800px; /* TEMP */
+}
+.armor-container {
+  width: 30%;
+  height: 100%;
+  min-height: 800px; /* TEMP */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.armor-box {
+  height: 120px;
+  width: 120px;
+  background-color: #c2eec7;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+.accessorie-item {
+  height: 100px;
+  width: 100px;
+  background-color: #c2eec7;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.armour-wrapper {
+  height: 600px;
+  background-color: #b78876;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.armor-acces {
+  height: 200px;
+  background-color: #71b1d9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 1500px) {
   .body-content {
-    width:95vw;
-    margin:auto;
+    width: 95vw;
+    margin: auto;
+  }
+  .accessorie-item {
+    height: 80px;
+    width: 80px;
   }
 }
-
-
+.minor-content{
+  height:300px;
+  border:1px #71b1d9 solid;
+}
+@media screen and (max-width: 1000px) {
+  .content-container {
+    flex-direction: column-reverse;
+  }
+  .armor-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height:auto;
+    min-height:600px;
+    
+  }
+  .content-text {
+    width: 100%;
+  }
+  .armour-wrapper {
+    height: 100%;
+    background-color: #b78876;
+    width:50%;
+    min-height: 600px;
+  }
+  .armor-acces {
+    height:100%;
+    width:50%;
+    flex-direction: column;
+    justify-content: space-around;
+    min-height: 600px;
+    
+  }
+  .accessorie-item {
+    height: 100px;
+    width: 100px;
+  }
+}
