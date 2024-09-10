@@ -36,7 +36,7 @@ exports.handler = async function (event, context) {
       body: JSON.stringify({
         playerLevel: player.level, // Hypixel level
         playerUUID: player.uuid,
-        playerFarmingSkill: player.SkyblockSkillLevel.farming,
+        playerFarmingSkill: player.skills.farming.xp,
       }),
     };
   } catch (error) {
