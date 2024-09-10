@@ -1,5 +1,5 @@
 function fetchData(username) {
-    const url = `/api/dataRequest?username=${username}`;
+    const url = `/api/DataRequest?username=${username}`;
   
     fetch(url)
       .then((response) => response.json())
@@ -15,5 +15,5 @@ function fetchData(username) {
       .catch((error) => console.error("Error fetching data:", error));
   }
   
-  module.exports = { fetchData };
+
   
