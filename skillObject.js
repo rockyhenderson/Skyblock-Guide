@@ -92,7 +92,7 @@ function findAndLogExp(){
 
   // Get the skill experience
   /*Needs to be changed to be dynamic based on skill */
-    const skillExp = memberData[experience_skill_${this.skill}] || 0;
+    const skillExp = memberData[`experience_skill_${this.skill}`] || 0;
     console.log("Farming Experience:", farmingExperience);
 
     return skillExp;
