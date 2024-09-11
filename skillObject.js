@@ -5,6 +5,25 @@ function skill(skill){
     this.skillLevel = calculateSkillLevel();
 }
 
+function getSkill(){ return this.skill; }
+function getExperience(){ return this.experience; }
+function getSkillCap(){ return this.skillCap; }
+function getSkillLevel(){ return this.skillLevel; }
+
+function setSkill(skill){ 
+    if((skill === "Mining" || skill === "Farming" || skill === "Foraging" || skill === "Combat" || skill === "Fishing" || skill === "Enchanting" || skill === "Alchemy" || skill === "Taming" || skill === "Dungeons" || skill === "Carpentery" || skill === "Runecrafting" || skill === "Social") === false){
+		throw new Error("Invalid Skill Entered")
+	}
+    this.skill = skill; 
+    setExperience(); 
+    setSkillCap(); 
+    setSkillLevel(); 
+
+}
+function setExperience(){ this.experience = findAndLogExp(); }
+function setSkillCap(){ this.skillCap = skillCap(); }
+function setSkillLevel(){ this.skillLevel = calculateSkillLevel(); }
+
 function calculateSkillLevel(){
     const thresholds = [
         0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425,
@@ -154,8 +173,7 @@ function initializeProgressBar() {
   
     // Animate the progress bar with the adjusted progress value
     bar.animate(progressValue);
-  }
-  
+  }  
   
   // Function to handle the skill level update when profile changes
   let bar = null; // Declare the progress bar variable outside so it can be reused

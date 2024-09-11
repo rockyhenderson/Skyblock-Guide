@@ -258,6 +258,7 @@ async function displayFarmingItems() {
 
 
 
+
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
   console.log('nbt:', nbt);
