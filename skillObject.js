@@ -11,7 +11,7 @@ function getSkillCap(){ return this.skillCap; }
 function getSkillLevel(){ return this.skillLevel; }
 
 function setSkill(skill){ 
-    if((skill === "Mining" || skill === "Farming" || skill === "Foraging" || skill === "Combat" || skill === "Fishing" || skill === "Enchanting" || skill === "Alchemy" || skill === )){
+    if((skill === "Mining" || skill === "Farming" || skill === "Foraging" || skill === "Combat" || skill === "Fishing" || skill === "Enchanting" || skill === "Alchemy" || skill === "Taming" || skill === "Dungeons" || skill === "Carpentery" || skill === "Runecrafting" || skill === "Social") === false){
 		throw new Error("Invalid Skill Entered")
 	}
     this.skill = skill; 
