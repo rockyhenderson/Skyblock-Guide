@@ -1,13 +1,22 @@
 function generatePage(profiles) {
   console.log("page generating");
   // Username generation
+  updateUsernameDisplay();
+  // Profiles dropdown generation
+  generateProfileDropdown(profiles);
+  updatePageContent();
+}
+
+function updateUsernameDisplay() {
   const storedUsername = localStorage.getItem("playerUsername");
   if (storedUsername) {
     document.getElementById("usernameDisplay").innerText = ` ${storedUsername}`;
   } else {
     document.getElementById("usernameDisplay").innerText = "Unlinked";
   }
-  // Profiles dropdown generation
+}
+
+function generateProfileDropdown(profiles) {
   const dropdown = document.getElementById("profileDropdown");
   dropdown.innerHTML = ""; // Clear existing options
 
@@ -34,17 +43,13 @@ function generatePage(profiles) {
 
   dropdown.value = selectedProfileId;
   localStorage.setItem("selectedProfile", selectedProfileId);
-  updateSelectedProfileData(profiles, selectedProfileId);
-  document.getElementById("cuteProfile").innerText = ` ${dropdown.options[dropdown.selectedIndex].text}`;
 
-  // Updated profile when switched
   dropdown.addEventListener("change", function () {
     const selectedProfileId = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfileId);
     updateSelectedProfileData(profiles, selectedProfileId);
-    document.getElementById("cuteProfile").innerText = ` ${dropdown.options[dropdown.selectedIndex].text}`;
+    updatePageContent();
   });
-  updateFarmingGraph();
 }
 
 function updateSelectedProfileData(profiles, selectedProfileId) {
@@ -54,7 +59,13 @@ function updateSelectedProfileData(profiles, selectedProfileId) {
   if (selectedProfileData) {
     localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
     console.log("Selected Profile Data:", selectedProfileData);
+  }
+}
 
+function updatePageContent() {
+  const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
+  if (selectedProfileData) {
+    document.getElementById("cuteProfile").innerText = ` ${selectedProfileData.profileName}`;
     updateFarmingGraph();
   }
 }
