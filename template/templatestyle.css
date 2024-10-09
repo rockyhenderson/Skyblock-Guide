@@ -26,6 +26,8 @@ nav {
 .user-icon {
   font-size: 24px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .menu {
@@ -129,7 +131,7 @@ nav {
 .ranking-container {
   text-align: center;
   flex: 1;
-  background: yellow;
+
 }
 .ranking-container h3 {
   font-size: 2em;
@@ -268,6 +270,7 @@ i {
   .gear-grid {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, auto);
+    margin:0
   }
 }
 @media (max-width: 768px) {
@@ -293,6 +296,10 @@ i {
     margin-top: 10px;
     margin-left: 0;
   }
+  .skill-name,
+i {
+  text-align: center;
+}
   .right-column {
     order: 1;
     width: 100%;
