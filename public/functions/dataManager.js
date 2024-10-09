@@ -7,7 +7,6 @@ function generatePage(profiles) {
   } else {
     document.getElementById("usernameDisplay").innerText = "Unlinked";
   }
-  console.log(selectedProfileId.farmingSkillLevel)
   // Profiles dropdown generation
   const dropdown = document.getElementById("profileDropdown");
   dropdown.innerHTML = ""; // Clear existing options
@@ -54,7 +53,11 @@ function updateSelectedProfileData(profiles, selectedProfileId) {
   if (selectedProfileData) {
     localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
     console.log("Selected Profile Data:", selectedProfileData);
+
+    console.log("Farming Skill Level:", selectedProfileData.farmingSkillLevel);
+    console.log("Farming XP:", selectedProfileData.farmingXP);
   }
+  
 }
 
 function fetchData(username) {
