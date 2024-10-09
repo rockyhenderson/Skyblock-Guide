@@ -326,7 +326,8 @@ function fetchData(username) {
         ...selectedProfile,
         wardrobe: selectedProfile.wardrobeItems, // Add the wardrobe data to the "wardrobe" subsection
       };
-
+      console.log("Wardrobe Items:", selectedProfile.wardrobeItems);
+      console.log("Equipped Armor:", selectedProfile.equippedArmor);
       // Store the selected profile data with wardrobe included
       localStorage.setItem(
         "SelectedProfileData",

@@ -48,6 +48,10 @@ exports.handler = async function (event, context) {
       const wardrobeItems = await profile.me.getWardrobe();
       console.log(`Wardrobe data fetched for profile ${profile.profileName}`);
 
+      // Fetch the equipped armor data
+      const equippedArmor = await profile.me.getArmor();
+      console.log(`Equipped armor data fetched for profile ${profile.profileName}`);
+
       // Fetch the skills
       const farmingSkill = profile.me.skills.farming;
       const combatSkill = profile.me.skills.combat;
@@ -100,8 +104,9 @@ exports.handler = async function (event, context) {
         socialSkillLevel: socialSkill ? socialSkill.level : null,
         socialXP: socialSkill ? socialSkill.xp : null,
 
-        // Include the wardrobe data
+        // Include the wardrobe and equipped armor data
         wardrobeItems: wardrobeItems,
+        equippedArmor: equippedArmor,
       });
     }
 
