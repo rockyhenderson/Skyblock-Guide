@@ -254,22 +254,22 @@ i {
   border-radius: 15px;
 }
 .common{
- background-color: red;
+ background-color: #e0e3db;
 }
 .uncommon{
-  background-color: blue;
+  background-color: #5cf55b;
 }
 .rare{
-  background-color: green;
+  background-color: #4d52e3;
 }
 .epic{
- background-color: yellow;
+ background-color: #620d70;
 }
 .legendary{
- background-color: purple;
+ background-color: #f2a413;
 }
 .mythic{
- background-color: white;
+ background-color: #fc52e8;
 }
 @media (max-width: 1300px) {
   .small-gear-box-content {
