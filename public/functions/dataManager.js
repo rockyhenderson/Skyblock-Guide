@@ -33,7 +33,7 @@ const farmingArmorPriority = [
   "Farm Suit Helmet",
   "Farm Suit Chestplate",
   "Farm Suit Leggings",
-  "Farm Suit Boots"
+  "Farm Suit Boots",
 ];
 
 let progressChart;
@@ -88,7 +88,7 @@ function generateProfileDropdown(profiles) {
     const selectedProfileId = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfileId);
     updateSelectedProfileData(profiles, selectedProfileId);
-    clearData()
+    clearData();
     updatePageContent();
   });
 }
@@ -190,27 +190,34 @@ function updateFarmingGraph() {
 }
 function updateGearWidget() {
   console.log("update gear widget");
-  
+
   // Get selected profile data from local storage
-  const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
+  const selectedProfileData = JSON.parse(
+    localStorage.getItem("SelectedProfileData")
+  );
 
   if (selectedProfileData && Array.isArray(selectedProfileData.wardrobe)) {
     const bestArmor = {
       helmet: null,
       chestplate: null,
       leggings: null,
-      boots: null
+      boots: null,
     };
 
     // Iterate through the farming armor priority list and find the best pieces
-    farmingArmorPriority.forEach(armorName => {
-      selectedProfileData.wardrobe.forEach(item => {
+    farmingArmorPriority.forEach((armorName) => {
+      selectedProfileData.wardrobe.forEach((item) => {
         // Remove known prefixes (e.g., "Mossy", "Bountiful") to match base armor name if they exist
-        const baseName = item.name.replace(/^(Mossy|Bustling|Ancient|Golden|\w+)\s+/i, '').toLowerCase();
+        const baseName = item.name
+          .replace(/^(Mossy|Bustling|Ancient|Golden|\w+)\s+/i, "")
+          .toLowerCase();
         if (baseName.includes(armorName.toLowerCase())) {
           if (armorName.includes("Helmet") && !bestArmor.helmet) {
             bestArmor.helmet = item;
-          } else if (armorName.includes("Chestplate") && !bestArmor.chestplate) {
+          } else if (
+            armorName.includes("Chestplate") &&
+            !bestArmor.chestplate
+          ) {
             bestArmor.chestplate = item;
           } else if (armorName.includes("Leggings") && !bestArmor.leggings) {
             bestArmor.leggings = item;
@@ -236,11 +243,21 @@ function updateGearWidget() {
 
       if (armorPiece) {
         // Set the image source
-        element.src = `src/armour/farming/${armorPiece.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
-        
+        element.src = `src/armour/farming/${armorPiece.name
+          .replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, "")
+          .replace(/\s+/g, "")
+          .toLowerCase()}.png`;
+
         // Set the class based on rarity
         if (armorPiece.rarity) {
-          element.classList.remove("common", "uncommon", "rare", "epic", "legendary", "mythic");
+          element.classList.remove(
+            "common",
+            "uncommon",
+            "rare",
+            "epic",
+            "legendary",
+            "mythic"
+          );
           element.classList.add(armorPiece.rarity.toLowerCase());
         }
 
@@ -260,7 +277,12 @@ function updateGearWidget() {
     // Extract Speed from item lore (assuming it's available in one of the armor pieces)
     let speed = 0;
     const speedRegex = /§7Speed: §a\+(\d+)/;
-    [bestArmor.helmet, bestArmor.chestplate, bestArmor.leggings, bestArmor.boots].forEach(armorPiece => {
+    [
+      bestArmor.helmet,
+      bestArmor.chestplate,
+      bestArmor.leggings,
+      bestArmor.boots,
+    ].forEach((armorPiece) => {
       if (armorPiece && armorPiece.lore) {
         const match = armorPiece.lore.match(speedRegex);
         if (match) {
@@ -273,20 +295,12 @@ function updateGearWidget() {
     const totalFF = helmetFF + chestplateFF + leggingsFF + bootsFF;
 
     // Update the HTML elements with the extracted values
-    document.getElementById("totalFF").textContent = totalFF;
-    document.getElementById("helmetFF").textContent = helmetFF;
-    document.getElementById("chestplateFF").textContent = chestplateFF;
-    document.getElementById("leggingsFF").textContent = leggingsFF;
-    document.getElementById("bootsFF").textContent = bootsFF;
-    document.getElementById("speed").textContent = speed;
-
-    // Console log all extracted values
-    console.log("Helmet Farming Fortune:", helmetFF);
-    console.log("Chestplate Farming Fortune:", chestplateFF);
-    console.log("Leggings Farming Fortune:", leggingsFF);
-    console.log("Boots Farming Fortune:", bootsFF);
-    console.log("Total Farming Fortune:", totalFF);
-    console.log("Total Speed:", speed);
+    document.getElementById("totalFFValue").textContent = totalFF;
+    document.getElementById("helmetFFValue").textContent = helmetFF;
+    document.getElementById("chestplateFFValue").textContent = chestplateFF;
+    document.getElementById("leggingsFFValue").textContent = leggingsFF;
+    document.getElementById("bootsFFValue").textContent = bootsFF;
+    document.getElementById("speedValue").textContent = speed;
   } else {
     console.log("No wardrobe data found in the selected profile.");
   }
@@ -294,7 +308,7 @@ function updateGearWidget() {
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
 }
-function fetchData(username) { 
+function fetchData(username) {
   const url = `/api/DataRequest?username=${username}`;
 
   fetch(url)
@@ -314,7 +328,10 @@ function fetchData(username) {
       };
 
       // Store the selected profile data with wardrobe included
-      localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
+      localStorage.setItem(
+        "SelectedProfileData",
+        JSON.stringify(selectedProfileData)
+      );
 
       // Log the player data to the console for testing
       console.log("SelectedProfileData:", selectedProfileData);
@@ -324,13 +341,12 @@ function fetchData(username) {
     })
     .catch((error) => console.error("Error fetching data:", error));
 }
-function clearData(){
+function clearData() {
   document.getElementById("helmet").src = "src/armour/farming/blank.png";
   document.getElementById("chestplate").src = "src/armour/farming/blank.png";
   document.getElementById("leggings").src = "src/armour/farming/blank.png";
   document.getElementById("boots").src = "src/armour/farming/blank.png";
 }
-
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("running");
