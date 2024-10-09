@@ -253,6 +253,24 @@ i {
   background-color: red;
   border-radius: 15px;
 }
+.common{
+ background-color: red;
+}
+.uncommon{
+  background-color: blue;
+}
+.rare{
+  background-color: green;
+}
+.epic{
+ background-color: yellow;
+}
+.legendary{
+ background-color: purple;
+}
+.mythic{
+ background-color: white;
+}
 @media (max-width: 1300px) {
   .small-gear-box-content {
     flex-direction: column;

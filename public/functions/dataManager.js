@@ -221,19 +221,27 @@ function updateGearWidget() {
       });
     });
 
-    // Update the DOM with the best armor images
-    if (bestArmor.helmet) {
-      document.getElementById("helmet").src = `src/armour/farming/${bestArmor.helmet.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
+    // Helper function to set armor image and rarity class
+    function updateArmorDOM(elementId, armorPiece) {
+      const element = document.getElementById(elementId);
+      if (armorPiece) {
+        // Set the image source
+        element.src = `src/armour/farming/${armorPiece.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
+        
+        // Set the class based on rarity
+        if (armorPiece.rarity) {
+          element.classList.remove("common", "uncommon", "rare", "epic", "legendary", "mythic");
+          element.classList.add(armorPiece.rarity.toLowerCase());
+        }
+      }
     }
-    if (bestArmor.chestplate) {
-      document.getElementById("chestplate").src = `src/armour/farming/${bestArmor.chestplate.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
-    }
-    if (bestArmor.leggings) {
-      document.getElementById("leggings").src = `src/armour/farming/${bestArmor.leggings.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
-    }
-    if (bestArmor.boots) {
-      document.getElementById("boots").src = `src/armour/farming/${bestArmor.boots.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
-    }
+
+    // Update the DOM with the best armor images and rarity classes
+    updateArmorDOM("helmet", bestArmor.helmet);
+    updateArmorDOM("chestplate", bestArmor.chestplate);
+    updateArmorDOM("leggings", bestArmor.leggings);
+    updateArmorDOM("boots", bestArmor.boots);
+    
   } else {
     console.log("No wardrobe data found in the selected profile.");
   }
