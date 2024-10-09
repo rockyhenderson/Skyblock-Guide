@@ -1,12 +1,12 @@
 const thresholds = [
-  0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425,
-  32425, 47425, 67425, 97425, 147425, 222425, 322425, 522425, 822425, 1222425,
-  1722425, 2322425, 3022425, 3822425, 4722425, 5722425, 6822425, 8022425,
-  9322425, 10722425, 12222425, 13822425, 15522425, 17322425, 19222425,
-  21222425, 23322425, 25522425, 27822425, 30222425, 32722425, 35322425,
-  38072425, 40972425, 44072425, 47472425, 51172425, 55172425, 59472425,
-  64072425, 68972425, 74172425, 79672425, 85472425, 91572425, 97972425,
-  104672425, 111672425,
+  0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425, 32425,
+  47425, 67425, 97425, 147425, 222425, 322425, 522425, 822425, 1222425, 1722425,
+  2322425, 3022425, 3822425, 4722425, 5722425, 6822425, 8022425, 9322425,
+  10722425, 12222425, 13822425, 15522425, 17322425, 19222425, 21222425,
+  23322425, 25522425, 27822425, 30222425, 32722425, 35322425, 38072425,
+  40972425, 44072425, 47472425, 51172425, 55172425, 59472425, 64072425,
+  68972425, 74172425, 79672425, 85472425, 91572425, 97972425, 104672425,
+  111672425,
 ];
 
 let progressChart;
@@ -70,21 +70,31 @@ function updateSelectedProfileData(profiles, selectedProfileId) {
     (profile) => profile.profileId === selectedProfileId
   );
   if (selectedProfileData) {
-    localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
+    localStorage.setItem(
+      "SelectedProfileData",
+      JSON.stringify(selectedProfileData)
+    );
     console.log("Selected Profile Data:", selectedProfileData);
   }
 }
 
 function updatePageContent() {
-  const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
+  const selectedProfileData = JSON.parse(
+    localStorage.getItem("SelectedProfileData")
+  );
   if (selectedProfileData) {
-    document.getElementById("cuteProfile").innerText = ` ${selectedProfileData.profileName}`;
+    document.getElementById(
+      "cuteProfile"
+    ).innerText = ` ${selectedProfileData.profileName}`;
     updateFarmingGraph();
+    updateGearWidget();
   }
 }
 
 function updateFarmingGraph() {
-  const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
+  const selectedProfileData = JSON.parse(
+    localStorage.getItem("SelectedProfileData")
+  );
   if (selectedProfileData) {
     const farmingXP = selectedProfileData.farmingXP;
     let farmingLevel = 0;
@@ -94,7 +104,9 @@ function updateFarmingGraph() {
     for (let i = 0; i < thresholds.length - 1; i++) {
       if (farmingXP >= thresholds[i] && farmingXP < thresholds[i + 1]) {
         farmingLevel = i;
-        progressToNextLevel = ((farmingXP - thresholds[i]) / (thresholds[i + 1] - thresholds[i])) * 100;
+        progressToNextLevel =
+          ((farmingXP - thresholds[i]) / (thresholds[i + 1] - thresholds[i])) *
+          100;
         break;
       }
     }
@@ -106,17 +118,19 @@ function updateFarmingGraph() {
 
     // Update the progress number and percentage
     document.getElementById("progressNumber").textContent = farmingLevel;
-    document.getElementById("progressPercentage").textContent = `${progressToNextLevel.toFixed(2)}%`;
+    document.getElementById(
+      "progressPercentage"
+    ).textContent = `${progressToNextLevel.toFixed(2)}%`;
 
     const progressChartElement = document.getElementById("progressChart");
     if (progressChartElement) {
       const progressChartContext = progressChartElement.getContext("2d");
-      
+
       // Destroy existing chart instance if it exists
       if (progressChart) {
         progressChart.destroy();
       }
-      
+
       // Create new chart instance
       progressChart = new Chart(progressChartContext, {
         type: "doughnut",
@@ -146,7 +160,14 @@ function updateFarmingGraph() {
     }
   }
 }
-
+function updateGearWidget() {
+  console.log("update gear widget");
+  //get data
+  //put it in
+}
+function updateFarmingFortuneWidget() {
+  console.log("update farming fortune widget");
+}
 function fetchData(username) {
   const url = `/api/DataRequest?username=${username}`;
 
@@ -158,6 +179,7 @@ function fetchData(username) {
       localStorage.setItem("playerLevel", data.playerLevel);
       localStorage.setItem("playerUUID", data.playerUUID);
       localStorage.setItem("profiles", JSON.stringify(data.profiles));
+      localStorage.setItem("wardrobe", JSON.stringify(data.wardrobeItems));
 
       // Log the player data to the console for testing
       console.log("profiles:", data.profiles);
@@ -178,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Using Locally stored data.");
     const storedProfiles = JSON.parse(storedProfilesJson); // Parse JSON string into an object
     generatePage(storedProfiles);
-     // Load the page with stored profiles
+    // Load the page with stored profiles
   } else {
     // Prompt for username if data is missing
     const username = prompt("Please enter your username:");

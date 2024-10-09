@@ -1,6 +1,3 @@
-//THIS FILE MAKES THE DATA REQUEST TO THE API AND NOTHING ELSE.
-//BACKEND.
-
 const dotenv = require("dotenv");
 const Hypixel = require("hypixel-api-reborn");
 console.log("IM RUNNING");
@@ -42,9 +39,16 @@ exports.handler = async function (event, context) {
     console.log("Player data fetched:", player ? "Yes" : "No player data");
 
     const profiles = await hypixel.getSkyblockProfiles(username);
-    
-    // Step 4: Loop through profiles and get relevant data, including farming skill
-    const profileData = profiles.map(profile => {
+
+    // Step 4: Loop through profiles and get relevant data, including skills and wardrobe
+    const profileData = [];
+
+    for (const profile of profiles) {
+      // Fetch the wardrobe data
+      const wardrobeItems = await profile.me.getWardrobe();
+      console.log(`Wardrobe data fetched for profile ${profile.profileName}`);
+
+      // Fetch the skills
       const farmingSkill = profile.me.skills.farming;
       const combatSkill = profile.me.skills.combat;
       const fishingSkill = profile.me.skills.fishing;
@@ -56,56 +60,58 @@ exports.handler = async function (event, context) {
       const runecraftingSkill = profile.me.skills.runecrafting;
       const tamingSkill = profile.me.skills.taming;
       const socialSkill = profile.me.skills.social;
-    
-      return {
+
+      // Prepare the profile data
+      profileData.push({
         profileId: profile.profileId,
         profileName: profile.profileName,
         selected: profile.selected,
-    
-       
+
         farmingSkillLevel: farmingSkill ? farmingSkill.level : null,
         farmingXP: farmingSkill ? farmingSkill.xp : null,
 
         combatSkillLevel: combatSkill ? combatSkill.level : null,
         combatXP: combatSkill ? combatSkill.xp : null,
-    
+
         fishingSkillLevel: fishingSkill ? fishingSkill.level : null,
         fishingXP: fishingSkill ? fishingSkill.xp : null,
-    
+
         miningSkillLevel: miningSkill ? miningSkill.level : null,
         miningXP: miningSkill ? miningSkill.xp : null,
-    
+
         foragingSkillLevel: foragingSkill ? foragingSkill.level : null,
         foragingXP: foragingSkill ? foragingSkill.xp : null,
-    
+
         enchantingSkillLevel: enchantingSkill ? enchantingSkill.level : null,
         enchantingXP: enchantingSkill ? enchantingSkill.xp : null,
-    
+
         alchemySkillLevel: alchemySkill ? alchemySkill.level : null,
         alchemyXP: alchemySkill ? alchemySkill.xp : null,
-    
+
         carpentrySkillLevel: carpentrySkill ? carpentrySkill.level : null,
         carpentryXP: carpentrySkill ? carpentrySkill.xp : null,
-    
+
         runecraftingSkillLevel: runecraftingSkill ? runecraftingSkill.level : null,
         runecraftingXP: runecraftingSkill ? runecraftingSkill.xp : null,
-    
+
         tamingSkillLevel: tamingSkill ? tamingSkill.level : null,
         tamingXP: tamingSkill ? tamingSkill.xp : null,
-    
-        socialSkillLevel: socialSkill ? socialSkill.level : null,
-        socialXP: socialSkill ? socialSkill.xp : null
-      };
-    });
-    
 
-    // Step 5: Return player level, uuid, and profile data with farming skills to frontend
+        socialSkillLevel: socialSkill ? socialSkill.level : null,
+        socialXP: socialSkill ? socialSkill.xp : null,
+
+        // Include the wardrobe data
+        wardrobeItems: wardrobeItems,
+      });
+    }
+
+    // Step 5: Return player level, uuid, and profile data with skills and wardrobe to frontend
     return {
       statusCode: 200,
       body: JSON.stringify({
         playerLevel: player.level,
         playerUUID: player.uuid,
-        profiles: profileData
+        profiles: profileData,
       }),
     };
   } catch (error) {
