@@ -206,7 +206,7 @@ function updateGearWidget() {
     farmingArmorPriority.forEach(armorName => {
       selectedProfileData.wardrobe.forEach(item => {
         // Remove known prefixes (e.g., "Mossy", "Bountiful") to match base armor name if they exist
-        const baseName = item.name.replace(/^(Mossy|Bustling|Ancient|\w+)\s+/i, '').toLowerCase();
+        const baseName = item.name.replace(/^(Mossy|Bustling|Ancient|Golden|\w+)\s+/i, '').toLowerCase();
         if (baseName.includes(armorName.toLowerCase())) {
           if (armorName.includes("Helmet") && !bestArmor.helmet) {
             bestArmor.helmet = item;
@@ -221,9 +221,18 @@ function updateGearWidget() {
       });
     });
 
-    // Helper function to set armor image and rarity class
+    // Helper function to extract Farming Fortune from item description
+    function extractFarmingFortune(description) {
+      const farmingFortuneRegex = /\u00a77Farming Fortune: \u00a7a\+(\d+)/;
+      const match = description.match(farmingFortuneRegex);
+      return match ? parseInt(match[1]) : 0;
+    }
+
+    // Helper function to set armor image, rarity class, and extract Farming Fortune
     function updateArmorDOM(elementId, armorPiece) {
       const element = document.getElementById(elementId);
+      let farmingFortune = 0;
+
       if (armorPiece) {
         // Set the image source
         element.src = `src/armour/farming/${armorPiece.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
@@ -233,15 +242,50 @@ function updateGearWidget() {
           element.classList.remove("common", "uncommon", "rare", "epic", "legendary", "mythic");
           element.classList.add(armorPiece.rarity.toLowerCase());
         }
+
+        // Extract Farming Fortune from item description
+        farmingFortune = extractFarmingFortune(armorPiece.description);
       }
+
+      return farmingFortune;
     }
 
-    // Update the DOM with the best armor images and rarity classes
-    updateArmorDOM("helmet", bestArmor.helmet);
-    updateArmorDOM("chestplate", bestArmor.chestplate);
-    updateArmorDOM("leggings", bestArmor.leggings);
-    updateArmorDOM("boots", bestArmor.boots);
-    
+    // Update the DOM with the best armor images, rarity classes, and extract Farming Fortune
+    const helmetFF = updateArmorDOM("helmet", bestArmor.helmet);
+    const chestplateFF = updateArmorDOM("chestplate", bestArmor.chestplate);
+    const leggingsFF = updateArmorDOM("leggings", bestArmor.leggings);
+    const bootsFF = updateArmorDOM("boots", bestArmor.boots);
+
+    // Extract Speed from item description (assuming it's available in one of the armor pieces)
+    let speed = 0;
+    const speedRegex = /\u00a77Speed: \u00a7a\+(\d+)/;
+    [bestArmor.helmet, bestArmor.chestplate, bestArmor.leggings, bestArmor.boots].forEach(armorPiece => {
+      if (armorPiece && armorPiece.description) {
+        const match = armorPiece.description.match(speedRegex);
+        if (match) {
+          speed += parseInt(match[1]);
+        }
+      }
+    });
+
+    // Calculate total Farming Fortune
+    const totalFF = helmetFF + chestplateFF + leggingsFF + bootsFF;
+
+    // Update the HTML elements with the extracted values
+    document.getElementById("totalFF").textContent = totalFF;
+    document.getElementById("helmetFF").textContent = helmetFF;
+    document.getElementById("chestplateFF").textContent = chestplateFF;
+    document.getElementById("leggingsFF").textContent = leggingsFF;
+    document.getElementById("bootsFF").textContent = bootsFF;
+    document.getElementById("speed").textContent = speed;
+
+    // Console log all extracted values
+    console.log("Helmet Farming Fortune:", helmetFF);
+    console.log("Chestplate Farming Fortune:", chestplateFF);
+    console.log("Leggings Farming Fortune:", leggingsFF);
+    console.log("Boots Farming Fortune:", bootsFF);
+    console.log("Total Farming Fortune:", totalFF);
+    console.log("Total Speed:", speed);
   } else {
     console.log("No wardrobe data found in the selected profile.");
   }
