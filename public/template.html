@@ -90,6 +90,10 @@
         // Your relink functionality here
         alert("Relink button clicked");
       }
+      function refreshUser() {
+        // Your relink functionality here
+        alert("Refresh button clicked");
+      }
 
       // Close modal when clicking outside of it
       window.onclick = function (event) {
@@ -108,7 +112,7 @@
                     data: {
                         labels: ['Progress', 'Remaining'],
                         datasets: [{
-                            data: [70, 30], // Adjust values to represent progress
+                            data: [99, 1], // THESE NEED TO EQUAL 100!
                             backgroundColor: ['#D5A33A', '#3e3e3e'],
                             borderWidth: 0
                         }]
@@ -144,9 +148,10 @@
           <span class="user-modal-close" onclick="closeUserModal()"
             >&times;</span
           >
-          <h2>linkedUser</h2>
+          <h2>UsernameHere</h2>
           <p><i>last updated 2:07</i></p>
           <button class="user-relink-btn" onclick="relinkUser()">Relink</button>
+          <button class="user-relink-btn" onclick="refreshUser()">Refresh</button>
         </div>
       </div>
     </nav>
@@ -178,7 +183,7 @@
       </div>
         <div class="skill-name">
           <h1>Farming</h1>
-          <i>Gamemode</i>
+          <i>Gamemode</i> - <i> Profile</i>
         </div>  
       </div>
       <div class="ranking-container">
@@ -194,7 +199,25 @@
           <p>Blah blah blah blah</p></br>
           <p>Blah blah blah blah</p></br>
           <p>Blah blah blah blah</p></br>
+          <div id="usernameSection">
+            <p>Username: <span id="usernameDisplay">Unlinked</span></p>
         </div>
+    
+        <!-- Profile Dropdown Section -->
+        <div id="profileSection">
+            <label for="profileDropdown">Select Profile:</label>
+            <select id="profileDropdown">
+                <!-- Options will be dynamically generated here -->
+            </select>
+        </div>
+    
+        <!-- Cute Profile Display -->
+        <div id="profileInfoSection">
+            <p>Selected Profile: <span id="cuteProfile">None</span></p>
+        </div>
+        </div>
+        <input type="text" id="username" placeholder="Enter username">
+  <button id="fetchBtn">Fetch Player Data</button>
       </div>
       <div class="right-column">
         <div class="carousel">
@@ -308,5 +331,19 @@
       <a href="https://github.com/rockyhenderson" target="_blank">My GitHub</a>
       <p>&copy; 2024 Jack Iuean Rocky Henderson</p>
     </footer>
+    <script src="functions/dataManager.js"></script>
+  <script>
+    document.getElementById("fetchBtn").addEventListener("click", function() {
+      const username = document.getElementById("username").value;
+
+      // Call fetchData from dataManager.js
+      if (username) {
+        localStorage.setItem("playerUsername", username)
+        fetchData(username);
+      } else {
+        console.log("Please enter a username");
+      }
+    });
+  </script>
   </body>
 </html>
