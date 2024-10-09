@@ -204,7 +204,9 @@ function updateGearWidget() {
     // Iterate through the farming armor priority list and find the best pieces
     farmingArmorPriority.forEach(armorName => {
       selectedProfileData.wardrobe.forEach(item => {
-        if (item.name.toLowerCase().includes(armorName.toLowerCase())) {
+        // Remove known prefixes (e.g., "Mossy", "Bountiful") to match base armor name if they exist
+        const baseName = item.name.replace(/^(Mossy|Bustling|Ancient|\w+)\s+/i, '').toLowerCase();
+        if (baseName.includes(armorName.toLowerCase())) {
           if (armorName.includes("Helmet") && !bestArmor.helmet) {
             bestArmor.helmet = item;
           } else if (armorName.includes("Chestplate") && !bestArmor.chestplate) {
@@ -220,16 +222,16 @@ function updateGearWidget() {
 
     // Update the DOM with the best armor images
     if (bestArmor.helmet) {
-      document.getElementById("helmet").src = `src/armour/farming/${bestArmor.helmet.name.replace(/\s+/g, '').toLowerCase()}.png`;
+      document.getElementById("helmet").src = `src/armour/farming/${bestArmor.helmet.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
     }
     if (bestArmor.chestplate) {
-      document.getElementById("chestplate").src = `src/armour/farming/${bestArmor.chestplate.name.replace(/\s+/g, '').toLowerCase()}.png`;
+      document.getElementById("chestplate").src = `src/armour/farming/${bestArmor.chestplate.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
     }
     if (bestArmor.leggings) {
-      document.getElementById("leggings").src = `src/armour/farming/${bestArmor.leggings.name.replace(/\s+/g, '').toLowerCase()}.png`;
+      document.getElementById("leggings").src = `src/armour/farming/${bestArmor.leggings.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
     }
     if (bestArmor.boots) {
-      document.getElementById("boots").src = `src/armour/farming/${bestArmor.boots.name.replace(/\s+/g, '').toLowerCase()}.png`;
+      document.getElementById("boots").src = `src/armour/farming/${bestArmor.boots.name.replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, '').replace(/\s+/g, '').toLowerCase()}.png`;
     }
   } else {
     console.log("No wardrobe data found in the selected profile.");
