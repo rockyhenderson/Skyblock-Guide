@@ -31,13 +31,15 @@ function generatePage(profiles) {
   console.log("Selected profile ID updated:", selectedProfileId);
   document.getElementById("cuteProfile").innerText = ` ${selectedProfileId}`;
 
-  //updated profile when switched
+  // Updated profile when switched
   dropdown.addEventListener("change", function () {
     const selectedProfileId = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfileId);
     console.log("Selected profile ID updated:", selectedProfileId);
     document.getElementById("cuteProfile").innerText = ` ${selectedProfileId}`;
   });
+
+  // Logging farming level and XP
   const profilesData = JSON.parse(localStorage.getItem("profiles"));
   if (Array.isArray(profilesData)) {
     const selectedProfile = profilesData.find(
