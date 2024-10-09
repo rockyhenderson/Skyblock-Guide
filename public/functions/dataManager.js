@@ -1,5 +1,5 @@
 function generatePage(profiles) {
-  console.log("page generating")
+  console.log("page generating");
   // Username generation
   const storedUsername = localStorage.getItem("playerUsername");
   if (storedUsername) {
@@ -44,6 +44,7 @@ function generatePage(profiles) {
     updateSelectedProfileData(profiles, selectedProfileId);
     document.getElementById("cuteProfile").innerText = ` ${dropdown.options[dropdown.selectedIndex].text}`;
   });
+  updateFarmingGraph();
 }
 
 function updateSelectedProfileData(profiles, selectedProfileId) {
@@ -54,10 +55,54 @@ function updateSelectedProfileData(profiles, selectedProfileId) {
     localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
     console.log("Selected Profile Data:", selectedProfileData);
 
-    console.log("Farming Skill Level:", selectedProfileData.farmingSkillLevel);
-    console.log("Farming XP:", selectedProfileData.farmingXP);
+    updateFarmingGraph();
   }
-  
+}
+
+function updateFarmingGraph() {
+  const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
+  if (selectedProfileData) {
+    const farmingLevel = selectedProfileData.farmingSkillLevel;
+    const farmingXP = selectedProfileData.farmingXP;
+
+    // Console log the farming level and XP
+    console.log("Farming Skill Level:", farmingLevel);
+    console.log("Farming XP:", farmingXP);
+
+    // Update the progress number and percentage
+    document.getElementById("progressNumber").textContent = farmingLevel;
+    document.getElementById("progressPercentage").textContent = `${farmingXP}%`;
+
+    const progressChartElement = document.getElementById("progressChart");
+    if (progressChartElement) {
+      const progressChartContext = progressChartElement.getContext("2d");
+      const progressChart = new Chart(progressChartContext, {
+        type: "doughnut",
+        data: {
+          labels: ["Progress", "Remaining"],
+          datasets: [
+            {
+              data: [99, 1], // THESE NEED TO EQUAL 100!
+              backgroundColor: ["#D5A33A", "#3e3e3e"],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          cutout: "70%",
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              enabled: false,
+            },
+          },
+        },
+      });
+    }
+  }
 }
 
 function fetchData(username) {
@@ -86,12 +131,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const storedUsername = localStorage.getItem("playerUsername");
   const storedProfilesJson = localStorage.getItem("profiles");
-
   // Check if necessary data is available
   if (storedUsername && storedProfilesJson) {
     console.log("Using Locally stored data.");
     const storedProfiles = JSON.parse(storedProfilesJson); // Parse JSON string into an object
-    generatePage(storedProfiles); // Load the page with stored profiles
+    generatePage(storedProfiles);
+     // Load the page with stored profiles
   } else {
     // Prompt for username if data is missing
     const username = prompt("Please enter your username:");
