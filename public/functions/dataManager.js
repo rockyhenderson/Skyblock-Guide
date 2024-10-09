@@ -49,6 +49,8 @@ function updateSelectedProfileData(profiles, selectedProfileId) {
     localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
     console.log("Selected Profile Data:", selectedProfileData);
   }
+  console.log("Farming Skill Level:", selectedProfileData.farmingSkillLevel);
+  console.log("Farming XP:", selectedProfileData.farmingXP);
 }
 
 function fetchData(username) {
