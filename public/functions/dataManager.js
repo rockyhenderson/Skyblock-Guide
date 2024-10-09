@@ -64,7 +64,7 @@ function generateProfileDropdown(profiles) {
 
   if (Array.isArray(profiles)) {
     profiles.forEach((profile, index) => {
-      const option = document.creaFteElement("option");
+      const option = document.createElement("option");
       option.value = profile.profileId;
       option.textContent = profile.profileName;
 
