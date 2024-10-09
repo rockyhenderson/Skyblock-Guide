@@ -8,6 +8,29 @@ const thresholds = [
   68972425, 74172425, 79672425, 85472425, 91572425, 97972425, 104672425,
   111672425,
 ];
+const farmingArmorNames = [
+  "Farm Suit Helmet",
+  "Farm Suit Chestplate",
+  "Farm Suit Leggings",
+  "Farm Suit Boots",
+  "Rancher Boots",
+  "Squash Helmet",
+  "Squash Chestplate",
+  "Squash Leggings",
+  "Squash Boots",
+  "Melon Helmet",
+  "Melon Chestplate",
+  "Melon Leggings",
+  "Melon Boots",
+  "Cropie Helmet",
+  "Cropie Chestplate",
+  "Cropie Leggings",
+  "Cropie Boots",
+  "Fermento Helmet",
+  "Fermento Chestplate",
+  "Fermento Leggings",
+  "Fermento Boots"
+];
 
 let progressChart;
 
@@ -162,16 +185,25 @@ function updateFarmingGraph() {
 }
 function updateGearWidget() {
   console.log("update gear widget");
-  wardrobeItems.forEach(item => {
-    if (farmingArmorNames.includes(item.name)) {
-      console.log(`Farming Armor Found: ${item.name}`);
-    }
-  });
+  
+  // Get selected profile data from local storage
+  const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
+
+  if (selectedProfileData && Array.isArray(selectedProfileData.wardrobe)) {
+    selectedProfileData.wardrobe.forEach(item => {
+      if (farmingArmorNames.includes(item.name)) {
+        console.log(`Farming Armor Found: ${item.name}`);
+      }
+    });
+  } else {
+    console.log("No wardrobe data found in the selected profile.");
+  }
 }
+
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
 }
-function fetchData(username) {
+function fetchData(username) { 
   const url = `/api/DataRequest?username=${username}`;
 
   fetch(url)
