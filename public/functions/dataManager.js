@@ -37,7 +37,7 @@ function generatePage(profiles) {
     const selectedProfileId = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfileId);
     updateSelectedProfileData(profiles, selectedProfileId);
-    document.getElementById("cuteProfile").innerText = ` ${selectedProfileId}`;
+    document.getElementById("cuteProfile").innerText = ` ${dropdown.options[dropdown.selectedIndex].text}`;
   });
 }
 
