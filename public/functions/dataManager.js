@@ -385,7 +385,7 @@ function clearData() {
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("running");
-
+  console.log("REMINDER FOR TOMMOROW, YOU GET BUFFS FOR MATCHING ARMOUR, ADD THAT IN")
   const storedUsername = localStorage.getItem("playerUsername");
   const storedProfilesJson = localStorage.getItem("profiles");
   // Check if necessary data is available
