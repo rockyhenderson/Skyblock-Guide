@@ -223,6 +223,7 @@ function updateGearWidget() {
 
     // Helper function to extract Farming Fortune from item description
     function extractFarmingFortune(description) {
+      if (!description) return 0;
       const farmingFortuneRegex = /\u00a77Farming Fortune: \u00a7a\+(\d+)/;
       const match = description.match(farmingFortuneRegex);
       return match ? parseInt(match[1]) : 0;
