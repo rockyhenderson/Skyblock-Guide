@@ -40,6 +40,7 @@ function generatePage(profiles) {
   });
 
   // Logging farming level and XP
+  debugger
   const profilesData = JSON.parse(localStorage.getItem("profiles"));
   if (Array.isArray(profilesData)) {
     const selectedProfile = profilesData.find(
