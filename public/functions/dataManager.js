@@ -224,7 +224,7 @@ function updateGearWidget() {
     // Helper function to extract Farming Fortune from item description
     function extractFarmingFortune(description) {
       if (!description) return 0;
-      const farmingFortuneRegex = /\u00a77Farming Fortune: \u00a7a\+(\d+)/;
+      const farmingFortuneRegex = /§7Farming Fortune: §a\+(\d+)/;
       const match = description.match(farmingFortuneRegex);
       return match ? parseInt(match[1]) : 0;
     }
@@ -259,7 +259,7 @@ function updateGearWidget() {
 
     // Extract Speed from item description (assuming it's available in one of the armor pieces)
     let speed = 0;
-    const speedRegex = /\u00a77Speed: \u00a7a\+(\d+)/;
+    const speedRegex = /§7Speed: §a\+(\d+)/;
     [bestArmor.helmet, bestArmor.chestplate, bestArmor.leggings, bestArmor.boots].forEach(armorPiece => {
       if (armorPiece && armorPiece.description) {
         const match = armorPiece.description.match(speedRegex);
