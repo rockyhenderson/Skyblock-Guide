@@ -8,12 +8,12 @@ const thresholds = [
   68972425, 74172425, 79672425, 85472425, 91572425, 97972425, 104672425,
   111672425,
 ];
-const farmingArmorNames = [
-  "Farm Suit Helmet",
-  "Farm Suit Chestplate",
-  "Farm Suit Leggings",
-  "Farm Suit Boots",
+const farmingArmorPriority = [
+  "Fermento Helmet",
+  "Fermento Chestplate",
+  "Fermento Leggings",
   "Rancher Boots",
+  "Fermento Boots",
   "Squash Helmet",
   "Squash Chestplate",
   "Squash Leggings",
@@ -26,10 +26,14 @@ const farmingArmorNames = [
   "Cropie Chestplate",
   "Cropie Leggings",
   "Cropie Boots",
-  "Fermento Helmet",
-  "Fermento Chestplate",
-  "Fermento Leggings",
-  "Fermento Boots"
+  "Farm Armour Helmet",
+  "Farm Armour Chestplate",
+  "Farm Armour Leggings",
+  "Farm Armour Boots",
+  "Farm Suit Helmet",
+  "Farm Suit Chestplate",
+  "Farm Suit Leggings",
+  "Farm Suit Boots"
 ];
 
 let progressChart;
@@ -190,20 +194,47 @@ function updateGearWidget() {
   const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
 
   if (selectedProfileData && Array.isArray(selectedProfileData.wardrobe)) {
-    selectedProfileData.wardrobe.forEach(item => {
-      const isFarmingArmor = farmingArmorNames.some(farmingArmorName => 
-        item.name.toLowerCase().includes(farmingArmorName.toLowerCase())
-      );
+    const bestArmor = {
+      helmet: null,
+      chestplate: null,
+      leggings: null,
+      boots: null
+    };
 
-      if (isFarmingArmor) {
-        console.log(`Farming Armor Found: ${item.name}`);
-      }
+    // Iterate through the farming armor priority list and find the best pieces
+    farmingArmorPriority.forEach(armorName => {
+      selectedProfileData.wardrobe.forEach(item => {
+        if (item.name.toLowerCase().includes(armorName.toLowerCase())) {
+          if (armorName.includes("Helmet") && !bestArmor.helmet) {
+            bestArmor.helmet = item;
+          } else if (armorName.includes("Chestplate") && !bestArmor.chestplate) {
+            bestArmor.chestplate = item;
+          } else if (armorName.includes("Leggings") && !bestArmor.leggings) {
+            bestArmor.leggings = item;
+          } else if (armorName.includes("Boots") && !bestArmor.boots) {
+            bestArmor.boots = item;
+          }
+        }
+      });
     });
+
+    // Update the DOM with the best armor images
+    if (bestArmor.helmet) {
+      document.getElementById("helmet").src = `src/armour/farming/${bestArmor.helmet.name.replace(/\s+/g, '').toLowerCase()}.png`;
+    }
+    if (bestArmor.chestplate) {
+      document.getElementById("chestplate").src = `src/armour/farming/${bestArmor.chestplate.name.replace(/\s+/g, '').toLowerCase()}.png`;
+    }
+    if (bestArmor.leggings) {
+      document.getElementById("leggings").src = `src/armour/farming/${bestArmor.leggings.name.replace(/\s+/g, '').toLowerCase()}.png`;
+    }
+    if (bestArmor.boots) {
+      document.getElementById("boots").src = `src/armour/farming/${bestArmor.boots.name.replace(/\s+/g, '').toLowerCase()}.png`;
+    }
   } else {
     console.log("No wardrobe data found in the selected profile.");
   }
 }
-
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
 }
