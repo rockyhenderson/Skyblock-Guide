@@ -1,3 +1,14 @@
+const thresholds = [
+  0, 50, 175, 375, 675, 1175, 1925, 2925, 4425, 6425, 9925, 14925, 22425,
+  32425, 47425, 67425, 97425, 147425, 222425, 322425, 522425, 822425, 1222425,
+  1722425, 2322425, 3022425, 3822425, 4722425, 5722425, 6822425, 8022425,
+  9322425, 10722425, 12222425, 13822425, 15522425, 17322425, 19222425,
+  21222425, 23322425, 25522425, 27822425, 30222425, 32722425, 35322425,
+  38072425, 40972425, 44072425, 47472425, 51172425, 55172425, 59472425,
+  64072425, 68972425, 74172425, 79672425, 85472425, 91572425, 97972425,
+  104672425, 111672425,
+];
+
 function generatePage(profiles) {
   console.log("page generating");
   // Username generation
@@ -73,16 +84,27 @@ function updatePageContent() {
 function updateFarmingGraph() {
   const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
   if (selectedProfileData) {
-    const farmingLevel = selectedProfileData.farmingSkillLevel;
     const farmingXP = selectedProfileData.farmingXP;
+    let farmingLevel = 0;
+    let progressToNextLevel = 0;
+
+    // Determine the farming level and progress to the next level
+    for (let i = 0; i < thresholds.length - 1; i++) {
+      if (farmingXP >= thresholds[i] && farmingXP < thresholds[i + 1]) {
+        farmingLevel = i;
+        progressToNextLevel = ((farmingXP - thresholds[i]) / (thresholds[i + 1] - thresholds[i])) * 100;
+        break;
+      }
+    }
 
     // Console log the farming level and XP
     console.log("Farming Skill Level:", farmingLevel);
     console.log("Farming XP:", farmingXP);
+    console.log("Progress to Next Level:", progressToNextLevel);
 
     // Update the progress number and percentage
     document.getElementById("progressNumber").textContent = farmingLevel;
-    document.getElementById("progressPercentage").textContent = `${farmingXP}%`;
+    document.getElementById("progressPercentage").textContent = `${progressToNextLevel.toFixed(2)}%`;
 
     const progressChartElement = document.getElementById("progressChart");
     if (progressChartElement) {
@@ -93,7 +115,7 @@ function updateFarmingGraph() {
           labels: ["Progress", "Remaining"],
           datasets: [
             {
-              data: [99, 1], // THESE NEED TO EQUAL 100!
+              data: [progressToNextLevel, 100 - progressToNextLevel],
               backgroundColor: ["#D5A33A", "#3e3e3e"],
               borderWidth: 0,
             },
