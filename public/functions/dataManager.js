@@ -162,8 +162,11 @@ function updateFarmingGraph() {
 }
 function updateGearWidget() {
   console.log("update gear widget");
-  //get data
-  //put it in
+  wardrobeItems.forEach(item => {
+    if (farmingArmorNames.includes(item.name)) {
+      console.log(`Farming Armor Found: ${item.name}`);
+    }
+  });
 }
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
