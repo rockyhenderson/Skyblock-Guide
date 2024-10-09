@@ -211,9 +211,17 @@ function updateGearWidget() {
     const allArmorItems = [
       ...(selectedProfileData.wardrobeItems || []),
       ...(selectedProfileData.equippedArmor
-        ? [selectedProfileData.equippedArmor.helmet, selectedProfileData.equippedArmor.chestplate, selectedProfileData.equippedArmor.leggings, selectedProfileData.equippedArmor.boots]
+        ? [
+            selectedProfileData.equippedArmor.helmet,
+            selectedProfileData.equippedArmor.chestplate,
+            selectedProfileData.equippedArmor.leggings,
+            selectedProfileData.equippedArmor.boots,
+          ]
         : []),
     ].filter((item) => item); // Filter out any null or undefined items
+
+    // Define rarity levels in order from highest to lowest
+    const rarityLevels = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
 
     // Iterate through the farming armor priority list and find the best pieces
     farmingArmorPriority.forEach((armorName) => {
@@ -223,21 +231,34 @@ function updateGearWidget() {
           .replace(/^(Mossy|Bustling|Ancient|Golden|\w+)\s+/i, "")
           .toLowerCase();
         if (baseName.includes(armorName.toLowerCase())) {
-          if (armorName.includes("Helmet") && !bestArmor.helmet) {
-            bestArmor.helmet = item;
-          } else if (
-            armorName.includes("Chestplate") &&
-            !bestArmor.chestplate
-          ) {
-            bestArmor.chestplate = item;
-          } else if (armorName.includes("Leggings") && !bestArmor.leggings) {
-            bestArmor.leggings = item;
-          } else if (armorName.includes("Boots") && !bestArmor.boots) {
-            bestArmor.boots = item;
+          // Determine the armor type and compare rarity if a piece is already selected
+          if (armorName.includes("Helmet")) {
+            if (!bestArmor.helmet || compareRarity(item, bestArmor.helmet) > 0) {
+              bestArmor.helmet = item;
+            }
+          } else if (armorName.includes("Chestplate")) {
+            if (!bestArmor.chestplate || compareRarity(item, bestArmor.chestplate) > 0) {
+              bestArmor.chestplate = item;
+            }
+          } else if (armorName.includes("Leggings")) {
+            if (!bestArmor.leggings || compareRarity(item, bestArmor.leggings) > 0) {
+              bestArmor.leggings = item;
+            }
+          } else if (armorName.includes("Boots")) {
+            if (!bestArmor.boots || compareRarity(item, bestArmor.boots) > 0) {
+              bestArmor.boots = item;
+            }
           }
         }
       });
     });
+
+    // Helper function to compare item rarities
+    function compareRarity(item1, item2) {
+      const rarity1 = rarityLevels.indexOf(item1.rarity.toLowerCase());
+      const rarity2 = rarityLevels.indexOf(item2.rarity.toLowerCase());
+      return rarity2 - rarity1;
+    }
 
     // Helper function to extract Farming Fortune from item lore
     function extractFarmingFortune(lore) {
@@ -316,6 +337,7 @@ function updateGearWidget() {
     console.log("No wardrobe data or equipped armor found in the selected profile.");
   }
 }
+
 
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
