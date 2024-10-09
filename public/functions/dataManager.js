@@ -196,7 +196,10 @@ function updateGearWidget() {
     localStorage.getItem("SelectedProfileData")
   );
 
-  if (selectedProfileData && Array.isArray(selectedProfileData.wardrobe)) {
+  if (
+    selectedProfileData &&
+    (Array.isArray(selectedProfileData.wardrobeItems) || selectedProfileData.equippedArmor)
+  ) {
     const bestArmor = {
       helmet: null,
       chestplate: null,
@@ -204,9 +207,17 @@ function updateGearWidget() {
       boots: null,
     };
 
+    // Combine wardrobe items and equipped armor into a single array
+    const allArmorItems = [
+      ...(selectedProfileData.wardrobeItems || []),
+      ...(selectedProfileData.equippedArmor
+        ? [selectedProfileData.equippedArmor.helmet, selectedProfileData.equippedArmor.chestplate, selectedProfileData.equippedArmor.leggings, selectedProfileData.equippedArmor.boots]
+        : []),
+    ].filter((item) => item); // Filter out any null or undefined items
+
     // Iterate through the farming armor priority list and find the best pieces
     farmingArmorPriority.forEach((armorName) => {
-      selectedProfileData.wardrobe.forEach((item) => {
+      allArmorItems.forEach((item) => {
         // Remove known prefixes (e.g., "Mossy", "Bountiful") to match base armor name if they exist
         const baseName = item.name
           .replace(/^(Mossy|Bustling|Ancient|Golden|\w+)\s+/i, "")
@@ -302,9 +313,10 @@ function updateGearWidget() {
     document.getElementById("bootsFFValue").textContent = bootsFF;
     document.getElementById("speedValue").textContent = speed;
   } else {
-    console.log("No wardrobe data found in the selected profile.");
+    console.log("No wardrobe data or equipped armor found in the selected profile.");
   }
 }
+
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
 }
