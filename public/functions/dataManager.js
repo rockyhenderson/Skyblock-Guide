@@ -221,11 +221,11 @@ function updateGearWidget() {
       });
     });
 
-    // Helper function to extract Farming Fortune from item description
-    function extractFarmingFortune(description) {
-      if (!description) return 0;
+    // Helper function to extract Farming Fortune from item lore
+    function extractFarmingFortune(lore) {
+      if (!lore) return 0;
       const farmingFortuneRegex = /§7Farming Fortune: §a\+(\d+)/;
-      const match = description.match(farmingFortuneRegex);
+      const match = lore.match(farmingFortuneRegex);
       return match ? parseInt(match[1]) : 0;
     }
 
@@ -244,8 +244,8 @@ function updateGearWidget() {
           element.classList.add(armorPiece.rarity.toLowerCase());
         }
 
-        // Extract Farming Fortune from item description
-        farmingFortune = extractFarmingFortune(armorPiece.description);
+        // Extract Farming Fortune from item lore
+        farmingFortune = extractFarmingFortune(armorPiece.lore);
       }
 
       return farmingFortune;
@@ -257,12 +257,12 @@ function updateGearWidget() {
     const leggingsFF = updateArmorDOM("leggings", bestArmor.leggings);
     const bootsFF = updateArmorDOM("boots", bestArmor.boots);
 
-    // Extract Speed from item description (assuming it's available in one of the armor pieces)
+    // Extract Speed from item lore (assuming it's available in one of the armor pieces)
     let speed = 0;
     const speedRegex = /§7Speed: §a\+(\d+)/;
     [bestArmor.helmet, bestArmor.chestplate, bestArmor.leggings, bestArmor.boots].forEach(armorPiece => {
-      if (armorPiece && armorPiece.description) {
-        const match = armorPiece.description.match(speedRegex);
+      if (armorPiece && armorPiece.lore) {
+        const match = armorPiece.lore.match(speedRegex);
         if (match) {
           speed += parseInt(match[1]);
         }
