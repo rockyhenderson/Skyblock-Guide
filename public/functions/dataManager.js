@@ -180,19 +180,25 @@ function fetchData(username) {
       localStorage.setItem("playerUUID", data.playerUUID);
       localStorage.setItem("profiles", JSON.stringify(data.profiles));
 
-      // Log the player data to the console for testing
-      console.log("profiles:", data.profiles);
+      // Create a selected profile data object that includes the wardrobe
+      const selectedProfile = data.profiles[0]; // Assuming the first profile as selected, or replace as needed
+      const selectedProfileData = {
+        ...selectedProfile,
+        wardrobe: selectedProfile.wardrobeItems, // Add the wardrobe data to the "wardrobe" subsection
+      };
 
-      // Store the wardrobe data for each profile
-      data.profiles.forEach((profile) => {
-        localStorage.setItem(`wardrobe_${profile.profileId}`, JSON.stringify(profile.wardrobeItems));
-      });
+      // Store the selected profile data with wardrobe included
+      localStorage.setItem("SelectedProfileData", JSON.stringify(selectedProfileData));
+
+      // Log the player data to the console for testing
+      console.log("SelectedProfileData:", selectedProfileData);
 
       // Update the page with fetched data
       generatePage(data.profiles);
     })
     .catch((error) => console.error("Error fetching data:", error));
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
