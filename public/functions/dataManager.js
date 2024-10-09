@@ -189,8 +189,8 @@ function updateGearWidget() {
   // Get selected profile data from local storage
   const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
 
-  if (selectedProfileData && Array.isArray(selectedProfileData.wardrobe)) {
-    selectedProfileData.wardrobe.forEach(item => {
+  if (selectedProfileData && Array.isArray(selectedProfileData.wardrobeItems)) {
+    selectedProfileData.wardrobeItems.forEach(item => {
       if (farmingArmorNames.includes(item.name)) {
         console.log(`Farming Armor Found: ${item.name}`);
       }
