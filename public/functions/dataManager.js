@@ -64,7 +64,7 @@ function generateProfileDropdown(profiles) {
 
   if (Array.isArray(profiles)) {
     profiles.forEach((profile, index) => {
-      const option = document.createElement("option");
+      const option = document.creaFteElement("option");
       option.value = profile.profileId;
       option.textContent = profile.profileName;
 
@@ -88,6 +88,7 @@ function generateProfileDropdown(profiles) {
     const selectedProfileId = dropdown.value;
     localStorage.setItem("selectedProfile", selectedProfileId);
     updateSelectedProfileData(profiles, selectedProfileId);
+    clearData()
     updatePageContent();
   });
 }
@@ -270,7 +271,12 @@ function fetchData(username) {
     })
     .catch((error) => console.error("Error fetching data:", error));
 }
-
+function clearData(){
+  document.getElementById("helmet").src = "src/armour/farming/blank.png";
+  document.getElementById("chestplate").src = "src/armour/farming/blank.png";
+  document.getElementById("leggings").src = "src/armour/farming/blank.png";
+  document.getElementById("boots").src = "src/armour/farming/blank.png";
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
