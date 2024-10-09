@@ -44,23 +44,22 @@ nav {
 }
 
 .menu ul {
-  margin-top:40px;
+  margin-top: 40px;
   list-style-type: none;
   padding: 0;
 }
 
 .menu li {
   margin: 15px 0;
-  
 }
 
 .menu a {
-  color:#5b5b5d;
+  color: #5b5b5d;
   text-decoration: none;
   font-size: 18px;
 }
-.menu-selected{
-    color:white !important;
+.menu-selected {
+  color: white !important;
 }
 .menu .close-menu {
   position: absolute;
@@ -89,17 +88,16 @@ nav {
   justify-content: space-around;
   color: white;
 }
-.skill-info-left-wrapper{
-  width:auto;
+.skill-info-left-wrapper {
+  width: auto;
   display: flex;
   justify-content: left;
-  
 }
 .progress-chart-container {
   position: relative;
   width: 250px;
   height: 250px;
-  margin:auto
+  margin: auto;
 }
 .progress-chart-center-text {
   position: absolute;
@@ -111,18 +109,18 @@ nav {
   font-size: 2em;
 }
 .progress-chart-center-text .number {
-      font-weight: bold;
-      font-size: 1.5em;
-  }
-  .progress-chart-center-text .percentage {
-      font-style: italic;
-      font-size: 0.5em;
-      color: #b0b0b0;
-  }
+  font-weight: bold;
+  font-size: 1.5em;
+}
+.progress-chart-center-text .percentage {
+  font-style: italic;
+  font-size: 0.5em;
+  color: #b0b0b0;
+}
 .skill-name {
-  margin-left:20px;
+  margin-left: 20px;
   flex: 1;
-  margin-top:10vh;
+  margin-top: 10vh;
 }
 .skill-name h1 {
   margin: 0;
@@ -132,11 +130,9 @@ nav {
   text-align: center;
   flex: 1;
   background: yellow;
-
-
 }
-.ranking-container h3{
-  font-size:2em;
+.ranking-container h3 {
+  font-size: 2em;
 }
 .content {
   display: flex;
@@ -218,8 +214,61 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
-.skill-name, i{
+.skill-name,
+i {
   text-align: left;
+}
+.small-gear-box-content {
+  display: flex;
+  justify-content: space-between;
+  padding:5px;
+}
+.armor-stats{
+  width:50%;
+  height:400px;
+  border-radius: 15px;
+  background-color: red;
+  padding:5px;
+  margin-top:20px;
+}
+.gear-grid{
+  width:50%;
+  display: grid;
+  gap: 20px;
+  align-items: center;
+  padding:20px;
+  justify-items: center;
+  max-width:400px;
+  margin:auto;
+}
+.box {
+  width: 120px;
+  height: 120px;
+  background-color: red;
+  border-radius: 15px;
+}
+@media (max-width: 1300px) {
+  .small-gear-box-content {
+    flex-direction: column;
+  }
+  .armor-stats{
+    width: 100%;
+  }
+}
+/* Desktop View: 2 Columns of 4 Boxes */
+@media (min-width: 768px) {
+  .gear-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+  }
+}
+
+/* Mobile View: 2 Rows of 4 Boxes */
+@media (max-width: 767px) {
+  .gear-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+  }
 }
 @media (max-width: 768px) {
   .content {
@@ -237,12 +286,12 @@ footer a:hover {
     order: 2;
     width: 100%;
   }
-  .skill-info-left-wrapper{
+  .skill-info-left-wrapper {
     flex-direction: column;
   }
   .skill-name {
     margin-top: 10px;
-    margin-left:0;
+    margin-left: 0;
   }
   .right-column {
     order: 1;
