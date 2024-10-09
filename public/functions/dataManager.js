@@ -189,9 +189,13 @@ function updateGearWidget() {
   // Get selected profile data from local storage
   const selectedProfileData = JSON.parse(localStorage.getItem("SelectedProfileData"));
 
-  if (selectedProfileData && Array.isArray(selectedProfileData.wardrobeItems)) {
-    selectedProfileData.wardrobeItems.forEach(item => {
-      if (farmingArmorNames.includes(item.name)) {
+  if (selectedProfileData && Array.isArray(selectedProfileData.wardrobe)) {
+    selectedProfileData.wardrobe.forEach(item => {
+      const isFarmingArmor = farmingArmorNames.some(farmingArmorName => 
+        item.name.toLowerCase().includes(farmingArmorName.toLowerCase())
+      );
+
+      if (isFarmingArmor) {
         console.log(`Farming Armor Found: ${item.name}`);
       }
     });
