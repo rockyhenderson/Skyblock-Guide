@@ -12,7 +12,7 @@ const farmingArmorPriority = [
   "Fermento Helmet",
   "Fermento Chestplate",
   "Fermento Leggings",
-  "Rancher Boots",
+  "Rancher's Boots",
   "Fermento Boots",
   "Squash Helmet",
   "Squash Chestplate",
