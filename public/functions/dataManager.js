@@ -39,6 +39,19 @@ function generatePage(profiles) {
     console.log("Selected profile ID updated:", selectedProfileId);
     document.getElementById("cuteProfile").innerText = ` ${selectedProfileId}`;
   });
+  const profiles = JSON.parse(localStorage.getItem("profiles"));
+
+  // Iterate over the profiles and find the one matching the cute name
+  const selectedProfile = profiles.find(profile => profile.profileName === cuteName);
+
+  if (selectedProfile) {
+      // Log the relevant farming skill levels and XP to the console
+      console.log("Farming Level:", selectedProfile.farmingSkillLevel);
+      console.log("Farming XP:", selectedProfile.farmingXP);
+  } else {
+      console.error("Profile not found");
+  }
+
 }
 
 function fetchData(username) {
