@@ -1,5 +1,5 @@
 function generatePage(profiles) {
-  console.log("generating page")
+  console.log("page generating")
   // Username generation
   const storedUsername = localStorage.getItem("playerUsername");
   if (storedUsername) {
@@ -7,20 +7,24 @@ function generatePage(profiles) {
   } else {
     document.getElementById("usernameDisplay").innerText = "Unlinked";
   }
-  //farm data console log
-  console.log("Farming Skill Level:", selectedProfileData.farmingSkillLevel);
-  console.log("Farming XP:", selectedProfileData.farmingXP);
+  console.log(selectedProfileId.farmingSkillLevel)
   // Profiles dropdown generation
   const dropdown = document.getElementById("profileDropdown");
   dropdown.innerHTML = ""; // Clear existing options
 
+  let selectedProfileId = localStorage.getItem("selectedProfile");
+
   if (Array.isArray(profiles)) {
-    profiles.forEach((profile) => {
+    profiles.forEach((profile, index) => {
       const option = document.createElement("option");
       option.value = profile.profileId;
       option.textContent = profile.profileName;
 
-      const selectedProfileId = localStorage.getItem("selectedProfile");
+      // Set the default selected profile if none is found in local storage
+      if (!selectedProfileId && index === 0) {
+        selectedProfileId = profile.profileId;
+      }
+
       if (selectedProfileId === profile.profileId) {
         option.selected = true;
       }
@@ -29,7 +33,7 @@ function generatePage(profiles) {
     });
   }
 
-  const selectedProfileId = dropdown.value;
+  dropdown.value = selectedProfileId;
   localStorage.setItem("selectedProfile", selectedProfileId);
   updateSelectedProfileData(profiles, selectedProfileId);
   document.getElementById("cuteProfile").innerText = ` ${dropdown.options[dropdown.selectedIndex].text}`;
