@@ -9,6 +9,8 @@ const thresholds = [
   104672425, 111672425,
 ];
 
+let progressChart;
+
 function generatePage(profiles) {
   console.log("page generating");
   // Username generation
@@ -109,7 +111,14 @@ function updateFarmingGraph() {
     const progressChartElement = document.getElementById("progressChart");
     if (progressChartElement) {
       const progressChartContext = progressChartElement.getContext("2d");
-      const progressChart = new Chart(progressChartContext, {
+      
+      // Destroy existing chart instance if it exists
+      if (progressChart) {
+        progressChart.destroy();
+      }
+      
+      // Create new chart instance
+      progressChart = new Chart(progressChartContext, {
         type: "doughnut",
         data: {
           labels: ["Progress", "Remaining"],
