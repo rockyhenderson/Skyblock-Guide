@@ -179,16 +179,21 @@ function fetchData(username) {
       localStorage.setItem("playerLevel", data.playerLevel);
       localStorage.setItem("playerUUID", data.playerUUID);
       localStorage.setItem("profiles", JSON.stringify(data.profiles));
-      localStorage.setItem("wardrobe", JSON.stringify(data.wardrobeItems));
 
       // Log the player data to the console for testing
       console.log("profiles:", data.profiles);
+
+      // Store the wardrobe data for each profile
+      data.profiles.forEach((profile) => {
+        localStorage.setItem(`wardrobe_${profile.profileId}`, JSON.stringify(profile.wardrobeItems));
+      });
 
       // Update the page with fetched data
       generatePage(data.profiles);
     })
     .catch((error) => console.error("Error fetching data:", error));
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("running");
