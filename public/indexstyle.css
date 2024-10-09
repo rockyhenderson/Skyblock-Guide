@@ -256,6 +256,9 @@ i {
   .armor-stats{
     width: 100%;
   }
+  .gear-grid{
+    width:auto;
+  }
 }
 /* Desktop View: 2 Columns of 4 Boxes */
 @media (min-width: 768px) {
@@ -270,7 +273,9 @@ i {
   .gear-grid {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, auto);
-    margin:0
+    margin:auto;
+    width:fit-content;
+    max-width:1000000px;
   }
 }
 @media (max-width: 768px) {
@@ -353,6 +358,13 @@ i {
 @media (min-width: 769px) {
   .carousel-arrow {
     display: none;
+  }
+}
+@media (max-width: 680px) {
+  .gear-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+    margin: auto;
   }
 }
 .user-modal {
