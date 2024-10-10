@@ -220,6 +220,15 @@ function updateGearWidget() {
         : []),
     ].filter((item) => item); // Filter out any null or undefined items
 
+    if (allArmorItems.length === 0) {
+      console.log("no data found");
+      updateArmorDOM("helmet", null);
+      updateArmorDOM("chestplate", null);
+      updateArmorDOM("leggings", null);
+      updateArmorDOM("boots", null);
+      return;
+    }
+
     // Define rarity levels in order from highest to lowest
     const rarityLevels = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
 
@@ -295,6 +304,9 @@ function updateGearWidget() {
 
         // Extract Farming Fortune from item lore
         farmingFortune = extractFarmingFortune(armorPiece.lore);
+      } else {
+        // Set default image and log no data found
+        element.src = "src/armour/farming/cantfind.png";
       }
 
       return farmingFortune;
@@ -337,6 +349,7 @@ function updateGearWidget() {
     console.log("No wardrobe data or equipped armor found in the selected profile.");
   }
 }
+
 
 
 function updateFarmingFortuneWidget() {
