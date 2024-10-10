@@ -303,9 +303,10 @@ function updateGearWidget() {
       if (armorPiece) {
         // Set the image source
         element.src = `src/armour/farming/${armorPiece.name
-          .replace(/^(Mossy|Bountiful|Ancient|Golden|\w+)\s+/i, "")
-          .replace(/\s+/g, "")
+          .replace(/^(Mossy|Bountiful|Ancient|Golden|Refined)\s+/i, "") // Remove specific prefixes
+          .replace(/\s+/g, "") // Remove spaces to match the image naming convention
           .toLowerCase()}.png`;
+        
 
         // Set the class based on rarity
         if (armorPiece.rarity) {
