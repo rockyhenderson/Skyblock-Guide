@@ -198,7 +198,8 @@ function updateGearWidget() {
 
   if (
     selectedProfileData &&
-    (Array.isArray(selectedProfileData.wardrobeItems) || selectedProfileData.equippedArmor)
+    (Array.isArray(selectedProfileData.wardrobeItems) ||
+      selectedProfileData.equippedArmor)
   ) {
     const bestArmor = {
       helmet: null,
@@ -230,27 +231,44 @@ function updateGearWidget() {
     }
 
     // Define rarity levels in order from highest to lowest
-    const rarityLevels = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
+    const rarityLevels = [
+      "mythic",
+      "legendary",
+      "epic",
+      "rare",
+      "uncommon",
+      "common",
+    ];
 
     // Iterate through the farming armor priority list and find the best pieces
     farmingArmorPriority.forEach((armorName) => {
       allArmorItems.forEach((item) => {
         // Remove known prefixes (e.g., "Mossy", "Bountiful") to match base armor name if they exist
         const baseName = item.name
-          .replace(/^(Mossy|Bustling|Ancient|Golden|\w+)\s+/i, "")
+          .replace(/^(Mossy|Bustling|Ancient|Golden|Bountiful|Refined)\s+/i, "")
           .toLowerCase();
+
         if (baseName.includes(armorName.toLowerCase())) {
           // Determine the armor type and compare rarity if a piece is already selected
           if (armorName.includes("Helmet")) {
-            if (!bestArmor.helmet || compareRarity(item, bestArmor.helmet) > 0) {
+            if (
+              !bestArmor.helmet ||
+              compareRarity(item, bestArmor.helmet) > 0
+            ) {
               bestArmor.helmet = item;
             }
           } else if (armorName.includes("Chestplate")) {
-            if (!bestArmor.chestplate || compareRarity(item, bestArmor.chestplate) > 0) {
+            if (
+              !bestArmor.chestplate ||
+              compareRarity(item, bestArmor.chestplate) > 0
+            ) {
               bestArmor.chestplate = item;
             }
           } else if (armorName.includes("Leggings")) {
-            if (!bestArmor.leggings || compareRarity(item, bestArmor.leggings) > 0) {
+            if (
+              !bestArmor.leggings ||
+              compareRarity(item, bestArmor.leggings) > 0
+            ) {
               bestArmor.leggings = item;
             }
           } else if (armorName.includes("Boots")) {
@@ -346,11 +364,11 @@ function updateGearWidget() {
     document.getElementById("bootsFFValue").textContent = bootsFF;
     document.getElementById("speedValue").textContent = speed;
   } else {
-    console.log("No wardrobe data or equipped armor found in the selected profile.");
+    console.log(
+      "No wardrobe data or equipped armor found in the selected profile."
+    );
   }
 }
-
-
 
 function updateFarmingFortuneWidget() {
   console.log("update farming fortune widget");
@@ -363,7 +381,9 @@ function fetchData(username) {
     .then((data) => {
       // Check if the skill API is disabled
       if (data.skillApiDisabled) {
-        alert("Your skill API is disabled. Please enable it in your Hypixel settings to see complete data.");
+        alert(
+          "Your skill API is disabled. Please enable it in your Hypixel settings to see complete data."
+        );
         console.log("Skill API is disabled.");
       } else {
         console.log("Skill API is enabled.");
@@ -408,10 +428,12 @@ function clearData() {
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("running");
-  console.log("REMINDER FOR TOMORROW, YOU GET BUFFS FOR MATCHING ARMOR, ADD THAT IN");
+  console.log(
+    "REMINDER FOR TOMORROW, YOU GET BUFFS FOR MATCHING ARMOR, ADD THAT IN"
+  );
   const storedUsername = localStorage.getItem("playerUsername");
   const storedProfilesJson = localStorage.getItem("profiles");
-  
+
   // Check if necessary data is available
   if (storedUsername && storedProfilesJson) {
     console.log("Using Locally stored data.");
