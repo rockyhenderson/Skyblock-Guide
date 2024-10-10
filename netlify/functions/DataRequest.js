@@ -42,6 +42,7 @@ exports.handler = async function (event, context) {
 
     // Step 4: Loop through profiles and get relevant data, including skills and wardrobe
     const profileData = [];
+    let skillApiDisabled = false;
 
     for (const profile of profiles) {
       // Fetch the wardrobe data
@@ -52,18 +53,25 @@ exports.handler = async function (event, context) {
       const equippedArmor = await profile.me.getArmor();
       console.log(`Equipped armor data fetched for profile ${profile.profileName}`);
 
-      // Fetch the skills
-      const farmingSkill = profile.me.skills.farming;
-      const combatSkill = profile.me.skills.combat;
-      const fishingSkill = profile.me.skills.fishing;
-      const miningSkill = profile.me.skills.mining;
-      const foragingSkill = profile.me.skills.foraging;
-      const enchantingSkill = profile.me.skills.enchanting;
-      const alchemySkill = profile.me.skills.alchemy;
-      const carpentrySkill = profile.me.skills.carpentry;
-      const runecraftingSkill = profile.me.skills.runecrafting;
-      const tamingSkill = profile.me.skills.taming;
-      const socialSkill = profile.me.skills.social;
+      // Try to fetch the skills, if they are not available, set the flag
+      let farmingSkill, combatSkill, fishingSkill, miningSkill, foragingSkill, enchantingSkill, alchemySkill, carpentrySkill, runecraftingSkill, tamingSkill, socialSkill;
+
+      try {
+        farmingSkill = profile.me.skills.farming;
+        combatSkill = profile.me.skills.combat;
+        fishingSkill = profile.me.skills.fishing;
+        miningSkill = profile.me.skills.mining;
+        foragingSkill = profile.me.skills.foraging;
+        enchantingSkill = profile.me.skills.enchanting;
+        alchemySkill = profile.me.skills.alchemy;
+        carpentrySkill = profile.me.skills.carpentry;
+        runecraftingSkill = profile.me.skills.runecrafting;
+        tamingSkill = profile.me.skills.taming;
+        socialSkill = profile.me.skills.social;
+      } catch (err) {
+        console.log("Skill API may be disabled for profile", profile.profileName);
+        skillApiDisabled = true;
+      }
 
       // Prepare the profile data
       profileData.push({
@@ -117,6 +125,7 @@ exports.handler = async function (event, context) {
         playerLevel: player.level,
         playerUUID: player.uuid,
         profiles: profileData,
+        skillApiDisabled: skillApiDisabled, // Flag indicating if the skill API is disabled
       }),
     };
   } catch (error) {
