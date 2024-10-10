@@ -348,6 +348,14 @@ function fetchData(username) {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
+      // Check if the skill API is disabled
+      if (data.skillApiDisabled) {
+        alert("Your skill API is disabled. Please enable it in your Hypixel settings to see complete data.");
+        console.log("Skill API is disabled.");
+      } else {
+        console.log("Skill API is enabled.");
+      }
+
       // Store the received data locally
       localStorage.setItem("playerUsername", username);
       localStorage.setItem("playerLevel", data.playerLevel);
@@ -362,6 +370,7 @@ function fetchData(username) {
       };
       console.log("Wardrobe Items:", selectedProfile.wardrobeItems);
       console.log("Equipped Armor:", selectedProfile.equippedArmor);
+
       // Store the selected profile data with wardrobe included
       localStorage.setItem(
         "SelectedProfileData",
@@ -376,6 +385,7 @@ function fetchData(username) {
     })
     .catch((error) => console.error("Error fetching data:", error));
 }
+
 function clearData() {
   document.getElementById("helmet").src = "src/armour/farming/blank.png";
   document.getElementById("chestplate").src = "src/armour/farming/blank.png";
@@ -385,9 +395,10 @@ function clearData() {
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("running");
-  console.log("REMINDER FOR TOMMOROW, YOU GET BUFFS FOR MATCHING ARMOUR, ADD THAT IN")
+  console.log("REMINDER FOR TOMORROW, YOU GET BUFFS FOR MATCHING ARMOR, ADD THAT IN");
   const storedUsername = localStorage.getItem("playerUsername");
   const storedProfilesJson = localStorage.getItem("profiles");
+  
   // Check if necessary data is available
   if (storedUsername && storedProfilesJson) {
     console.log("Using Locally stored data.");
