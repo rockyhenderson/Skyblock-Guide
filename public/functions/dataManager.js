@@ -262,16 +262,20 @@ function updateGearWidget() {
 
     // Helper function to extract Farming Fortune from item lore
     function extractFarmingFortune(lore) {
-      if (!lore) return 0;
-      const farmingFortuneRegex = /§7Farming Fortune: §a\+(\d+)/;
-      const match = lore.match(farmingFortuneRegex);
-      return match ? parseInt(match[1]) : 0;
+      if (!lore) return { base: 0, bonus: 0 };
+      const baseRegex = /\u00a77Farming Fortune: \u00a7a\+(\d+)/;
+      const bonusRegex = /\u00a79\(\+(\d+)\)/;
+      const baseMatch = lore.match(baseRegex);
+      const bonusMatch = lore.match(bonusRegex);
+      const base = baseMatch ? parseInt(baseMatch[1]) : 0;
+      const bonus = bonusMatch ? parseInt(bonusMatch[1]) : 0;
+      return { base, bonus };
     }
 
     // Helper function to set armor image, rarity class, and extract Farming Fortune
     function updateArmorDOM(elementId, armorPiece) {
       const element = document.getElementById(elementId);
-      let farmingFortune = 0;
+      let farmingFortune = { base: 0, bonus: 0 };
 
       if (armorPiece) {
         // Set the image source
@@ -308,7 +312,7 @@ function updateGearWidget() {
 
     // Extract Speed from item lore (assuming it's available in one of the armor pieces)
     let speed = 0;
-    const speedRegex = /§7Speed: §a\+(\d+)/;
+    const speedRegex = /\u00a77Speed: \u00a7a\+(\d+)/;
     [
       bestArmor.helmet,
       bestArmor.chestplate,
@@ -324,14 +328,19 @@ function updateGearWidget() {
     });
 
     // Calculate total Farming Fortune
-    const totalFF = helmetFF + chestplateFF + leggingsFF + bootsFF;
+    const totalFFBase =
+      helmetFF.base + chestplateFF.base + leggingsFF.base + bootsFF.base;
+    const totalFFBonus =
+      helmetFF.bonus + chestplateFF.bonus + leggingsFF.bonus + bootsFF.bonus;
 
     // Update the HTML elements with the extracted values
-    document.getElementById("totalFFValue").textContent = totalFF;
-    document.getElementById("helmetFFValue").textContent = helmetFF;
-    document.getElementById("chestplateFFValue").textContent = chestplateFF;
-    document.getElementById("leggingsFFValue").textContent = leggingsFF;
-    document.getElementById("bootsFFValue").textContent = bootsFF;
+    document.getElementById("totalFFValue").innerHTML = `
+      <span style="color: #55FF55;">${totalFFBase}</span> 
+      (<span style="color: #5555FF;">+${totalFFBonus}</span>)`;
+    document.getElementById("helmetFFValue").textContent = helmetFF.base;
+    document.getElementById("chestplateFFValue").textContent = chestplateFF.base;
+    document.getElementById("leggingsFFValue").textContent = leggingsFF.base;
+    document.getElementById("bootsFFValue").textContent = bootsFF.base;
     document.getElementById("speedValue").textContent = speed;
   } else {
     console.log("No wardrobe data or equipped armor found in the selected profile.");
