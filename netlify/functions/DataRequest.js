@@ -45,13 +45,24 @@ exports.handler = async function (event, context) {
     let skillApiDisabled = false;
 
     for (const profile of profiles) {
+      let wardrobeItems = null;
+      let equippedArmor = null;
+
       // Fetch the wardrobe data
-      const wardrobeItems = await profile.me.getWardrobe();
-      console.log(`Wardrobe data fetched for profile ${profile.profileName}`);
+      try {
+        wardrobeItems = await profile.me.getWardrobe();
+        console.log(`Wardrobe data fetched for profile ${profile.profileName}`);
+      } catch (err) {
+        console.log(`Failed to fetch wardrobe data for profile ${profile.profileName}`);
+      }
 
       // Fetch the equipped armor data
-      const equippedArmor = await profile.me.getArmor();
-      console.log(`Equipped armor data fetched for profile ${profile.profileName}`);
+      try {
+        equippedArmor = await profile.me.getArmor();
+        console.log(`Equipped armor data fetched for profile ${profile.profileName}`);
+      } catch (err) {
+        console.log(`Failed to fetch equipped armor data for profile ${profile.profileName}`);
+      }
 
       // Try to fetch the skills, if they are not available, set the flag
       let farmingSkill, combatSkill, fishingSkill, miningSkill, foragingSkill, enchantingSkill, alchemySkill, carpentrySkill, runecraftingSkill, tamingSkill, socialSkill;
