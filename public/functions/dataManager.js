@@ -262,20 +262,23 @@ function updateGearWidget() {
 
     // Helper function to extract Farming Fortune from item lore
     function extractFarmingFortune(lore) {
-      if (!lore) return { base: 0, bonus: 0 };
+      if (!lore) return { base: 0, bonusBlue: 0, bonusPurple: 0 };
       const baseRegex = /\u00a77Farming Fortune: \u00a7a\+(\d+)/;
-      const bonusRegex = /\u00a79\(\+(\d+)\)/;
+      const bonusBlueRegex = /\u00a79\(\+(\d+)\)/;
+      const bonusPurpleRegex = /\u00a7d\(\+(\d+)\)/;
       const baseMatch = lore.match(baseRegex);
-      const bonusMatch = lore.match(bonusRegex);
+      const bonusBlueMatch = lore.match(bonusBlueRegex);
+      const bonusPurpleMatch = lore.match(bonusPurpleRegex);
       const base = baseMatch ? parseInt(baseMatch[1]) : 0;
-      const bonus = bonusMatch ? parseInt(bonusMatch[1]) : 0;
-      return { base, bonus };
+      const bonusBlue = bonusBlueMatch ? parseInt(bonusBlueMatch[1]) : 0;
+      const bonusPurple = bonusPurpleMatch ? parseInt(bonusPurpleMatch[1]) : 0;
+      return { base, bonusBlue, bonusPurple };
     }
 
     // Helper function to set armor image, rarity class, and extract Farming Fortune
     function updateArmorDOM(elementId, armorPiece) {
       const element = document.getElementById(elementId);
-      let farmingFortune = { base: 0, bonus: 0 };
+      let farmingFortune = { base: 0, bonusBlue: 0, bonusPurple: 0 };
 
       if (armorPiece) {
         // Set the image source
@@ -330,17 +333,32 @@ function updateGearWidget() {
     // Calculate total Farming Fortune
     const totalFFBase =
       helmetFF.base + chestplateFF.base + leggingsFF.base + bootsFF.base;
-    const totalFFBonus =
-      helmetFF.bonus + chestplateFF.bonus + leggingsFF.bonus + bootsFF.bonus;
+    const totalFFBonusBlue =
+      helmetFF.bonusBlue + chestplateFF.bonusBlue + leggingsFF.bonusBlue + bootsFF.bonusBlue;
+    const totalFFBonusPurple =
+      helmetFF.bonusPurple + chestplateFF.bonusPurple + leggingsFF.bonusPurple + bootsFF.bonusPurple;
 
     // Update the HTML elements with the extracted values
     document.getElementById("totalFFValue").innerHTML = `
       <span style="color: #55FF55;">${totalFFBase}</span> 
-      (<span style="color: #5555FF;">+${totalFFBonus}</span>)`;
-    document.getElementById("helmetFFValue").textContent = helmetFF.base;
-    document.getElementById("chestplateFFValue").textContent = chestplateFF.base;
-    document.getElementById("leggingsFFValue").textContent = leggingsFF.base;
-    document.getElementById("bootsFFValue").textContent = bootsFF.base;
+      (<span style="color: #5555FF;">+${totalFFBonusBlue}</span>)
+      (<span style="color: #FF55FF;">+${totalFFBonusPurple}</span>)`;
+    document.getElementById("helmetFFValue").innerHTML = `
+      <span style="color: #55FF55;">${helmetFF.base}</span>
+      (<span style="color: #5555FF;">+${helmetFF.bonusBlue}</span>)
+      (<span style="color: #FF55FF;">+${helmetFF.bonusPurple}</span>)`;
+    document.getElementById("chestplateFFValue").innerHTML = `
+      <span style="color: #55FF55;">${chestplateFF.base}</span>
+      (<span style="color: #5555FF;">+${chestplateFF.bonusBlue}</span>)
+      (<span style="color: #FF55FF;">+${chestplateFF.bonusPurple}</span>)`;
+    document.getElementById("leggingsFFValue").innerHTML = `
+      <span style="color: #55FF55;">${leggingsFF.base}</span>
+      (<span style="color: #5555FF;">+${leggingsFF.bonusBlue}</span>)
+      (<span style="color: #FF55FF;">+${leggingsFF.bonusPurple}</span>)`;
+    document.getElementById("bootsFFValue").innerHTML = `
+      <span style="color: #55FF55;">${bootsFF.base}</span>
+      (<span style="color: #5555FF;">+${bootsFF.bonusBlue}</span>)
+      (<span style="color: #FF55FF;">+${bootsFF.bonusPurple}</span>)`;
     document.getElementById("speedValue").textContent = speed;
   } else {
     console.log("No wardrobe data or equipped armor found in the selected profile.");
